@@ -15,13 +15,14 @@ export const CLASS_META: Record<ClassKey, ClassMeta> = {
 export interface LaneMeta {
   label: string; // docs/06 voice: plain, no AI jargon
   short: string;
-  color: string;
+  color: string; // docs/06 §2 token: borders, dots, graphic fills
+  deep: string; // darkened for >=4.5:1 text and white-on fills (docs/06 §2)
 }
 
 export const LANE_META: Record<Lane, LaneMeta> = {
-  auto: { label: "Handled for you", short: "Auto", color: "#17A34A" },
-  review: { label: "Needs your eyes", short: "Review", color: "#F59E0B" },
-  scam: { label: "Scam alerts", short: "Scam", color: "#E5252A" },
+  auto: { label: "Handled for you", short: "Auto", color: "#17A34A", deep: "#15803D" },
+  review: { label: "Needs your eyes", short: "Review", color: "#F59E0B", deep: "#B45309" },
+  scam: { label: "Scam alerts", short: "Scam", color: "#E5252A", deep: "#C1121F" },
 };
 
 export const AVATAR_FALLBACK = "#2F6BFF";

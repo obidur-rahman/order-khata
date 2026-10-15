@@ -22,7 +22,7 @@ export function CoverageCurve({
 }) {
   if (!curve.length) {
     return (
-      <div className="flex h-56 items-center justify-center rounded-xl border border-dashed border-line text-sm text-muted">
+      <div className="flex h-56 items-center justify-center  border border-dashed border-line text-sm text-muted">
         Coverage curve appears after ml/05_evaluate.py runs.
       </div>
     );

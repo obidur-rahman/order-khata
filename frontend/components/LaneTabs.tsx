@@ -8,9 +8,9 @@ export type LaneTab = "all" | Lane;
 
 const TABS: { key: LaneTab; label: string; color?: string }[] = [
   { key: "all", label: "All" },
-  { key: "auto", label: LANE_META.auto.label, color: LANE_META.auto.color },
-  { key: "review", label: LANE_META.review.label, color: LANE_META.review.color },
-  { key: "scam", label: LANE_META.scam.label, color: LANE_META.scam.color },
+  { key: "auto", label: LANE_META.auto.label, color: LANE_META.auto.deep },
+  { key: "review", label: LANE_META.review.label, color: LANE_META.review.deep },
+  { key: "scam", label: LANE_META.scam.label, color: LANE_META.scam.deep },
 ];
 
 function TabIcon({ tab }: { tab: LaneTab }) {
@@ -42,7 +42,7 @@ export function LaneTabs({
             role="tab"
             aria-selected={isActive}
             onClick={() => onSelect(t.key)}
-            className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-semibold whitespace-nowrap transition ${
+            className={`flex min-h-11 items-center gap-1.5  px-3.5 text-[13px] font-semibold whitespace-nowrap transition ${
               isActive ? "bg-ink text-paper" : "bg-surface text-muted hover:text-ink"
             }`}
             style={isActive && t.color ? { background: t.color, color: "#fff" } : undefined}
@@ -52,7 +52,7 @@ export function LaneTabs({
             </span>
             {t.label}
             <span
-              className={`tnum rounded-full px-1.5 text-[11px] ${
+              className={`tnum  px-1.5 text-[11px] ${
                 isActive ? "bg-black/20 text-white" : "bg-line text-muted"
               }`}
             >

@@ -14,13 +14,13 @@ export function HealthDot({
   if (!health || !health.model_loaded) {
     return (
       <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted" title="Warming up">
-        <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-muted" aria-hidden />
+        <span className="h-2.5 w-2.5 animate-pulse  bg-muted" aria-hidden />
         warming up
       </span>
     );
   }
   const degraded = health.llm_status !== "ok";
-  const color = degraded ? "#F59E0B" : "#17A34A";
+  const color = degraded ? "#B45309" : "#15803D";
   const text = degraded ? "second signal unavailable" : "all engines ready";
   return (
     <span
@@ -28,7 +28,7 @@ export function HealthDot({
       style={{ color }}
       title={`${health.version} · ${text}`}
     >
-      <span className="inline-flex h-2.5 w-2.5 items-center justify-center rounded-full" style={{ background: color }} aria-hidden />
+      <span className="inline-flex h-2.5 w-2.5 items-center justify-center " style={{ background: color }} aria-hidden />
       {showText ? text : degraded ? "degraded" : "ready"}
     </span>
   );
@@ -38,7 +38,7 @@ export function HealthDot({
 export function DegradedBanner() {
   return (
     <div
-      className="flex items-center gap-2 rounded-xl border px-3 py-2 text-[13px] font-medium"
+      className="flex items-center gap-2  border px-3 py-2 text-[13px] font-medium"
       style={{ borderColor: "#F59E0B", background: "rgba(245,158,11,0.10)", color: "#92400E" }}
       role="status"
     >
@@ -50,7 +50,7 @@ export function DegradedBanner() {
 
 export function AllReadyChip() {
   return (
-    <span className="inline-flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#17A34A" }}>
+    <span className="inline-flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#15803D" }}>
       <CheckIcon size={11} /> engines ready
     </span>
   );

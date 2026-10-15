@@ -1,10 +1,10 @@
-/** docs/06 §1: black rounded-square with yellow inbox-tray glyph;
+/** docs/06 §1: black  with yellow inbox-tray glyph;
  * wordmark in Plus Jakarta Sans ExtraBold, lowercase "dokanbox". */
 
 export function LogoMark({ size = 32 }: { size?: number }) {
   return (
     <span
-      className="inline-flex items-center justify-center rounded-[8px] bg-ink"
+      className="inline-flex items-center justify-center bg-ink"
       style={{ width: size, height: size }}
       aria-hidden
     >

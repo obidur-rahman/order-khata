@@ -56,21 +56,21 @@ export default function EvaluationPage() {
     <div className="flex min-h-screen flex-col bg-paper">
       <AppBar />
       <main className="mx-auto w-full max-w-5xl px-4 py-8">
-        <h1 className="font-display text-3xl font-extrabold text-ink">Evaluation</h1>
+        <h1 className="masthead font-display text-3xl font-extrabold text-ink">Evaluation</h1>
         <p className="mt-1 text-sm text-muted">
           Every number below is produced offline by <code className="rounded bg-line/60 px-1">ml/05_evaluate.py</code>{" "}
           and served from <code className="rounded bg-line/60 px-1">artifacts/eval.json</code>.
         </p>
 
         {missing && (
-          <div className="mt-6 rounded-2xl border-2 border-dashed border-line p-6 text-sm text-muted">
+          <div className="mt-6  border-2 border-dashed border-line p-6 text-sm text-muted">
             <p className="font-semibold text-ink">Evaluation file not available yet.</p>
             <p className="mt-1">Run ml/05_evaluate.py to generate it. No numbers are shown because none exist.</p>
           </div>
         )}
 
         {pending && e && (
-          <div className="mt-6 flex items-start gap-2 rounded-2xl border px-4 py-3 text-sm"
+          <div className="mt-6 flex items-start gap-2  border px-4 py-3 text-sm"
             style={{ borderColor: "#F59E0B", background: "rgba(245,158,11,0.10)", color: "#92400E" }} role="status">
             <span className="mt-0.5"><AlertIcon size={14} /></span>
             <span>
@@ -84,20 +84,20 @@ export default function EvaluationPage() {
           <>
             {/* headline numbers */}
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-2xl border border-line bg-surface p-5">
+              <div className=" border border-line bg-surface p-5">
                 <div className="text-[13px] font-semibold text-muted">Macro-F1 (E3)</div>
                 <div className="tnum mt-2 text-[40px] leading-none">{num(e.systems?.E3?.macro_f1)}</div>
               </div>
-              <div className="rounded-2xl border border-line bg-surface p-5">
+              <div className=" border border-line bg-surface p-5">
                 <div className="text-[13px] font-semibold text-muted">Accuracy (E3)</div>
                 <div className="tnum mt-2 text-[40px] leading-none">{pct(e.systems?.E3?.accuracy)}</div>
               </div>
-              <div className="rounded-2xl border border-line bg-surface p-5">
+              <div className=" border border-line bg-surface p-5">
                 <div className="text-[13px] font-semibold text-muted">ECE after calibration</div>
                 <div className="tnum mt-2 text-[40px] leading-none">{num(e.calibration?.ece_after)}</div>
                 <div className="mt-1 text-xs text-muted">before: {num(e.calibration?.ece_before)}</div>
               </div>
-              <div className="rounded-2xl border border-line bg-surface p-5">
+              <div className=" border border-line bg-surface p-5">
                 <div className="text-[13px] font-semibold text-muted">Test set</div>
                 <div className="tnum mt-2 text-[40px] leading-none">{e.data?.d1_test_n ?? 0}</div>
                 <div className="mt-1 text-xs text-muted">D1 held-out messages</div>
@@ -105,7 +105,7 @@ export default function EvaluationPage() {
             </div>
 
             {/* coverage vs accuracy */}
-            <section className="mt-6 rounded-2xl border border-line bg-surface p-5">
+            <section className="mt-6  border border-line bg-surface p-5">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-sm font-bold text-ink">Coverage vs accuracy</h2>
                 <span className="text-xs text-muted">current τ {tau.toFixed(2)} marked on the curve</span>
@@ -121,10 +121,10 @@ export default function EvaluationPage() {
             </section>
 
             {/* systems / baselines table */}
-            <section className="mt-6 rounded-2xl border border-line bg-surface p-5">
+            <section className="mt-6  border border-line bg-surface p-5">
               <h2 className="text-sm font-bold text-ink">Systems compared</h2>
               <div className="mt-3 overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm tabular-nums">
                   <thead>
                     <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
                       <th className="py-2 pr-4">System</th>
@@ -150,9 +150,9 @@ export default function EvaluationPage() {
 
             {/* per-class + per-script */}
             <div className="mt-6 grid gap-4 lg:grid-cols-2">
-              <section className="rounded-2xl border border-line bg-surface p-5">
+              <section className=" border border-line bg-surface p-5">
                 <h2 className="text-sm font-bold text-ink">Per class</h2>
-                <table className="mt-3 w-full text-sm">
+                <table className="mt-3 w-full text-sm tabular-nums">
                   <thead>
                     <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
                       <th className="py-2 pr-3">Class</th>
@@ -168,7 +168,7 @@ export default function EvaluationPage() {
                         <tr key={c} className="border-b border-line/60">
                           <td className="py-2 pr-3">
                             <span className="inline-flex items-center gap-1.5">
-                              <span className="h-2.5 w-2.5 rounded-full" style={{ background: CLASS_META[c].color }} aria-hidden />
+                              <span className="h-2.5 w-2.5 " style={{ background: CLASS_META[c].color }} aria-hidden />
                               {CLASS_META[c].label}
                             </span>
                           </td>
@@ -182,9 +182,9 @@ export default function EvaluationPage() {
                 </table>
               </section>
 
-              <section className="rounded-2xl border border-line bg-surface p-5">
+              <section className=" border border-line bg-surface p-5">
                 <h2 className="text-sm font-bold text-ink">By script &amp; generalization</h2>
-                <table className="mt-3 w-full text-sm">
+                <table className="mt-3 w-full text-sm tabular-nums">
                   <thead>
                     <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
                       <th className="py-2 pr-3">Slice</th>
@@ -216,7 +216,7 @@ export default function EvaluationPage() {
             </div>
 
             {/* limitations (docs/07 §7, verbatim intent) */}
-            <section className="mt-6 rounded-2xl border-2 border-ink bg-surface p-5" aria-label="Limitations">
+            <section className="mt-6  border-2 border-ink bg-surface p-5" aria-label="Limitations">
               <h2 className="flex items-center gap-2 font-display text-lg font-bold text-ink">
                 <AlertIcon size={16} /> What this does not show
               </h2>

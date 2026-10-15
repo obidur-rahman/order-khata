@@ -58,7 +58,7 @@ export default function DashboardPage() {
       <main className="mx-auto w-full max-w-6xl px-4 py-8">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h1 className="font-display text-3xl font-extrabold text-ink">Dashboard</h1>
+            <h1 className="masthead font-display text-3xl font-extrabold text-ink">Dashboard</h1>
             <p className="mt-1 text-sm text-muted">
               Current threshold τ = {tau.toFixed(2)} · non-`other` classes need ≥{" "}
               {requiredAtDefault.toFixed(2)}
@@ -82,13 +82,13 @@ export default function DashboardPage() {
 
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
           {/* class distribution */}
-          <section className="rounded-2xl border border-line bg-surface p-5">
+          <section className=" border border-line bg-surface p-5">
             <h2 className="text-sm font-bold text-ink">Class distribution</h2>
             {total === 0 ? (
               <p className="mt-3 text-sm text-muted">No messages yet — paste one in Try It.</p>
             ) : (
               <>
-                <div className="mt-4 flex h-5 w-full overflow-hidden rounded-full" role="img" aria-label="Class distribution bar">
+                <div className="mt-4 flex h-5 w-full overflow-hidden " role="img" aria-label="Class distribution bar">
                   {CLASSES.map((c) => {
                     const n = stats?.classes?.[c] ?? 0;
                     if (!n) return null;
@@ -106,7 +106,7 @@ export default function DashboardPage() {
                     const n = stats?.classes?.[c] ?? 0;
                     return (
                       <span key={c} className="inline-flex items-center gap-1.5 text-xs text-muted">
-                        <span className="h-2.5 w-2.5 rounded-full" style={{ background: CLASS_META[c].color }} aria-hidden />
+                        <span className="h-2.5 w-2.5 " style={{ background: CLASS_META[c].color }} aria-hidden />
                         {CLASS_META[c].label} <span className="tnum font-semibold text-ink">{n}</span>
                       </span>
                     );
@@ -117,8 +117,8 @@ export default function DashboardPage() {
           </section>
 
           {/* time saved estimate (labeled with assumption, docs/06 §4.4) */}
-          <section className="rounded-2xl border border-line bg-surface p-5">
-            <h2 className="text-sm font-bold text-ink">Estimated time saved</h2>
+          <section className=" border border-line bg-surface p-5">
+            <h2 className="hl inline text-sm font-bold text-ink">Estimated time saved</h2>
             <p className="tnum mt-3 text-[44px] leading-none text-ink">
               {fmtDuration(stats?.time_saved_s ?? 0)}
             </p>
@@ -127,7 +127,7 @@ export default function DashboardPage() {
               of manual sorting. Assumes a human would have read each message once —
               it does not measure money or customer outcomes.
             </p>
-            <div className="mt-4 rounded-xl bg-paper p-3 text-xs text-muted">
+            <div className="mt-4  bg-paper p-3 text-xs text-muted">
               <span className="font-semibold text-ink">Savings dial:</span> raising τ moves
               messages from Auto to Review — coverage down, accuracy up. That trade-off is
               charted on the <a href="/evaluation/" className="underline decoration-brand decoration-2 underline-offset-2">Evaluation page</a>.
@@ -136,7 +136,7 @@ export default function DashboardPage() {
         </div>
 
         {/* histogram */}
-        <section className="mt-6 rounded-2xl border border-line bg-surface p-5">
+        <section className="mt-6  border border-line bg-surface p-5">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-bold text-ink">Confidence histogram</h2>
             <span className="text-xs text-muted">threshold line at τ {tau.toFixed(2)}</span>
@@ -151,7 +151,7 @@ export default function DashboardPage() {
         </section>
 
         {/* recent activity */}
-        <section className="mt-6 rounded-2xl border border-line bg-surface p-5">
+        <section className="mt-6  border border-line bg-surface p-5">
           <h2 className="text-sm font-bold text-ink">Recent activity</h2>
           {recent.length === 0 ? (
             <p className="mt-3 text-sm text-muted">Nothing yet.</p>

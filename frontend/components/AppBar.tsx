@@ -19,14 +19,14 @@ export function AppBar({ children }: { children?: React.ReactNode }) {
   const pathname = usePathname();
   const health = useHealth();
   return (
-    <header className="material sticky top-0 z-20 border-b border-line/70 bg-paper/75 shadow-[0_1px_0_rgba(15,15,15,0.03)] backdrop-blur-[20px] backdrop-saturate-[180%]">
+    <header className="material sticky top-0 z-20 border-b border-line/70 bg-paper/75 backdrop-blur-[20px] backdrop-saturate-[180%]">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-2.5">
         <Link href="/" aria-label="Dokanbox home" className="shrink-0">
           <Logo size={28} />
         </Link>
 
         {/* static shop switcher (docs/06 §4.2) */}
-        <span className="hidden rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-muted md:inline">
+        <span className="hidden  border border-line bg-surface px-3 py-1 text-xs font-semibold text-muted md:inline">
           Rina&apos;s Fashion House · Page
         </span>
 
@@ -37,7 +37,7 @@ export function AppBar({ children }: { children?: React.ReactNode }) {
               <Link
                 key={n.href}
                 href={n.href}
-                className={`rounded-full px-3 py-1.5 text-[13px] font-semibold transition ${
+                className={`inline-flex min-h-11 items-center  px-3 text-[13px] font-semibold transition ${
                   active ? "bg-ink text-paper" : "text-muted hover:bg-line/60 hover:text-ink"
                 }`}
                 aria-current={active ? "page" : undefined}

@@ -7,7 +7,7 @@ import type { Prediction } from "@/lib/types";
 import { ClassChip } from "./ClassChip";
 import { ConfidenceBar } from "./ConfidenceBar";
 import { ProbBars } from "./ProbBars";
-import { AlertIcon } from "./icons";
+import { AlertIcon, CheckIcon } from "./icons";
 
 export function signalsOf(pred: Prediction): RouteSignals {
   return {
@@ -54,18 +54,18 @@ export function AIPanel({
         <ProbBars probs={pred.class_probs} highlight={pred.top_class} />
       </div>
 
-      <div className="rounded-xl border border-line bg-paper p-3">
+      <div className=" border border-line bg-paper p-3">
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-semibold uppercase tracking-wide text-muted">
             Second opinion
           </span>
           {pred.llm_status === "ok" ? (
-            <span className="text-[11px] font-semibold" style={{ color: "#17A34A" }}>
-              ✓ {pred.llm_class ?? "—"}
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#15803D" }}>
+              <CheckIcon size={11} /> {pred.llm_class ?? "—"}
             </span>
           ) : (
-            <span className="text-[11px] font-semibold" style={{ color: "#F59E0B" }}>
-              ⚠ unavailable
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#92400E" }}>
+              <AlertIcon size={11} /> unavailable
             </span>
           )}
         </div>
@@ -74,7 +74,7 @@ export function AIPanel({
         </p>
       </div>
 
-      <div className="rounded-xl border border-line bg-surface p-3">
+      <div className=" border border-line bg-surface p-3">
         <span className="text-[11px] font-semibold uppercase tracking-wide text-muted">
           Why this lane
         </span>
@@ -86,7 +86,7 @@ export function AIPanel({
 
       {isScam && (
         <div
-          className="rounded-xl border-2 p-3 text-[13px]"
+          className=" border-2 p-3 text-[13px]"
           style={{ borderColor: "#E5252A", background: "rgba(229,37,42,0.06)" }}
           role="alert"
         >

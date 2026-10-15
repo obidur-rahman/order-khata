@@ -21,3 +21,17 @@ venv/
 backend/data/*.jsonl
 backend/data/seed_inbox.json
 backend/data/seed_predictions.json
+
+# test / type-check caches
+.pytest_cache/
+.mypy_cache/
+.pyre_cache/
+
+# editor / OS junk
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+

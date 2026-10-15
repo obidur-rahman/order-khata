@@ -1,10 +1,10 @@
 "use client";
 /** Conversation list row (docs/06 §4.2): avatar, name, preview, time, class
  * chip, tiny confidence ring. Scam rows carry a red left border + shield. */
-import { classMeta, fmtTime } from "@/lib/brand";
+import { classMeta, fmtTime, LANE_META } from "@/lib/brand";
 import type { ConversationRecord, MessageRecord } from "@/lib/types";
 import { ClassChip } from "./ClassChip";
-import { ShieldIcon } from "./icons";
+import { CheckIcon, ShieldIcon } from "./icons";
 
 function ConfidenceRing({ value, color }: { value: number; color: string }) {
   const r = 9;
@@ -56,7 +56,7 @@ export function ConversationRow({
       aria-current={active}
     >
       <span
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
+        className="flex h-9 w-9 shrink-0 items-center justify-center  text-sm font-bold text-white"
         style={{ background: conv.avatar_color || "#2F6BFF" }}
         aria-hidden
       >
@@ -71,12 +71,14 @@ export function ConversationRow({
         <span className="mt-1.5 flex items-center gap-2">
           <ClassChip classKey={pred.top_class} />
           {lane === "scam" && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#E5252A" }}>
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold" style={{ color: LANE_META.scam.deep }}>
               <ShieldIcon size={12} /> shielded
             </span>
           )}
           {msg.resolution && (
-            <span className="text-[11px] font-medium text-muted">✓ resolved</span>
+            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-muted">
+              <CheckIcon size={11} /> resolved
+            </span>
           )}
         </span>
       </span>

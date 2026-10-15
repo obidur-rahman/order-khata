@@ -21,9 +21,9 @@ export function ProbBars({
             <span className={`w-16 shrink-0 text-[11px] ${top ? "font-semibold text-ink" : "text-muted"}`}>
               {meta.label}
             </span>
-            <div className="h-2 flex-1 rounded-full bg-line">
+            <div className="h-2 flex-1  bg-line">
               <div
-                className="h-2 rounded-full"
+                className="h-2 "
                 style={{ width: `${Math.max(1.5, p * 100)}%`, background: meta.color, opacity: top ? 1 : 0.55 }}
               />
             </div>

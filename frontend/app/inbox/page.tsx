@@ -160,7 +160,7 @@ export default function InboxPage() {
 
         <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch">
           {/* list */}
-          <aside className="w-full shrink-0 overflow-hidden rounded-2xl border border-line bg-surface lg:w-[320px]">
+          <aside className="w-full shrink-0 overflow-hidden  border border-line bg-surface lg:w-[320px]">
             <div className="max-h-[36vh] overflow-y-auto lg:max-h-[calc(100vh-220px)]">
               {visible.length === 0 ? (
                 <EmptyState
@@ -185,7 +185,7 @@ export default function InboxPage() {
           </aside>
 
           {/* thread */}
-          <section className="flex min-h-[420px] flex-1 flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+          <section className="flex min-h-[420px] flex-1 flex-col overflow-hidden  border border-line bg-surface">
             {selectedConv && selectedConv.messages.length > 0 ? (
               <ThreadView
                 conv={selectedConv}
@@ -206,7 +206,7 @@ export default function InboxPage() {
           </section>
 
           {/* AI panel (desktop) */}
-          <aside className="hidden w-[340px] shrink-0 rounded-2xl border border-line bg-surface p-4 lg:block">
+          <aside className="hidden w-[340px] shrink-0  border border-line bg-surface p-4 lg:block">
             {selectedRow && selectedRow.msg ? (
               <AIPanel pred={selectedRow.msg.prediction} tau={tau} degraded={degraded} />
             ) : (

@@ -14,15 +14,15 @@ export function ConfidenceBar({
   const meets = value >= threshold;
   return (
     <div className="w-full">
-      <div className="relative h-3 w-full rounded-full bg-line" role="img"
+      <div className="relative h-3 w-full  bg-line" role="img"
         aria-label={`Confidence ${Math.round(pct)} percent, threshold ${Math.round(tick)} percent`}>
         <div
-          className="h-3 rounded-full transition-[width] duration-300"
+          className="h-3  transition-[width] duration-300"
           style={{ width: `${pct}%`, background: meets ? "#17A34A" : "#F59E0B" }}
         />
         {/* threshold tick: ink line + brand halo so it reads on any fill */}
         <div
-          className="absolute top-[-3px] h-[18px] w-[3px] rounded-full bg-ink"
+          className="absolute top-[-3px] h-[18px] w-[3px]  bg-ink"
           style={{ left: `calc(${tick}% - 1.5px)`, boxShadow: "0 0 0 1.5px #FFD60A" }}
           aria-hidden
         />

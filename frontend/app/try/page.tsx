@@ -87,7 +87,7 @@ export default function TryPage() {
       </AppBar>
 
       <main className="mx-auto w-full max-w-3xl px-4 py-8">
-        <h1 className="font-display text-3xl font-extrabold text-ink">Try It</h1>
+        <h1 className="masthead font-display text-3xl font-extrabold text-ink">Try It</h1>
         <p className="mt-1 text-sm text-muted">
           Paste any message in Bangla, Banglish or English. Classified live — then it
           appears in the inbox.
@@ -99,7 +99,7 @@ export default function TryPage() {
             <button
               key={ex.label}
               onClick={() => setText(ex.text)}
-              className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-muted transition hover:border-ink hover:text-ink"
+              className=" border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-muted transition hover:border-ink hover:text-ink"
             >
               {ex.label}
             </button>
@@ -112,33 +112,33 @@ export default function TryPage() {
           rows={5}
           maxLength={1000}
           placeholder="এখানে মেসেজ পেস্ট করুন / paste a message…"
-          className="mt-4 w-full resize-y rounded-2xl border border-line bg-surface p-4 msg-text text-ink placeholder:text-muted"
+          className="mt-4 w-full resize-y  border border-line bg-surface p-4 msg-text text-ink placeholder:text-muted"
           aria-label="Message to classify"
         />
         <div className="mt-3 flex items-center gap-3">
           <button
             onClick={classify}
             disabled={busy || !text.trim()}
-            className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-[15px] font-bold text-paper transition hover:opacity-85 disabled:opacity-40"
+            className="inline-flex items-center gap-2  bg-ink px-6 py-3 text-[15px] font-bold text-paper transition hover:opacity-85 disabled:opacity-40"
           >
             {busy ? "Classifying…" : "Classify"} <ArrowRightIcon />
           </button>
           <span className="text-xs text-muted">{text.length}/1000</span>
         </div>
         {error && (
-          <p className="mt-3 rounded-xl border px-3 py-2 text-sm" style={{ borderColor: "#E5252A", color: "#E5252A" }} role="alert">
+          <p className="mt-3  border px-3 py-2 text-sm" style={{ borderColor: "#E5252A", color: "#E5252A" }} role="alert">
             {error}
           </p>
         )}
 
         {/* result */}
         {result && lane && (
-          <div className="fade-up mt-8 rounded-2xl border border-line bg-surface p-5">
+          <div className="fade-up mt-8  border border-line bg-surface p-5">
             <div className="flex flex-wrap items-center gap-3">
               <ClassChip classKey={result.prediction.top_class} large />
               <span
-                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-bold text-white"
-                style={{ background: LANE_META[lane].color }}
+                className="inline-flex items-center gap-1.5  px-3 py-1 text-sm font-bold text-white"
+                style={{ background: LANE_META[lane].deep }}
               >
                 {lane === "auto" ? <CheckIcon size={13} /> : lane === "review" ? <EyeIcon size={13} /> : <ShieldIcon size={13} />}
                 {LANE_META[lane].label}
@@ -148,7 +148,7 @@ export default function TryPage() {
               </span>
             </div>
 
-            <p className="mt-4 rounded-xl bg-paper p-3 msg-text text-ink">{result.text}</p>
+            <p className="mt-4  bg-paper p-3 msg-text text-ink">{result.text}</p>
 
             <div className="mt-5 grid gap-5 md:grid-cols-2">
               <AIPanel pred={result.prediction} tau={tau} degraded={degraded} />
@@ -159,7 +159,7 @@ export default function TryPage() {
                 </p>
                 <a
                   href="/inbox/"
-                  className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-bold text-ink transition hover:bg-brand-deep active:scale-[0.98]"
+                  className="inline-flex items-center gap-2  bg-brand px-4 py-2 text-sm font-bold text-ink transition hover:bg-brand-deep active:scale-[0.98]"
                 >
                   Open the inbox <ArrowRightIcon size={14} />
                 </a>
@@ -174,7 +174,7 @@ export default function TryPage() {
         )}
 
         {!result && !error && (
-          <div className="mt-10 rounded-2xl border border-dashed border-line">
+          <div className="mt-10  border border-dashed border-line">
             <EmptyState
               title="No result yet"
               hint="Pick an example chip or write your own — the classifier runs on the server in one pass."

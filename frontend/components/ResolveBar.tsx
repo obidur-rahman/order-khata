@@ -3,7 +3,7 @@
  * reason and Confirm / Change-to actions (F6). Parent applies optimistically. */
 import { CLASS_META } from "@/lib/brand";
 import { CLASSES, type ClassKey, type Prediction } from "@/lib/types";
-import { EyeIcon } from "./icons";
+import { EyeIcon, CheckIcon } from "./icons";
 
 export function ResolveBar({
   pred,
@@ -24,7 +24,7 @@ export function ResolveBar({
 
   return (
     <div
-      className="sticky bottom-3 z-10 rounded-2xl border-2 bg-surface p-3 shadow-[0_6px_24px_rgba(15,15,15,0.10)]"
+      className="sticky bottom-3 z-10  border-2 bg-surface p-3"
       style={{ borderColor: "#F59E0B" }}
       aria-label="Needs your eyes"
     >
@@ -38,14 +38,14 @@ export function ResolveBar({
             <button
               disabled={busy}
               onClick={() => onConfirm(pred.top_class)}
-              className="rounded-full bg-ink px-3 py-1.5 text-xs font-bold text-paper transition hover:opacity-85 disabled:opacity-50"
+              className=" bg-ink px-3 py-1.5 text-xs font-bold text-paper transition hover:opacity-85 disabled:opacity-50"
             >
               Confirm “{CLASS_META[pred.top_class].label}”
             </button>
             <label className="flex items-center gap-1.5 text-xs text-muted">
               Change to…
               <select
-                className="rounded-full border border-line bg-paper px-2 py-1 text-xs font-semibold text-ink"
+                className=" border border-line bg-paper px-2 py-1 text-xs font-semibold text-ink"
                 value=""
                 disabled={busy}
                 onChange={(e) => {
@@ -63,8 +63,8 @@ export function ResolveBar({
               </select>
             </label>
             {resolvedLabel && (
-              <span className="text-[11px] font-semibold" style={{ color: "#17A34A" }}>
-                ✓ resolved as {resolvedLabel}
+              <span className="inline-flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#15803D" }}>
+                <CheckIcon size={11} /> resolved as {resolvedLabel}
               </span>
             )}
           </div>

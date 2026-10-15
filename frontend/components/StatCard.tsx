@@ -12,7 +12,7 @@ export function StatCard({
   accent?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-line bg-surface p-5">
+    <div className=" border border-line bg-surface p-5">
       <div className="text-[13px] font-semibold text-muted">{label}</div>
       <div className="tnum mt-2 text-[44px] leading-none" style={{ color: accent ?? "#0F0F0F" }}>
         {value}

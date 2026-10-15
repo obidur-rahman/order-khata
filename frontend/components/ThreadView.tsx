@@ -38,7 +38,7 @@ export function ThreadView({
       {/* thread header */}
       <div className="flex items-center gap-3 border-b border-line bg-surface px-4 py-3">
         <span
-          className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold text-white"
+          className="flex h-9 w-9 items-center justify-center  text-sm font-bold text-white"
           style={{ background: conv.avatar_color }}
           aria-hidden
         >
@@ -53,7 +53,7 @@ export function ThreadView({
 
       {/* scam warning card in thread (docs/06 §4.2) */}
       {lane === "scam" && (
-        <div className="mx-4 mt-3 rounded-xl border-2 p-3" style={{ borderColor: "#E5252A", background: "rgba(229,37,42,0.06)" }} role="alert">
+        <div className="mx-4 mt-3  border-2 p-3" style={{ borderColor: "#E5252A", background: "rgba(229,37,42,0.06)" }} role="alert">
           <p className="flex items-center gap-1.5 text-[13px] font-bold" style={{ color: "#E5252A" }}>
             <ShieldIcon size={14} /> Possible scam — do not send items or advance payments.
           </p>

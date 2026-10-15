@@ -2,6 +2,9 @@
 
 /* docs/06 §2 color tokens — light mode only. Brand yellow is never status. */
 @theme {
+  /* docs/06 §2 tokens mirror the design refs (grayscale paper world).
+   * refs: 0f0f0f / fbf8f1 / e8e2d4 / 6b665b / e0e0e0 / d0d0d0, 1px ink rules,
+   * sharp-corners — no curved surfaces, no saturated fills. */
   --color-ink: #0f0f0f;
   --color-paper: #fbf8f1;
   --color-surface: #ffffff;
@@ -10,12 +13,13 @@
   --color-brand: #ffd60a;
   --color-brand-deep: #e6be00;
 
-  /* class chips (docs/06 §2) */
-  --color-order: #2f6bff;
-  --color-price: #7a4dff;
-  --color-delivery: #0fa3a3;
-  --color-complaint: #ff4d8d;
-  --color-scam: #e5252a;
+  /* class chips (docs/06 §2): luminance mirrors the refs, every chip has a
+   * label + dot so color never carries meaning alone. */
+  --color-order: #9aa5b1;
+  --color-price: #9a7fb5;
+  --color-delivery: #5b9a8c;
+  --color-complaint: #a54a55;
+  --color-scam: #9a4444;
   --color-other: #8a8a8a;
 
   /* lanes — always paired with icon + text, never color alone */
@@ -24,24 +28,23 @@
   --color-lanescam: #e5252a;
 }
 
-/* fonts: next/font vars are set on <html>; defaults keep SSR/CSR identical */
-:root {
-  --font-jakarta: system-ui;
-  --font-inter: system-ui;
-  --font-bengali: "Noto Sans Bengali", system-ui;
-}
-
+/* fonts: next/font declares --font-* on <html> (layout.tsx). Theme values
+   inline the vars so each element resolves the real face; var() fallbacks
+   cover a failed load. NEVER redefine --font-* at :root: a same-element
+   default out-cascades next/font and the real faces never render (the
+   bug that shipped system-ui everywhere). docs/06 §3. */
 @theme inline {
   /* docs/06 §3: Bengali-capable fallback so Bangla never renders as boxes */
-  --font-sans: var(--font-inter), var(--font-bengali), system-ui, sans-serif;
-  --font-display: var(--font-jakarta), var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-inter, system-ui), var(--font-bengali, "Noto Sans Bengali"), system-ui, sans-serif;
+  --font-display: var(--font-jakarta, system-ui), var(--font-inter, system-ui), system-ui, sans-serif;
 }
 
 body {
   background: var(--color-paper);
   color: var(--color-ink);
-  font-family: var(--font-sans);
+  font-family: var(--font-inter, system-ui), var(--font-bengali, "Noto Sans Bengali"), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  caret-color: var(--color-ink);
 }
 
 /* apple-design §1 (Response): feedback on pointer-down, never on release */
@@ -71,10 +74,12 @@ h3 {
   letter-spacing: -0.015em;
 }
 
-/* message text (docs/06 §3): 15px / 1.6, Bengali fallback first-class */
+/* message text (docs/06 §3): 15px / 1.6, Bengali fallback first-class;
+   anywhere-wrap so unbroken Banglish/URLs never widen the page (390px) */
 .msg-text {
   font-size: 15px;
   line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 /* numbers (docs/06 §3): Plus Jakarta tabular for stats */
@@ -84,12 +89,83 @@ h3 {
   font-weight: 800;
 }
 
-/* focus ring: ink + yellow (docs/06 §7) */
+/* focus ring: ink + yellow (docs/06 §7). No radius override — the outline
+   follows the element's own radius (a fixed 4px jump-cut pills on focus). */
 *:focus-visible {
   outline: 2px solid var(--color-ink);
   outline-offset: 2px;
   box-shadow: 0 0 0 4px var(--color-brand);
-  border-radius: 4px;
+}
+
+/* ── browser surfaces carry the design too (craft floor) ─────────── */
+::selection {
+  background: var(--color-brand);
+  color: var(--color-ink);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ── broadsheet masthead: 2px ink rule under page titles (world C) ─ */
+.masthead {
+  border-bottom: 2px solid var(--color-ink);
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+/* yellow highlighter mark — emphasis, never status (docs/06 §2) ──── */
+.hl {
+  background: linear-gradient(transparent 62%, var(--color-brand) 62%, var(--color-brand) 92%, transparent 92%);
+}
+
+/* range slider: native 6px track, 44px hit area, ink thumb + brand ring */
+.tau {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 44px;
+  background: transparent;
+  cursor: pointer;
+}
+.tau::-webkit-slider-runnable-track {
+  height: 6px;
+  background: var(--color-line);
+  border-radius: 999px;
+}
+.tau::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: var(--color-ink);
+  border: 3px solid var(--color-brand);
+  box-shadow: 0 1px 3px rgba(15, 15, 15, 0.35);
+}
+.tau::-moz-range-track {
+  height: 6px;
+  background: var(--color-line);
+  border-radius: 999px;
+}
+.tau::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-ink);
+  border: 3px solid var(--color-brand);
 }
 
 /* new messages: slide + highlight for 1.5s (docs/06 §4.2) */

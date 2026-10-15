@@ -33,10 +33,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={`${jakarta.variable} ${inter.variable} ${bengali.variable}`}>
-        {children}
-      </body>
+    <html lang="en" className={`${jakarta.variable} ${inter.variable} ${bengali.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }
