@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+node_modules/
+.next/
+out/
+*.db
+*.sqlite3
+.env
+.venv/
+venv/
+backend/data/*.jsonl
+backend/data/seed_inbox.json
+!backend/data/.gitkeep

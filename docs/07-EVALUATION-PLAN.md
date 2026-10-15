@@ -1,0 +1,66 @@
+# 07 — Evaluation Plan
+
+Goal: one honest, defensible set of numbers, produced by `ml/05_evaluate.py` and stored in `backend/artifacts/eval.json`.
+
+## 1. Questions the evaluation answers
+1. How accurate is the 6-class classifier overall and per script (bn / bl / en / mx)?
+2. Is the confidence score trustworthy (calibration)?
+3. What fraction of messages can be handled automatically at what accuracy (coverage vs accuracy)?
+4. Does the dual-signal rule help versus a single engine?
+5. How well does it generalize to a different source (OOD)?
+6. How good is scam detection, including false alarms on normal shop chat?
+
+## 2. Datasets and discipline
+- In-distribution: D1 test (806). Out-of-distribution: D3 BanglaTOD e-commerce subset (map its 10 e-commerce intents to the 6 classes; timebox to 1 h; if mapping is unreliable, report OOD qualitatively).
+- Scam: D2 held-out test + D1 test negatives.
+- τ and calibration chosen on validation only. Test split evaluated once at the end. No prompt tuning on test.
+- Seed inbox messages come from test; they are for the demo, not for reported numbers beyond the offline run.
+
+## 3. Systems compared (rows in the table)
+| ID | System |
+|---|---|
+| B1 | TF-IDF char n-gram + logistic regression |
+| B2 | Zero-shot Groq LLM only |
+| E1 | Decision model only (calibrated) |
+| E2 | Decision model + LLM agreement rule |
+| E3 | Full Dokanbox policy (E2 + escalate + scam rule) |
+| (optional) E4 | Hosted decision model (Mercury Decide / Span-01 Lite) |
+| (optional) F1 | LoRA fine-tuned small model (only if time remains) |
+
+## 4. Metrics
+- Accuracy, macro-F1, per-class precision/recall/F1; breakdown by script.
+- Calibration: ECE (15 bins), reliability data, Brier score; before vs after temperature scaling.
+- Selective prediction: sweep τ from 0.50 to 0.99 (step 0.01). For each τ: coverage = share routed Auto; **auto accuracy** = accuracy on the Auto slice; review-queue size. Output the full curve plus values at τ ∈ {0.70, 0.80, 0.85, 0.90, 0.95}.
+- Scam: precision, recall, F1 on D2 test; **false-alarm rate on D1 test shop messages**; recall at fixed false-alarm rate 1%.
+- Latency: p50/p95 of full classify on the Space (measured after deployment).
+- Ambiguity analysis: share of low-confidence items that carry a D1 `alt_intent`.
+
+## 5. Targets (report actuals, do not tune to hit them)
+- Auto accuracy ≥ 90% at default τ with coverage ≥ 60%.
+- Scam false-alarm rate ≤ 2% on D1 shop messages.
+- ECE ≤ 0.05 after calibration.
+
+## 6. Output schema (`eval.json`, abridged)
+```json
+{
+  "generated_at": "...",
+  "data": {"d1_test_n": 806, "d2_test_n": 0, "d3_n": 0},
+  "systems": {"B1": {"accuracy": 0, "macro_f1": 0}, "E3": {"accuracy": 0, "macro_f1": 0}},
+  "per_class": {"order": {"p": 0, "r": 0, "f1": 0}},
+  "per_script": {"bn": {"accuracy": 0}, "bl": {}, "en": {}, "mx": {}},
+  "calibration": {"ece_before": 0, "ece_after": 0, "reliability": []},
+  "coverage_curve": [{"tau": 0.5, "coverage": 0, "auto_accuracy": 0}],
+  "scam": {"precision": 0, "recall": 0, "false_alarm_d1": 0},
+  "ood": {"dataset": "BanglaTOD", "accuracy": 0, "n": 0},
+  "latency_ms": {"p50": 0, "p95": 0},
+  "limitations": ["..."]
+}
+```
+
+## 7. Limitations to print on the Evaluation page (verbatim intent)
+1. The intent corpus is largely machine-generated; real customer typos, dialects and disfluencies are under-represented.
+2. Gold intent labels are trusted from the source; the escalate flag and alt_intent are machine-assisted annotations, and escalate reflects a policy, not ground truth.
+3. Scam training/test data is SMS-style, not shop-chat DMs.
+4. The in-distribution test set shares a source with the training data; the OOD result is the more conservative number.
+5. The inbox is simulated; no live Facebook integration.
+6. Class "Delivery" includes pre-purchase delivery questions.

@@ -1,0 +1,112 @@
+/**
+ * Routing policy — docs/04 §4. TypeScript twin of backend/app/router.py.
+ *
+ * The threshold slider recomputes lanes client-side with this module so
+ * moving it costs zero network. Logic, constants and reason strings must be
+ * byte-identical to the Python implementation; tests/test_parity.py feeds
+ * the same fixture file to both and asserts identical output.
+ */
+
+export const LANE_AUTO = "auto";
+export const LANE_REVIEW = "review";
+export const LANE_SCAM = "scam";
+const LLM_OK = "ok";
+
+// docs/04 §4 — keep in sync with backend/app/config.py
+export const TAU_DEFAULT = 0.85;
+export const TAU_OTHER_MIN = 0.6;
+export const TAU_OTHER_OFFSET = 0.2;
+export const SCAM_T = 0.5;
+export const ESCALATE_T = 0.5;
+export const DEGRADED_MARGIN = 0.05;
+export const DEGRADED_MAX = 0.99;
+
+export const CLASSES = [
+  "order",
+  "price_question",
+  "delivery_problem",
+  "complaint",
+  "scam",
+  "other",
+] as const;
+
+export type Lane = "auto" | "review" | "scam";
+export type ClassKey = (typeof CLASSES)[number];
+
+export interface RouteSignals {
+  top_class: string;
+  top_prob: number;
+  scam_prob: number;
+  escalate_prob: number;
+  llm_class?: string | null;
+  llm_status?: string | null;
+}
+
+/** Half-up round to 2 decimals (slider precision), byte-identical to Python _r2. */
+function r2(x: number): number {
+  return Math.floor(x * 100 + 0.5) / 100;
+}
+
+/** tau_other = max(0.60, tau - 0.20) (docs/04 §4). */
+export function tauOther(tau: number): number {
+  return r2(Math.max(TAU_OTHER_MIN, tau - TAU_OTHER_OFFSET));
+}
+
+/**
+ * Format a probability for route reasons. Deterministic half-up rounding to
+ * 2 decimals using pure IEEE double arithmetic, byte-identical to the Python
+ * fmt_prob (Python's int() on a positive value truncates like Math.floor).
+ */
+export function fmtProb(x: number): string {
+  const cents = Math.floor(x * 100 + 0.5);
+  const whole = Math.floor(cents / 100);
+  const frac = cents % 100;
+  return `${whole}.${frac.toString().padStart(2, "0")}`;
+}
+
+/** Apply the routing policy. Returns [lane, route_reason]. First match wins. */
+export function route(signals: RouteSignals, tau: number = TAU_DEFAULT): [Lane, string] {
+  const topClass = String(signals.top_class);
+  const topProb = Number(signals.top_prob);
+  const scamProb = Number(signals.scam_prob);
+  const escalateProb = Number(signals.escalate_prob);
+  const llmClass = signals.llm_class ?? null;
+  const llmStatus = signals.llm_status ?? "unavailable";
+
+  // 1. Scam lane — hard invariant: never auto, regardless of anything else.
+  if (scamProb >= SCAM_T) {
+    return [LANE_SCAM, `Scam probability ${fmtProb(scamProb)} >= ${fmtProb(SCAM_T)}`];
+  }
+
+  // 2. Escalate: customer may need a human.
+  if (escalateProb >= ESCALATE_T) {
+    return [LANE_REVIEW, "Customer may need a human"];
+  }
+
+  // Degraded mode: no usable second signal -> skip rule 4, stricter threshold.
+  const degraded = llmStatus !== LLM_OK || !llmClass;
+
+  // 3. Low confidence.
+  let required: number;
+  if (topClass === "other") {
+    required = tauOther(tau);
+  } else if (degraded) {
+    required = Math.min(DEGRADED_MAX, r2(tau + DEGRADED_MARGIN));
+  } else {
+    required = tau;
+  }
+  if (topProb < required) {
+    return [LANE_REVIEW, `Low confidence (p = ${fmtProb(topProb)})`];
+  }
+
+  // 4. Second opinion disagrees (skipped in degraded mode).
+  if (!degraded && String(llmClass) !== topClass) {
+    return [LANE_REVIEW, `Second opinion disagrees (LLM: ${llmClass})`];
+  }
+
+  // 5. Auto.
+  if (degraded) {
+    return [LANE_AUTO, "Confident (stricter threshold; second opinion unavailable)"];
+  }
+  return [LANE_AUTO, "Confident and second opinion agrees"];
+}

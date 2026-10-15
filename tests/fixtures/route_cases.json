@@ -1,0 +1,152 @@
+[
+  {
+    "name": "scam_high_wins_over_everything",
+    "signals": {"top_class": "order", "top_prob": 0.99, "scam_prob": 0.93, "escalate_prob": 0.9, "llm_class": "order", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "scam", "reason": "Scam probability 0.93 >= 0.50"}
+  },
+  {
+    "name": "scam_boundary_exactly_050",
+    "signals": {"top_class": "order", "top_prob": 0.99, "scam_prob": 0.5, "escalate_prob": 0.0, "llm_class": "order", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "scam", "reason": "Scam probability 0.50 >= 0.50"}
+  },
+  {
+    "name": "scam_just_below_050_falls_through_to_escalate",
+    "signals": {"top_class": "order", "top_prob": 0.99, "scam_prob": 0.4999, "escalate_prob": 0.7, "llm_class": "order", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "review", "reason": "Customer may need a human"}
+  },
+  {
+    "name": "escalate_boundary_exactly_050",
+    "signals": {"top_class": "other", "top_prob": 0.99, "scam_prob": 0.01, "escalate_prob": 0.5, "llm_class": "other", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "review", "reason": "Customer may need a human"}
+  },
+  {
+    "name": "escalate_beats_disagreement",
+    "signals": {"top_class": "order", "top_prob": 0.97, "scam_prob": 0.02, "escalate_prob": 0.61, "llm_class": "complaint", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "review", "reason": "Customer may need a human"}
+  },
+  {
+    "name": "auto_confident_agreement",
+    "signals": {"top_class": "order", "top_prob": 0.91, "scam_prob": 0.01, "escalate_prob": 0.02, "llm_class": "order", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "auto", "reason": "Confident and second opinion agrees"}
+  },
+  {
+    "name": "auto_top_prob_exactly_tau",
+    "signals": {"top_class": "delivery_problem", "top_prob": 0.85, "scam_prob": 0.02, "escalate_prob": 0.03, "llm_class": "delivery_problem", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "auto", "reason": "Confident and second opinion agrees"}
+  },
+  {
+    "name": "low_confidence_just_below_tau",
+    "signals": {"top_class": "order", "top_prob": 0.84, "scam_prob": 0.01, "escalate_prob": 0.02, "llm_class": "order", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "review", "reason": "Low confidence (p = 0.84)"}
+  },
+  {
+    "name": "low_confidence_half_up_edge_0845",
+    "signals": {"top_class": "order", "top_prob": 0.845, "scam_prob": 0.01, "escalate_prob": 0.02, "llm_class": "order", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "review", "reason": "Low confidence (p = 0.85)"}
+  },
+  {
+    "name": "rule3_beats_rule4_low_conf_first",
+    "signals": {"top_class": "price_question", "top_prob": 0.7, "scam_prob": 0.01, "escalate_prob": 0.02, "llm_class": "order", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "review", "reason": "Low confidence (p = 0.70)"}
+  },
+  {
+    "name": "disagreement_review",
+    "signals": {"top_class": "order", "top_prob": 0.93, "scam_prob": 0.01, "escalate_prob": 0.02, "llm_class": "complaint", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "review", "reason": "Second opinion disagrees (LLM: complaint)"}
+  },
+  {
+    "name": "other_class_uses_tau_other_at_default",
+    "signals": {"top_class": "other", "top_prob": 0.7, "scam_prob": 0.02, "escalate_prob": 0.1, "llm_class": "other", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "auto", "reason": "Confident and second opinion agrees"}
+  },
+  {
+    "name": "other_class_below_tau_other",
+    "signals": {"top_class": "other", "top_prob": 0.6, "scam_prob": 0.02, "escalate_prob": 0.1, "llm_class": "other", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "review", "reason": "Low confidence (p = 0.60)"}
+  },
+  {
+    "name": "tau_other_floor_at_low_tau",
+    "signals": {"top_class": "other", "top_prob": 0.55, "scam_prob": 0.02, "escalate_prob": 0.1, "llm_class": "other", "llm_status": "ok"},
+    "tau": 0.5,
+    "expected": {"lane": "review", "reason": "Low confidence (p = 0.55)"}
+  },
+  {
+    "name": "tau_other_exact_at_tau_080",
+    "signals": {"top_class": "other", "top_prob": 0.6, "scam_prob": 0.02, "escalate_prob": 0.1, "llm_class": "other", "llm_status": "ok"},
+    "tau": 0.8,
+    "expected": {"lane": "auto", "reason": "Confident and second opinion agrees"}
+  },
+  {
+    "name": "degraded_below_stricter_threshold",
+    "signals": {"top_class": "order", "top_prob": 0.86, "scam_prob": 0.01, "escalate_prob": 0.02, "llm_class": null, "llm_status": "unavailable"},
+    "tau": 0.85,
+    "expected": {"lane": "review", "reason": "Low confidence (p = 0.86)"}
+  },
+  {
+    "name": "degraded_at_stricter_threshold_090",
+    "signals": {"top_class": "order", "top_prob": 0.9, "scam_prob": 0.01, "escalate_prob": 0.02, "llm_class": null, "llm_status": "unavailable"},
+    "tau": 0.85,
+    "expected": {"lane": "auto", "reason": "Confident (stricter threshold; second opinion unavailable)"}
+  },
+  {
+    "name": "degraded_stricter_capped_at_099",
+    "signals": {"top_class": "order", "top_prob": 0.98, "scam_prob": 0.01, "escalate_prob": 0.02, "llm_class": null, "llm_status": "unavailable"},
+    "tau": 0.97,
+    "expected": {"lane": "review", "reason": "Low confidence (p = 0.98)"}
+  },
+  {
+    "name": "degraded_tau_097_passes_at_0992",
+    "signals": {"top_class": "order", "top_prob": 0.992, "scam_prob": 0.01, "escalate_prob": 0.02, "llm_class": null, "llm_status": "unavailable"},
+    "tau": 0.97,
+    "expected": {"lane": "auto", "reason": "Confident (stricter threshold; second opinion unavailable)"}
+  },
+  {
+    "name": "degraded_other_keeps_tau_other_not_stricter",
+    "signals": {"top_class": "other", "top_prob": 0.66, "scam_prob": 0.02, "escalate_prob": 0.1, "llm_class": null, "llm_status": "unavailable"},
+    "tau": 0.85,
+    "expected": {"lane": "auto", "reason": "Confident (stricter threshold; second opinion unavailable)"}
+  },
+  {
+    "name": "llm_status_ok_but_missing_llm_class_treated_degraded",
+    "signals": {"top_class": "order", "top_prob": 0.87, "scam_prob": 0.01, "escalate_prob": 0.02, "llm_class": null, "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "review", "reason": "Low confidence (p = 0.87)"}
+  },
+  {
+    "name": "high_tau_review_for_mid_confidence",
+    "signals": {"top_class": "complaint", "top_prob": 0.94, "scam_prob": 0.04, "escalate_prob": 0.05, "llm_class": "complaint", "llm_status": "ok"},
+    "tau": 0.96,
+    "expected": {"lane": "review", "reason": "Low confidence (p = 0.94)"}
+  },
+  {
+    "name": "disagreement_at_high_tau_after_confident_pass",
+    "signals": {"top_class": "delivery_problem", "top_prob": 0.97, "scam_prob": 0.02, "escalate_prob": 0.03, "llm_class": "order", "llm_status": "ok"},
+    "tau": 0.95,
+    "expected": {"lane": "review", "reason": "Second opinion disagrees (LLM: order)"}
+  },
+  {
+    "name": "scam_reason_formatting_two_decimals",
+    "signals": {"top_class": "order", "top_prob": 0.99, "scam_prob": 0.5049, "escalate_prob": 0.0, "llm_class": "order", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "scam", "reason": "Scam probability 0.50 >= 0.50"}
+  },
+  {
+    "name": "auto_scam_below_threshold_with_llm_agreement",
+    "signals": {"top_class": "price_question", "top_prob": 0.88, "scam_prob": 0.49, "escalate_prob": 0.1, "llm_class": "price_question", "llm_status": "ok"},
+    "tau": 0.85,
+    "expected": {"lane": "auto", "reason": "Confident and second opinion agrees"}
+  }
+]
