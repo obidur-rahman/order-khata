@@ -11,6 +11,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from . import config, db
@@ -71,6 +72,17 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Dokanbox", version=config.VERSION, lifespan=lifespan)
+
+# Dev only: `npm run dev` runs on :3000 and calls the API cross-origin.
+# Production serves the static build same-origin from this process, and the
+# middleware is a no-op there (docs/05 NFR: CORS limited to the app itself).
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
+)
+
 app.include_router(messages.router, prefix="/api", tags=["messages"])
 app.include_router(inbox.router, prefix="/api", tags=["inbox"])
 app.include_router(misc.router, prefix="/api", tags=["misc"])

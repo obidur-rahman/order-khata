@@ -31,6 +31,8 @@ def client(tmp_db, monkeypatch):
     from app.api import messages as messages_api
 
     # Deterministic degraded mode: tests must never touch a real provider.
+    # (A real .env may exist at the repo root — clear every key source.)
+    monkeypatch.delenv("GROQ_API_KEYS", raising=False)
     monkeypatch.delenv("GROQ_API_KEY", raising=False)
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
     messages_api._hits.clear()  # rate-limit state is module-level

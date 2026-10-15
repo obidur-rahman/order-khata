@@ -36,6 +36,16 @@ def tau_other(tau: float) -> float:
     return _r2(max(TAU_OTHER_MIN, tau - TAU_OTHER_OFFSET))
 
 
+def required_threshold(top_class: str, tau: float, degraded: bool) -> float:
+    """Rule-3 confidence threshold (docs/04 §4). Shared with the UI so the
+    confidence-bar tick always shows the value actually being enforced."""
+    if top_class == "other":
+        return tau_other(tau)
+    if degraded:
+        return min(DEGRADED_MAX, _r2(tau + DEGRADED_MARGIN))
+    return tau
+
+
 def fmt_prob(x: float) -> str:
     """Format a probability for route reasons.
 
@@ -73,12 +83,7 @@ def route(signals: Mapping[str, Any], tau: float = TAU_DEFAULT) -> Tuple[str, st
     degraded = llm_status != LLM_OK or not llm_class
 
     # 3. Low confidence.
-    if top_class == "other":
-        required = tau_other(tau)
-    elif degraded:
-        required = min(DEGRADED_MAX, _r2(tau + DEGRADED_MARGIN))
-    else:
-        required = tau
+    required = required_threshold(top_class, tau, degraded)
     if top_prob < required:
         return LANE_REVIEW, f"Low confidence (p = {fmt_prob(top_prob)})"
 

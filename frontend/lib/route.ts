@@ -52,6 +52,18 @@ export function tauOther(tau: number): number {
   return r2(Math.max(TAU_OTHER_MIN, tau - TAU_OTHER_OFFSET));
 }
 
+/** Rule-3 confidence threshold (docs/04 §4). Shared with the UI so the
+ * confidence-bar tick always shows the value actually being enforced. */
+export function requiredThreshold(
+  topClass: string,
+  tau: number,
+  degraded: boolean,
+): number {
+  if (topClass === "other") return tauOther(tau);
+  if (degraded) return Math.min(DEGRADED_MAX, r2(tau + DEGRADED_MARGIN));
+  return tau;
+}
+
 /**
  * Format a probability for route reasons. Deterministic half-up rounding to
  * 2 decimals using pure IEEE double arithmetic, byte-identical to the Python
@@ -87,14 +99,7 @@ export function route(signals: RouteSignals, tau: number = TAU_DEFAULT): [Lane, 
   const degraded = llmStatus !== LLM_OK || !llmClass;
 
   // 3. Low confidence.
-  let required: number;
-  if (topClass === "other") {
-    required = tauOther(tau);
-  } else if (degraded) {
-    required = Math.min(DEGRADED_MAX, r2(tau + DEGRADED_MARGIN));
-  } else {
-    required = tau;
-  }
+  const required = requiredThreshold(topClass, tau, degraded);
   if (topProb < required) {
     return [LANE_REVIEW, `Low confidence (p = ${fmtProb(topProb)})`];
   }

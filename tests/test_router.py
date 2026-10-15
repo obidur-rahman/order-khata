@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 
-from app.router import fmt_prob, route, tau_other
+from app.router import fmt_prob, required_threshold, route, tau_other
 
 from conftest import FIXTURES
 
@@ -49,6 +49,17 @@ def test_route_is_pure_no_mutation():
     snapshot = dict(signals)
     route(signals, 0.85)
     assert signals == snapshot
+
+
+def test_required_threshold_matrix():
+    """Rule-3 thresholds exactly as docs/04 §4 (also drawn as the UI tick)."""
+    assert required_threshold("order", 0.85, False) == 0.85
+    assert required_threshold("other", 0.85, False) == 0.65
+    assert required_threshold("other", 0.79, False) == 0.60
+    assert required_threshold("other", 0.5, False) == 0.60
+    assert required_threshold("order", 0.85, True) == 0.90   # tau + 0.05
+    assert required_threshold("order", 0.97, True) == 0.99   # capped
+    assert required_threshold("other", 0.85, True) == 0.65   # degraded skips "other"
 
 
 def test_default_tau_is_spec_default():

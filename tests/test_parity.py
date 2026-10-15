@@ -13,7 +13,7 @@ import subprocess
 from pathlib import Path
 
 import pytest
-from app.router import route
+from app.router import required_threshold, route
 
 from conftest import FIXTURES
 
@@ -26,8 +26,12 @@ def _python_results():
         cases = json.load(f)
     out = []
     for case in cases:
-        lane, reason = route(case["signals"], case.get("tau", 0.85))
-        out.append({"name": case["name"], "lane": lane, "reason": reason})
+        signals = case["signals"]
+        tau = case.get("tau", 0.85)
+        lane, reason = route(signals, tau)
+        degraded = (signals.get("llm_status") or "unavailable") != "ok" or not signals.get("llm_class")
+        req = required_threshold(signals["top_class"], tau, degraded)
+        out.append({"name": case["name"], "lane": lane, "reason": reason, "req": req})
     return out
 
 

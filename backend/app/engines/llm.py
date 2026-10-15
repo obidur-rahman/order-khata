@@ -5,6 +5,10 @@ output {"class", "reason"}; the LLM never sees the decision model's answer.
 Cache: in-memory LRU keyed by SHA-256 of the normalized text. No API keys in
 code — environment variables only; with no keys configured the client is
 immediately "unavailable", which is exactly the degraded mode.
+
+Key rotation: GROQ_API_KEYS may hold several comma-separated keys. Each key
+becomes one entry in the provider chain, so an HTTP 429/5xx on one key falls
+through to the next key automatically, then to Gemini, then to degraded mode.
 """
 from __future__ import annotations
 
@@ -20,10 +24,11 @@ import httpx
 from ..config import (
     CLASSES,
     GEMINI_MODEL,
-    GROQ_MODEL,
     LLM_CACHE_SIZE,
     LLM_MAX_TOKENS,
     LLM_TIMEOUT_S,
+    groq_api_keys,
+    groq_models,
 )
 
 _SYSTEM_PROMPT = (
@@ -65,25 +70,26 @@ class LLMClient:
     # -- providers ---------------------------------------------------------
     def _providers(self) -> list[tuple[str, str, dict[str, Any]]]:
         out: list[tuple[str, str, dict[str, Any]]] = []
-        groq_key = os.environ.get("GROQ_API_KEY")
-        if groq_key:
-            out.append((
-                "groq",
-                "https://api.groq.com/openai/v1/chat/completions",
-                {
-                    "Authorization": f"Bearer {groq_key}",
-                    "json": {
-                        "model": GROQ_MODEL,
-                        "temperature": 0,
-                        "max_tokens": LLM_MAX_TOKENS,
-                        "response_format": {"type": "json_object"},
-                        "messages": [
-                            {"role": "system", "content": _SYSTEM_PROMPT},
-                            {"role": "user", "content": "<<MSG>>"},
-                        ],
+        # Entries are model-major, key-minor: a 429 on key 1 rotates through
+        # the other keys for this model, then falls to the next model — so a
+        # removed model or a rate-limited key both degrade to the next entry.
+        for model in groq_models():
+            for key in groq_api_keys():
+                out.append((
+                    "groq",
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    {
+                        "Authorization": f"Bearer {key}",
+                        # messages[] is injected per request in call() — the
+                        # user turn always carries the actual message text.
+                        "json": {
+                            "model": model,
+                            "temperature": 0,
+                            "max_tokens": LLM_MAX_TOKENS,
+                            "response_format": {"type": "json_object"},
+                        },
                     },
-                },
-            ))
+                ))
         gemini_key = os.environ.get("GEMINI_API_KEY")
         if gemini_key:
             out.append((
@@ -92,14 +98,28 @@ class LLMClient:
                 + GEMINI_MODEL
                 + f":generateContent?key={gemini_key}",
                 {
+                    # contents[] is injected per request in call().
                     "json": {
                         "generationConfig": {"temperature": 0, "maxOutputTokens": LLM_MAX_TOKENS},
-                        "contents": [{"parts": [{"text": "<<MSG>>"}]}],
                         "systemInstruction": {"parts": [{"text": _SYSTEM_PROMPT}]},
                     },
                 },
             ))
         return out
+
+    @staticmethod
+    def _render_payload(provider: str, template: dict[str, Any], text: str) -> dict[str, Any]:
+        """Copy the provider template and inject the message text (the LLM must
+        see the actual customer message — docs/04 §3.1 contract)."""
+        payload = dict(template)
+        if provider == "groq":
+            payload["messages"] = [
+                {"role": "system", "content": _SYSTEM_PROMPT},
+                {"role": "user", "content": text},
+            ]
+        else:
+            payload["contents"] = [{"parts": [{"text": text}]}]
+        return payload
 
     @staticmethod
     def _extract_text(provider: str, payload: dict[str, Any]) -> str:
@@ -133,7 +153,7 @@ class LLMClient:
                 try:
                     resp = httpx.post(
                         url,
-                        json=cfg["json"],
+                        json=self._render_payload(name, cfg["json"], text),
                         headers={k: v for k, v in cfg.items() if k != "json"},
                         timeout=LLM_TIMEOUT_S,
                     )

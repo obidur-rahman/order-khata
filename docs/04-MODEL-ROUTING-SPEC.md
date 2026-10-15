@@ -51,6 +51,7 @@ Every routed message stores `lane` and `route_reason` so the UI can show *why*.
 - The LLM is **not** shown the decision model's answer (independence).
 - Cache by SHA-256 of normalized text, in memory (LRU 2,000 entries).
 - Provider order: Groq → Gemini free → none. Switch on HTTP 429/5xx/timeout. Model names are chosen at Hour 0 against the current free-tier list and kept in `config.py`.
+- Key and model rotation: `GROQ_API_KEYS` may hold several comma-separated keys and `GROQ_MODELS` several candidate models (env-overridable). The chain is model-major/key-minor: a 429/5xx rotates to the next key for the current model, a `model_not_found` advances to the next model — so a removed model (which happened to `llama-3.1-8b-instant`) or a rate-limited key degrades one entry at a time instead of killing the second signal.
 
 ## 5. Evaluation hooks
 The router is a pure function `route(signals, τ) -> (lane, reason)` implemented **twice with identical logic**: Python (`router.py`, used in offline evaluation) and TypeScript (`frontend/lib/route.ts`, used for instant slider updates). A unit test feeds the same fixture file to both and asserts identical output.

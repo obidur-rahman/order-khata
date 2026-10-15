@@ -64,6 +64,7 @@ dokanbox/
 │   ├── app/                   # routes: /, /inbox, /try, /dashboard, /evaluation
 │   ├── components/
 │   ├── lib/                   # api client, routing recompute (route.ts), types,
+│   │                          # brand/hooks/store helpers,
 │   │                          # parity_runner.ts (feeds fixtures to the parity test)
 │   └── next.config.mjs
 ├── tests/                     # pytest suite; fixtures/route_cases.json is fed

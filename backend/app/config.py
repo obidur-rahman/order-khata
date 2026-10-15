@@ -7,6 +7,27 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+
+def _load_dotenv() -> None:
+    """Minimal .env loader (repo root). Real environment always wins, so
+    Space secrets / shell exports override the file. Values are never logged."""
+    path = Path(__file__).resolve().parents[2] / ".env"
+    try:
+        raw = path.read_text(encoding="utf-8")
+    except OSError:
+        return
+    for line in raw.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key = key.strip()
+        if key and key not in os.environ:
+            os.environ[key] = value.strip().strip('"').strip("'")
+
+
+_load_dotenv()
+
 # ---------------------------------------------------------------------------
 # Classes (docs/04 §1, docs/06 §2)
 # ---------------------------------------------------------------------------
@@ -70,7 +91,12 @@ DEGRADED_MAX = 0.99
 LLM_TIMEOUT_S = 3.0
 LLM_MAX_TOKENS = 80
 LLM_CACHE_SIZE = 2000
-GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.1-8b-instant")
+
+# Chosen at Hour 0 against Groq's current free-tier model list (docs/04 §3.1,
+# docs/08 Phase 0) and kept here. Several candidates: a model that disappears
+# (model_not_found, as happened to llama-3.1-8b-instant) falls through to the
+# next one automatically. GROQ_MODELS env (comma-separated) overrides.
+_GROQ_MODEL_DEFAULT = "qwen/qwen3.8-27b,openai/gpt-oss-20b"
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
 
 # ---------------------------------------------------------------------------
@@ -100,3 +126,24 @@ def db_path() -> Path:
     if env:
         return Path(env)
     return data_dir() / "dokanbox.db"
+
+
+def groq_api_keys() -> list[str]:
+    """GROQ_API_KEYS (comma-separated, rotated on rate limit) or GROQ_API_KEY."""
+    raw = os.environ.get("GROQ_API_KEYS") or os.environ.get("GROQ_API_KEY") or ""
+    return [k.strip() for k in raw.split(",") if k.strip()]
+
+
+def groq_models() -> list[str]:
+    """Groq model candidates in preference order (comma-separated env override)."""
+    raw = (
+        os.environ.get("GROQ_MODELS")
+        or os.environ.get("GROQ_MODEL")
+        or _GROQ_MODEL_DEFAULT
+    )
+    return [m.strip() for m in raw.split(",") if m.strip()]
+
+
+def hf_token() -> str | None:
+    """HF token for model downloads (backend only; never reaches the frontend)."""
+    return os.environ.get("HF_TOKEN") or None

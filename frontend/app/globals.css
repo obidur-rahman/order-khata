@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+/* docs/06 §2 color tokens — light mode only. Brand yellow is never status. */
+@theme {
+  --color-ink: #0f0f0f;
+  --color-paper: #fbf8f1;
+  --color-surface: #ffffff;
+  --color-line: #e8e2d4;
+  --color-muted: #6b665b;
+  --color-brand: #ffd60a;
+  --color-brand-deep: #e6be00;
+
+  /* class chips (docs/06 §2) */
+  --color-order: #2f6bff;
+  --color-price: #7a4dff;
+  --color-delivery: #0fa3a3;
+  --color-complaint: #ff4d8d;
+  --color-scam: #e5252a;
+  --color-other: #8a8a8a;
+
+  /* lanes — always paired with icon + text, never color alone */
+  --color-laneauto: #17a34a;
+  --color-lanereview: #f59e0b;
+  --color-lanescam: #e5252a;
+}
+
+/* fonts: next/font vars are set on <html>; defaults keep SSR/CSR identical */
+:root {
+  --font-jakarta: system-ui;
+  --font-inter: system-ui;
+  --font-bengali: "Noto Sans Bengali", system-ui;
+}
+
+@theme inline {
+  /* docs/06 §3: Bengali-capable fallback so Bangla never renders as boxes */
+  --font-sans: var(--font-inter), var(--font-bengali), system-ui, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* apple-design §1 (Response): feedback on pointer-down, never on release */
+@layer base {
+  button,
+  [role="button"] {
+    transition:
+      transform 100ms ease-out,
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease,
+      box-shadow 150ms ease,
+      opacity 150ms ease;
+  }
+  button:active:not(:disabled),
+  [role="button"]:active {
+    transform: scale(0.98);
+  }
+}
+
+/* apple-design §15 (Typography): optical sizing + size-specific tracking —
+   display text tightens as it grows; body stays neutral */
+h1,
+h2,
+h3 {
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em;
+}
+
+/* message text (docs/06 §3): 15px / 1.6, Bengali fallback first-class */
+.msg-text {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* numbers (docs/06 §3): Plus Jakarta tabular for stats */
+.tnum {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+/* focus ring: ink + yellow (docs/06 §7) */
+*:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--color-brand);
+  border-radius: 4px;
+}
+
+/* new messages: slide + highlight for 1.5s (docs/06 §4.2) */
+@keyframes msg-in {
+  0% {
+    transform: translateY(-6px);
+    background-color: color-mix(in srgb, var(--color-brand) 35%, transparent);
+  }
+  100% {
+    transform: translateY(0);
+    background-color: transparent;
+  }
+}
+.msg-new {
+  animation: msg-in 1.5s ease-out;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fade-up 0.35s ease-out both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* apple-design §14 (Reduced motion): gentler non-vestibular feedback —
+   slides and overshoot become short opacity fades; loops stop. */
+@media (prefers-reduced-motion: reduce) {
+  .msg-new {
+    animation: fade-in 200ms ease-out;
+  }
+  .fade-up {
+    animation: fade-in 200ms ease-out;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.2s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.15s !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* apple-design §14 (Reduced transparency): frosted surfaces go solid. */
+@media (prefers-reduced-transparency: reduce) {
+  .material {
+    background: #fbf8f1 !important;
+    backdrop-filter: none !important;
+  }
+}
