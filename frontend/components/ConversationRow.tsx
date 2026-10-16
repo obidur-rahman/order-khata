@@ -5,9 +5,10 @@
  * preview text, class chip. Editorial styling: hairline separators, mono
  * metadata, ink avatars. */
 import { classMeta, fmtTime, LANE_META } from "@/lib/brand";
+import { usePrefs } from "@/lib/prefs";
 import type { ConversationRecord, MessageRecord } from "@/lib/types";
 import { ClassChip } from "./ClassChip";
-import { CheckIcon, ShieldIcon } from "./icons";
+import { CheckIcon, EyeIcon, ShieldIcon } from "./icons";
 
 function ConfidenceRing({ value, color }: { value: number; color: string }) {
   const r = 9;
@@ -45,6 +46,7 @@ export function ConversationRow({
   isNew: boolean;
   onSelect: () => void;
 }) {
+  const { t } = usePrefs();
   const pred = msg.prediction;
   const meta = classMeta(pred.top_class);
   const initial = (conv.customer_name || "?").trim().charAt(0).toUpperCase();
@@ -59,7 +61,7 @@ export function ConversationRow({
     <button
       onClick={onSelect}
       className={`flex w-full items-start gap-3 border-b border-line px-3 py-2.5 text-left transition-colors ${
-        active ? "bg-accent-tint" : "hover:bg-paper/60"
+        active ? "bg-accent-tint" : "hover:bg-surface"
       } ${isNew ? "msg-new" : ""}`}
       style={{ background: active ? "var(--accent-tint)" : undefined, borderLeft }}
       aria-current={active}
@@ -79,9 +81,15 @@ export function ConversationRow({
         </div>
         {/* preview text */}
         <p className="mt-0.5 truncate text-[13px] text-muted">{msg.text}</p>
-        {/* chip row: class + badges */}
-        <div className="mt-1.5 flex items-center gap-2">
+        {/* chip row: class + lane badge + state. Wraps rather than clipping
+            when the pane is narrow (two badges plus a chip exceed 320px). */}
+        <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
           <ClassChip classKey={pred.top_class} />
+          {lane === "review" && (
+            <span className="label inline-flex items-center gap-1 text-accent">
+              <EyeIcon size={10} /> {t("inbox.needsYou")}
+            </span>
+          )}
           {lane === "scam" && (
             <span
               className="label inline-flex items-center gap-1"
@@ -102,8 +110,8 @@ export function ConversationRow({
           )}
         </div>
       </span>
-      {/* confidence ring — hide on very narrow mobile to save space */}
-      <span className="shrink-0 sm:block" aria-hidden>
+      {/* confidence ring: the class and its certainty at a glance */}
+      <span className="shrink-0" aria-hidden>
         <ConfidenceRing value={pred.top_prob} color={meta.color} />
       </span>
     </button>

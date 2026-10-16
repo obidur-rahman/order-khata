@@ -1,7 +1,10 @@
 "use client";
-/** Resolve bar (docs/06 §4.2): sticky banner on review items with the route
- * reason and Confirm / Change-to actions (F6). Parent applies optimistically.
- * The accent border marks "this needs your eyes". */
+/** Resolve banner (docs/06 §4.2): the accent-bordered call-out on review
+ * items, carrying the route reason and the Confirm / Change-to actions (F6).
+ * The parent applies the change optimistically.
+ *
+ * It is a wash, not a floating card: it sits on the thread's own control bar,
+ * so a lift shadow would only fight that bar's surface. */
 import { CLASS_META } from "@/lib/brand";
 import { CLASSES, type ClassKey, type Prediction } from "@/lib/types";
 import { CheckIcon, EyeIcon } from "./icons";
@@ -24,10 +27,7 @@ export function ResolveBar({
   if (lane !== "review") return null;
 
   return (
-    <div
-      className="sticky bottom-3 z-10 rounded-2xl border border-accent bg-surface p-3.5 shadow-lift"
-      aria-label="Needs your eyes"
-    >
+    <div className="rounded-2xl border border-accent bg-accent-tint p-3.5" aria-label="Needs your eyes">
       <div className="flex items-start gap-2.5">
         <span className="mt-0.5 inline-flex text-accent">
           <EyeIcon size={15} />

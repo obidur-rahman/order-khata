@@ -87,11 +87,21 @@ Nav: one shared top bar (§5 `TopBar`) on every screen, **fully transparent**: n
 ### 4.2 Inbox `/inbox` (main product)
 - Top bar: the shared `TopBar` (§4.1): logo, shop switcher (static "Rina's Fashion House · Page"), threshold slider (label "Threshold τ", value shown, live counters "Auto 38 / Review 14 / Scam 3"), language + appearance toggles, health dot. Page links live in the segmented control with an ink fill on the active one.
 - Lane tabs under top bar: All / Handled for you / Needs your eyes / Scam alerts, each with a count. Lane colour is icon + text first; the icons colour auto (green), review (accent) and scam (red).
-- Left (≈320 px): conversation list. Row: avatar (rounded ink tile with the customer's initial), name, last message preview, time, class chip, tiny confidence ring. The active row gets an accent left rule and an accent-tint background.
-- Center: thread view, chat bubbles, original script preserved. Review items show a sticky banner (accent border) with the route reason and buttons **Confirm "{class}"** / **Change to…** (resolve action).
-- Right (≈340 px): AI panel. Class chip large, confidence bar with the threshold tick, six-class probability bars, "Second opinion" row with LLM class + reason (or "unavailable"), route reason, latency.
+The screen is a **fixed app shell**: the bar holds still and each pane scrolls on its own, so a long conversation list can never push the thread off the screen. Breakpoints are CSS classes only — no `window.innerWidth` read at render time, which would be wrong on the first frame and blind to a resize.
+
+| Width | Panes | Lanes | Details |
+|---|---|---|---|
+| `< md` (phones) | one at a time: list ↔ thread (back arrow in the thread header) | bottom bar: All / Auto / Review / Scam, short label + count + lane icon, the active cell tinted with a lane-coloured rule on top | a tap away: the thread's details deck, collapsed by default |
+| `md`–`xl` | list (336 px) \| thread | tabs above the list, engine status at the far right of the same strip | the same deck, still on request |
+| `≥ xl` (1280 px) | list (376 px) \| thread \| AI rail (340 px) | tabs above the list | permanently on screen as the rail |
+
+- Left: conversation list. Row: avatar (rounded ink tile with the customer's initial), name, last message preview, time, class chip, tiny confidence ring, plus a lane word for anything that is not handled — `needs you` in the accent for review rows, `shielded` for scam — and `resolved` / `new` state. The active row gets an accent left rule and an accent-tint background.
+- Center: thread view, chat bubbles (a card on the paper, capped at a readable line length), original script preserved. The control bar under the chat holds, in order: the **resolve banner** on review items — an accent-bordered wash carrying the route reason and the buttons **Confirm "{class}"** / **Change to…** (resolve action) — and then the details deck.
+- Details deck (below xl): the AI detail panel behind one toggle, capped at 55% of the pane height and scrolling inside itself, so an open panel can never swallow the conversation. At xl the same panel is the rail instead, and the deck is not rendered.
+- Rail (≥ xl): AI panel. Class chip large, confidence bar with the threshold tick, six-class probability bars, "Second opinion" row with LLM class + reason (or "unavailable"), route reason, latency.
 - Scam rows have a red left rule and a shield icon; the thread shows a warning card with plain advice ("Do not send items or advance payments").
 - New messages animate in (slide + accent flash for 1.5 s) when polled.
+- One measured column (46 rem) carries the messages, the warning card and the control bar, so a 1920 px window does not stretch a chat line across the screen.
 
 ### 4.3 Try It `/try`
 Large textarea with 6 example chips (two per script) and a Classify button. Result card appears with the same AI panel and an "Open the inbox" link. Shows the lane transition when the slider is changed.
@@ -121,7 +131,7 @@ Charts: plain SVG only, no chart dependency.
 - Polling every 2 s for new inbox items; pause polling when the tab is hidden.
 - Optimistic UI for resolve.
 - Loading: a branded loading screen while `/api/health` reports not ready (cold start).
-- Responsive: desktop-first (judges), usable at 390 px: single column with bottom lane tabs.
+- Responsive: desktop-first (judges), usable at 390 px — one pane at a time with the lane bar at the bottom (§4.2). Every pane scrolls itself inside an `h-dvh` shell; the page itself never scrolls, so nothing can be clipped out of reach.
 - Empty/error states are designed, never blank. When the API is unreachable the app screens show `ErrorScreen`: an explanation, the start command, the underlying error, and a Retry button. Never an endless spinner.
 - Honour `prefers-reduced-motion` (loops stop, feedback stays; the hero orbs and scroll reveals switch off) and `prefers-reduced-transparency` (any translucency goes solid).
 - Theme and language live in `localStorage` and are applied by `lib/prefs.ts`; a custom event (`order_khata:prefs`) tells every mounted control to re-read, so no provider is needed. τ needs no event: `lib/store.ts` saves it and each screen reads it on mount. The language/theme choice is applied by an inline script in `app/layout.tsx` before first paint (keys from `lib/prefKeys.ts`, shared with `lib/prefs.ts`).

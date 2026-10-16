@@ -28,6 +28,7 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   "nav.preferences": S("Preferences", "পছন্দ"),
   "nav.openInbox": S("Open inbox", "ইনবক্স খুলুন"),
   "nav.language": S("Language", "ভাষা"),
+  "nav.lanes": S("Lanes", "লেন"),
   "nav.appearance": S("Appearance", "রূপ"),
 
   /* ── hero ─────────────────────────────────────────────────────────── */
@@ -242,9 +243,12 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
 
   /* ── inbox ──────────────────────────────────────────────────────────── */
   "inbox.backToInbox": S("Back to inbox", "ইনবক্সে ফিরুন"),
+  "inbox.conversations": S("Conversations", "কথোপকথন"),
+  "inbox.thread": S("Message thread", "মেসেজ থ্রেড"),
   "inbox.scamWarning": S("Possible scam. Do not send items or advance payments.", "সম্ভাব্য স্ক্যাম। কোনো জিনিস বা অগ্রিম পেমেন্ট করবেন না।"),
   "inbox.olderMessages": S("older messages classified in one pass", "পুরানো মেসেজগুলো একবারেই ক্লাসিফাই করা হয়েছে"),
   "inbox.messageDetails": S("Message details", "মেসেজের বিস্তারিত"),
+  "inbox.needsYou": S("needs you", "আপনি দেখুন"),
 };
 
 /** Look up a string. Unknown keys fall back to English, then to the key. */

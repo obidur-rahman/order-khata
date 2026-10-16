@@ -21,12 +21,19 @@ export function MessageBubble({
   align?: "right" | "left";
 }) {
   const isRight = align === "right";
+  // Both corner classes are written out in full: a class name assembled from
+  // fragments never reaches Tailwind's scanner, so the flattened corner used
+  // to silently do nothing. A literal per branch compiles.
+  const flatCorner = isRight ? "rounded-tr-md" : "rounded-br-md";
   return (
     <div
       className={`flex ${isRight ? "justify-end" : "justify-start"} ${isNew ? "msg-new" : ""}`}
     >
+      {/* The bubble is a card on the thread's paper, and it stops widening at
+          a readable line length on a big screen (lg:max-w) instead of running
+          the length of a 1200px pane. */}
       <div
-        className={`max-w-[88%] rounded-2xl rounded-${isRight ? "tr" : "br"}-md border border-line bg-surface px-4 py-2.5 shadow-soft`}
+        className={`max-w-[88%] rounded-2xl ${flatCorner} border border-line bg-surface px-4 py-2.5 shadow-soft lg:max-w-[34rem]`}
       >
         <p className="msg-text text-ink">{msg.text}</p>
         <div
