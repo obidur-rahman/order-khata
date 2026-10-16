@@ -1,7 +1,9 @@
 "use client";
 /** Conversation list row (docs/06 §4.2): avatar, name, preview, time, class
  * chip, tiny confidence ring. Scam rows carry a red left rule + shield.
- * Editorial styling: hairline separators, mono metadata, ink avatars. */
+ * Messenger-like: compact row with avatar tile, name+time on one line,
+ * preview text, class chip. Editorial styling: hairline separators, mono
+ * metadata, ink avatars. */
 import { classMeta, fmtTime, LANE_META } from "@/lib/brand";
 import type { ConversationRecord, MessageRecord } from "@/lib/types";
 import { ClassChip } from "./ClassChip";
@@ -12,7 +14,7 @@ function ConfidenceRing({ value, color }: { value: number; color: string }) {
   const c = 2 * Math.PI * r;
   const dash = Math.max(0, Math.min(1, value)) * c;
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden className="shrink-0">
+    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden className="shrink-0">
       <circle cx="12" cy="12" r={r} fill="none" stroke="var(--color-line)" strokeWidth="2" />
       <circle
         cx="12"
@@ -52,45 +54,56 @@ export function ConversationRow({
       : active
         ? "3px solid var(--color-accent)"
         : "3px solid transparent";
+  const unseen = isNew && !msg.resolution;
   return (
     <button
       onClick={onSelect}
-      className={`flex w-full items-start gap-3 border-b border-line px-3 py-3 text-left transition ${
-        active ? "bg-accent-tint" : "bg-surface hover:bg-paper"
+      className={`flex w-full items-start gap-3 border-b border-line px-3 py-2.5 text-left transition-colors ${
+        active ? "bg-accent-tint" : "hover:bg-paper/60"
       } ${isNew ? "msg-new" : ""}`}
-      style={{ borderLeft }}
+      style={{ background: active ? "var(--accent-tint)" : undefined, borderLeft }}
       aria-current={active}
     >
+      {/* avatar: rounded ink tile with customer initial */}
       <span
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-ink font-mono text-sm font-medium text-paper"
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-ink font-mono text-sm font-medium text-paper shadow-soft"
         aria-hidden
       >
         {initial}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="flex items-center justify-between gap-2">
+        {/* name + time row */}
+        <div className="flex items-center justify-between gap-2">
           <span className="truncate text-sm font-semibold text-ink">{conv.customer_name}</span>
           <span className="index shrink-0 text-[10px] text-muted">{fmtTime(msg.received_at)}</span>
-        </span>
-        <span className="mt-0.5 block truncate text-[13px] text-muted">{msg.text}</span>
-        <span className="mt-2 flex items-center gap-2">
+        </div>
+        {/* preview text */}
+        <p className="mt-0.5 truncate text-[13px] text-muted">{msg.text}</p>
+        {/* chip row: class + badges */}
+        <div className="mt-1.5 flex items-center gap-2">
           <ClassChip classKey={pred.top_class} />
           {lane === "scam" && (
             <span
               className="label inline-flex items-center gap-1"
               style={{ color: LANE_META.scam.deep }}
             >
-              <ShieldIcon size={11} /> shielded
+              <ShieldIcon size={10} /> shielded
             </span>
           )}
           {msg.resolution && (
             <span className="label inline-flex items-center gap-1 text-muted">
-              <CheckIcon size={11} /> resolved
+              <CheckIcon size={10} /> resolved
             </span>
           )}
-        </span>
+          {unseen && (
+            <span className="label inline-flex items-center gap-1 text-accent">
+              new
+            </span>
+          )}
+        </div>
       </span>
-      <span className="mt-1 shrink-0">
+      {/* confidence ring — hide on very narrow mobile to save space */}
+      <span className="shrink-0 sm:block" aria-hidden>
         <ConfidenceRing value={pred.top_prob} color={meta.color} />
       </span>
     </button>

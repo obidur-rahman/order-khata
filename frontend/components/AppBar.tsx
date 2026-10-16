@@ -49,7 +49,8 @@ export function PrefsControls({ className = "" }: { className?: string }) {
   const { lang, theme, setLang, setTheme, t } = usePrefs();
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      <div className="seg" role="group" aria-label={t("nav.language")}>
+      {/* Language: full seg on sm+, compact toggle on mobile */}
+      <div className="seg hidden sm:inline-flex" role="group" aria-label={t("nav.language")}>
         <button type="button" aria-pressed={lang === "en"} onClick={() => setLang("en")}>
           EN
         </button>
@@ -69,6 +70,7 @@ export function PrefsControls({ className = "" }: { className?: string }) {
   );
 }
 
+
 export function TopBar({
   children,
   trailing,
@@ -85,9 +87,9 @@ export function TopBar({
   }, []);
 
   // The bar is a frame, not a panel: transparent at the top of every screen,
-  // and only picks up the half-transparent material once the page has scrolled
-  // under it (user brief, docs/06 §4.1 + §6).
-  const surface = scrolled ? "material-50" : "bg-transparent";
+  // and picks up a solid surface fill once the page has scrolled under it.
+  // In dark mode this is a dark navbar; in light mode a solid light bar.
+  const surface = scrolled ? "bg-surface" : "bg-transparent";
 
   return (
     <header className={`sticky top-0 z-30 transition-colors duration-300 ${surface}`}>

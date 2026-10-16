@@ -366,6 +366,12 @@ h3 {
     white-space: nowrap;
     color: var(--muted);
   }
+  @media (max-width: 640px) {
+    .seg > button,
+    .seg > a {
+      padding: 0 8px;
+    }
+  }
   .seg > button:hover,
   .seg > a:hover {
     color: var(--ink);

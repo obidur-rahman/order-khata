@@ -239,6 +239,12 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   "page.try.kicker": S("classify", "যাচাই"),
   "page.dashboard.kicker": S("today", "আজ"),
   "page.evaluation.kicker": S("proof", "প্রমাণ"),
+
+  /* ── inbox ──────────────────────────────────────────────────────────── */
+  "inbox.backToInbox": S("Back to inbox", "ইনবক্সে ফিরুন"),
+  "inbox.scamWarning": S("Possible scam. Do not send items or advance payments.", "সম্ভাব্য স্ক্যাম। কোনো জিনিস বা অগ্রিম পেমেন্ট করবেন না।"),
+  "inbox.olderMessages": S("older messages classified in one pass", "পুরানো মেসেজগুলো একবারেই ক্লাসিফাই করা হয়েছে"),
+  "inbox.messageDetails": S("Message details", "মেসেজের বিস্তারিত"),
 };
 
 /** Look up a string. Unknown keys fall back to English, then to the key. */

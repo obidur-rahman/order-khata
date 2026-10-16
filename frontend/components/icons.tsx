@@ -57,6 +57,33 @@ export function ArrowUpRightIcon({ className, size = 16 }: P) {
   );
 }
 
+/** Arrow left — back navigation (mobile inbox back to list). */
+export function ArrowLeftIcon({ className, size = 16 }: P) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M10 12l-4-4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Chevron down — collapse toggle. */
+export function ChevronDownIcon({ className, size = 14 }: P) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M4 5l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Chevron up — expand toggle. */
+export function ChevronUpIcon({ className, size = 14 }: P) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M4 11l4-4 4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function InboxIcon({ className, size = 18 }: P) {
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden>

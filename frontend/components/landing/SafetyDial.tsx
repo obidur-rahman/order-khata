@@ -118,7 +118,7 @@ export function SafetyDial() {
               step={0.01}
               value={tau}
               onChange={(e) => setTau(parseFloat(e.target.value))}
-              className="tau w-48 sm:w-72"
+              className="tau w-32 sm:w-48 md:w-72"
               aria-valuetext={tau.toFixed(2)}
             />
             <span className="tnum text-2xl text-oncontrast">{tau.toFixed(2)}</span>

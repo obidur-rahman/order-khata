@@ -29,6 +29,8 @@ export default function InboxPage() {
   const [tau, setTau] = useState(() => loadTau(0.85));
   const [tab, setTab] = useState<LaneTab>("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [view, setView] = useState<"list" | "thread">("list");
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 1024;
   const [threads, setThreads] = useState<Record<string, ConversationRecord>>({});
   const [busyId, setBusyId] = useState<string | null>(null);
   const [resolveError, setResolveError] = useState<string | null>(null);
@@ -59,6 +61,13 @@ export default function InboxPage() {
   }, [rows]);
 
   const visible = rows.filter((r) => tab === "all" || r.lane === tab);
+
+  // Auto-select first chat on mount (desktop + mobile list view)
+  useEffect(() => {
+    if (view === "list" && visible.length > 0 && !selectedId) {
+      setSelectedId(visible[0].conv.id);
+    }
+  }, [view, visible, selectedId]);
 
   // active conversation: explicit choice, else the newest (derived — no effect)
   const activeId = selectedId ?? rows[0]?.conv.id ?? null;
@@ -147,72 +156,75 @@ export default function InboxPage() {
         />
       </AppBar>
 
-      <div className="mx-auto w-full max-w-7xl px-3 pb-4">
-        <div className="py-3">
+      {/* lane tabs: always visible, below header */}
+      <div className="border-b border-line bg-surface">
+        <div className="mx-auto max-w-7xl px-3 py-2">
           <LaneTabs active={tab} counts={counts} onSelect={setTab} />
         </div>
         {degraded && (
-          <div className="mb-3">
+          <div className="border-t border-line px-3 py-2">
             <DegradedBanner />
           </div>
         )}
+      </div>
 
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch">
-          {/* list */}
-          <aside className="w-full shrink-0 overflow-hidden rounded-2xl border border-line bg-surface shadow-soft lg:w-[320px]">
-            <div className="max-h-[36vh] overflow-y-auto lg:max-h-[calc(100vh-220px)]">
-              {visible.length === 0 ? (
-                <EmptyState
-                  title="Nothing in this lane"
-                  hint="Messages appear here as they are classified, or paste one in Try It."
-                  icon={<InboxIcon size={20} />}
-                />
-              ) : (
-                visible.map(({ conv, msg, lane }) => (
-                  <ConversationRow
-                    key={conv.id}
-                    conv={conv}
-                    msg={msg}
-                    lane={lane}
-                    active={conv.id === activeId}
-                    isNew={msg.id === lastSeenId}
-                    onSelect={() => setSelectedId(conv.id)}
-                  />
-                ))
-              )}
-            </div>
-          </aside>
-
-          {/* thread */}
-          <section className="flex min-h-[420px] flex-1 flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-soft">
-            {selectedConv && selectedConv.messages.length > 0 ? (
-              <ThreadView
-                conv={selectedConv}
-                tau={tau}
-                degraded={degraded}
-                isNewId={lastSeenId}
-                busyId={busyId}
-                resolveError={resolveError}
-                onResolve={onResolve}
+      {/* ── mobile: list-first with back nav. desktop: list + thread side by side ── */}
+      <div className="flex-1 overflow-hidden">
+        {/* conversation list: full-width on mobile, 320px on desktop */}
+        <aside className="w-full shrink-0 border-r border-line lg:max-h-[calc(100vh-180px)] lg:overflow-y-auto">
+          <div className="mx-auto w-full max-w-7xl px-3 py-2 lg:py-0">
+            {visible.length === 0 ? (
+              <EmptyState
+                title="Nothing in this lane"
+                hint="Messages appear here as they are classified, or paste one in Try It."
+                icon={<InboxIcon size={20} />}
               />
             ) : (
+              visible.map(({ conv, msg, lane }) => (
+                <ConversationRow
+                  key={conv.id}
+                  conv={conv}
+                  msg={msg}
+                  lane={lane}
+                  active={conv.id === activeId}
+                  isNew={msg.id === lastSeenId}
+                  onSelect={() => {
+                    setSelectedId(conv.id);
+                    if (isMobile) setView("thread");
+                  }}
+                />
+              ))
+            )}
+          </div>
+        </aside>
+
+        {/* thread: visible on desktop side-by-side, or on mobile when view === 'thread' */}
+        <section
+          className={`flex min-h-0 flex-1 flex-col overflow-hidden bg-paper lg:border-l lg:border-line lg:bg-surface lg:shadow-soft ${
+            isMobile && view === "list" ? "hidden" : ""
+          }`}
+        >
+          {selectedConv && selectedConv.messages.length > 0 ? (
+            <ThreadView
+              conv={selectedConv}
+              tau={tau}
+              degraded={degraded}
+              isNewId={lastSeenId}
+              busyId={busyId}
+              resolveError={resolveError}
+              onResolve={onResolve}
+              onBack={isMobile ? () => setView("list") : undefined}
+            />
+          ) : (
+            <div className="flex min-h-full items-center justify-center">
               <EmptyState
                 title="Pick a conversation"
                 hint="Or open Try It and paste your own message. It lands right here."
                 icon={<EyeIcon size={20} />}
               />
-            )}
-          </section>
-
-          {/* AI panel (desktop) */}
-          <aside className="hidden w-[340px] shrink-0 rounded-2xl border border-line bg-surface p-4 shadow-soft lg:block">
-            {selectedRow && selectedRow.msg ? (
-              <AIPanel pred={selectedRow.msg.prediction} tau={tau} degraded={degraded} />
-            ) : (
-              <EmptyState title="No message selected" hint="Select a conversation to see its signals." />
-            )}
-          </aside>
-        </div>
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );
