@@ -46,7 +46,4 @@ RUN mkdir -p backend/data
 
 EXPOSE 7860
 
-# Single process: the SQLite file is per-container, and one worker keeps the
-# LLM cache and simulator in the same process as the requests that use them.
-CMD ["uvicorn", "app.main:app", "--app-dir", "backend", \
-     "--host", "0.0.0.0", "--port", "7860"]
+CMD ["sh", "-c", "uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port ${PORT:-7860}"]
