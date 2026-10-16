@@ -18,7 +18,7 @@ FIXTURES = Path(__file__).parent / "fixtures"
 @pytest.fixture()
 def tmp_db(tmp_path, monkeypatch):
     """Point the app at a fresh SQLite file for each test."""
-    monkeypatch.setenv("DOKANBOX_DB", str(tmp_path / "test.db"))
+    monkeypatch.setenv("ORDER_KHATA_DB", str(tmp_path / "test.db"))
     return tmp_path / "test.db"
 
 

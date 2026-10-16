@@ -1,0 +1,14 @@
+{
+  "temperature": 0.4560546874999995,
+  "ece_before": 0.2000824953261405,
+  "ece_after": 0.04948533947628485,
+  "fitted_on": "d1_val",
+  "classes": [
+    "order",
+    "price_question",
+    "delivery_problem",
+    "complaint",
+    "other"
+  ],
+  "note": "load_temperature() (section 0.5) reads the `temperature` key at boot"
+}

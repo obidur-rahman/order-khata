@@ -19,7 +19,7 @@ from .api import inbox, messages, misc
 from .pipeline import Pipeline, load_seed_prediction_cache, save_seed_prediction_cache
 from .simulator import Simulator
 
-log = logging.getLogger("dokanbox")
+log = logging.getLogger("order_khata")
 
 
 def _seed_predictions(pipeline: Pipeline, pending: list[dict]) -> None:
@@ -71,7 +71,7 @@ async def lifespan(app: FastAPI):
     sim.stop()
 
 
-app = FastAPI(title="Dokanbox", version=config.VERSION, lifespan=lifespan)
+app = FastAPI(title="Order Khata", version=config.VERSION, lifespan=lifespan)
 
 # Dev only: `npm run dev` runs on :3000 and calls the API cross-origin.
 # Production serves the static build same-origin from this process, and the

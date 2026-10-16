@@ -11,7 +11,7 @@ from typing import Any, Optional
 
 from . import db
 
-log = logging.getLogger("dokanbox.simulator")
+log = logging.getLogger("order_khata.simulator")
 
 
 class Simulator:

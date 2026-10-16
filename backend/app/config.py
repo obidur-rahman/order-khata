@@ -50,7 +50,7 @@ CLASS_META: dict[str, dict[str, str]] = {
     "other": {"label": "Other", "color": "#8A8A8A"},
 }
 
-# 15 D1 intents -> 6 Dokanbox classes (docs/03 §2). All 15 must be present.
+# 15 D1 intents -> 6 Order Khata classes (docs/03 §2). All 15 must be present.
 INTENT_TO_CLASS: dict[str, str] = {
     "product_search": "order",
     "product_availability": "order",
@@ -122,10 +122,10 @@ def artifacts_dir() -> Path:
 
 
 def db_path() -> Path:
-    env = os.environ.get("DOKANBOX_DB")
+    env = os.environ.get("ORDER_KHATA_DB")
     if env:
         return Path(env)
-    return data_dir() / "dokanbox.db"
+    return data_dir() / "order_khata.db"
 
 
 def groq_api_keys() -> list[str]:
