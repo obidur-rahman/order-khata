@@ -10,9 +10,9 @@ script is the same measurement, run for real on 2026-10-17 and recorded in docs/
 
 Two halves, in this order, because the second is only meaningful if the first holds:
 
-  A. reproduce baseline B1 (notebook §3.1) — and check that the numbers match the SHIPPED
+  A. reproduce baseline B1 (notebook §3.1) — and CHECK that the numbers match the SHIPPED
      artifact. If VAL and TEST do not come out at 0.8675 and 0.8160, the harness is not
-     faithful and the Laya number below it must not be quoted.
+     faithful and the script exits non-zero rather than printing a candidate number.
   B. load the checkpoint on CPU and measure the same N=100 validation rows.
 
 The adopt rule is copied verbatim from notebook §4.3 and was fixed BEFORE any result was
@@ -41,6 +41,13 @@ from sklearn.pipeline import Pipeline as SkPipeline  # noqa: E402
 SEED = 42
 N = 100
 LATENCY_BUDGET_MS = 1500
+
+# Baseline macro-F1 the harness must reproduce before anything about the candidate is
+# allowed to print: full validation as retrained here, and the test split as shipped in
+# eval.json (`systems.B1`). Measured 2026-10-17 from `decision_tfidf.joblib`.
+EXPECT_VAL_F1 = 0.8675
+EXPECT_TEST_F1 = 0.8160
+TOLERANCE = 0.0005
 REPO = "nafiullah/laya-multilingual-bn-ecom-voice"
 ROOT = Path(__file__).resolve().parents[1]      # repo root; this file lives in ml/
 DATA = ROOT / "backend" / "data"
@@ -144,11 +151,32 @@ def baseline_check(y_val: list[str]) -> float:
     top = [top_class(dict(zip(classes, row))) for row in b1.predict_proba(X_va)]
     full = f1_score(y_val, top, average="macro", zero_division=0)
     print(f"── baseline B1 (tfidf-lr), fit {fit_s:.1f}s ──")
-    print(f"  macro-F1, full val ({len(y_val)} rows): {full:.4f}   [expect 0.8675]")
+    print(f"  macro-F1, full val ({len(y_val)} rows): {full:.4f}   [expect {EXPECT_VAL_F1}]")
     print(f"  macro-F1, val[:{N}]                  : "
           f"{f1_score(y_val[:N], top[:N], average='macro', zero_division=0):.4f}")
     print(f"  accuracy, val[:{N}]                  : "
           f"{accuracy_score(y_val[:N], top[:N]):.4f}")
+
+    # The test split is what eval.json's B1 (and the Evaluation page) reports — check it
+    # too, so a drift in either split cannot pass unnoticed.
+    test_rows = load_jsonl("d1_test.jsonl")
+    y_test = [r["cls"] for r in test_rows]
+    test_top = [top_class(dict(zip(classes, row)))
+                for row in b1.predict_proba([r["text"] for r in test_rows])]
+    test_f1 = f1_score(y_test, test_top, average="macro", zero_division=0)
+    print(f"  macro-F1, test ({len(y_test)} rows)      : {test_f1:.4f}   "
+          f"[eval.json B1 = {EXPECT_TEST_F1}]")
+
+    drift = [f"{name} {got:.4f} != {want:.4f}" for name, got, want in
+             (("val", full, EXPECT_VAL_F1), ("test", test_f1, EXPECT_TEST_F1))
+             if abs(got - want) > TOLERANCE]
+    if drift:
+        print("\nHARNESS CHECK FAILED (" + "; ".join(drift) + ")")
+        print("This harness does not reproduce the shipped baseline, so a candidate number "
+              "from it is not comparable. Fix the harness before quoting anything.")
+        raise SystemExit(2)
+    print("  harness check: both splits reproduce the shipped artifact "
+          "-> the comparison below is valid")
     return full
 
 
@@ -184,7 +212,7 @@ def main() -> None:
     f1_sub = f1_score(y_val[:N], laya_top, average="macro", zero_division=0)
     esc = [a["escalate"]["noul"] for a in answers]
     print(f"\n  Laya on the same {N} validation rows")
-    print(f"    accuracy (6-class): {accuracy_score(y_val[:N], laya_top):.4f}")
+    print(f"    accuracy (5 base classes): {accuracy_score(y_val[:N], laya_top):.4f}")
     print(f"    macro-F1          : {f1_sub:.4f}")
     print(f"    escalate P(true)  : mean {float(np.mean(esc)):.3f}")
 
