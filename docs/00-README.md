@@ -1,7 +1,7 @@
-# Dokanbox — Documentation Index
+# Order Khata — Documentation Index
 
 **Tagline:** Your shop's inbox, sorted.
-**One line:** Dokanbox reads every customer message sent to a small online shop in Bangla, Banglish or English, sorts it into Order / Price / Delivery / Complaint / Scam / Other with a calibrated confidence score, auto-handles the clear ones, and sends the unsure ones to a human review queue instead of guessing.
+**One line:** Order Khata reads every customer message sent to a small online shop in Bangla, Banglish or English, sorts it into Order / Price / Delivery / Complaint / Scam / Other with a calibrated confidence score, auto-handles the clear ones, and sends the unsure ones to a human review queue instead of guessing.
 **Context:** 48-hour solo hackathon. Zero budget. Everything must run on a free Hugging Face Space.
 
 ## Documents
@@ -32,9 +32,11 @@
 | Data | `nafiullah/bangla-ecom-voice-decisions` + Bengali SMS smishing set; secondary data only, no user-collected data | User + Claude |
 | Honest framing | Data is described as a public Bangla e-commerce customer-message corpus, NOT as real Facebook seller DMs | Claude (recommended), user accepted data plan |
 | Classes | Order, Price question, Delivery, Complaint, Scam, Other (+ escalate flag) | User approved |
-| Screens | Landing, Inbox, Try It, Threshold slider, Dashboard, Evaluation. No reply composer | User approved |
-| Visual | Light mode only, colorful brand, type- and color-led; poster-style landing + restrained app | User approved |
-| Name | Dokanbox | Claude proposal; user did not object |
+| Screens | Landing, Inbox, Try It, Threshold slider, Dashboard, Evaluation, Preferences. No reply composer | User approved |
+| Visual | Light **and dark**, visitor-selected; colourful brand, type- and colour-led; poster-style landing + restrained app | User approved (dark mode added on request, docs/06 §2) |
+| Feel | Soft: warm ink instead of black, one radius scale on every surface, soft shadows instead of hard rules (docs/06 §2.1) | User approved (softening pass on request) |
+| Language | Bangla / English interface toggle, saved on the device; class names and metrics stay English (docs/06 §4.6) | User approved |
+| Name | Order Khata | User (renamed from the Claude proposal ``Dokanbox``) |
 | Routing policy | See `04-MODEL-ROUTING-SPEC.md` | User approved |
 
 ## Items that MUST be verified in Hour 0 (not yet confirmed)

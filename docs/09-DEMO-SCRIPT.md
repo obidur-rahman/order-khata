@@ -4,7 +4,7 @@
 Open the Space 10 minutes early (wake it). Have the backup video ready. Slider at τ = 0.85. Simulator running.
 
 ## 0:00–0:25 — Problem
-"A small Facebook-page shop gets hundreds of messages a day in Bangla, Banglish and English. The owner sorts them all by hand. Orders get buried, scams look like normal chat. Dokanbox sorts the inbox for them."
+"A small Facebook-page shop gets hundreds of messages a day in Bangla, Banglish and English. The owner sorts them all by hand. Orders get buried, scams look like normal chat. Order Khata sorts the inbox for them."
 
 ## 0:25–1:15 — Product tour (Inbox)
 - Show three lanes with live counts. "Handled for you: clear messages. Needs your eyes: the system wasn't sure, or the customer is angry. Scam alerts: never auto-handled."

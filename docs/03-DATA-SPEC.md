@@ -14,8 +14,8 @@ Secondary public data only. No user-collected data. No paid data.
 
 Do **not** use BanglaPhish-2026 (explicitly synthetic).
 
-## 2. Label mapping (D1 → Dokanbox classes)
-| Dokanbox class (key) | UI label | D1 intents |
+## 2. Label mapping (D1 → Order Khata classes)
+| Order Khata class (key) | UI label | D1 intents |
 |---|---|---|
 | `order` | Order | product_search, product_availability, order_cancel |
 | `price_question` | Price | price_inquiry, discount_offer |
@@ -48,7 +48,7 @@ Do **not** use BanglaPhish-2026 (explicitly synthetic).
 - The simulator replays further test messages every 6–10 s (configurable) with random class mix.
 - Seeds are **held-out test data**, so the live demo numbers are legitimate, but the final reported accuracy is computed offline on the full test split, not from the demo.
 
-## 6. Preparation outputs (`ml/01_load_and_map.py`)
+## 6. Preparation outputs (notebook sections 1–2)
 - `backend/data/d1_{train,val,test}.jsonl` with fields: `id, text, script, intent, cls, escalate, alt_intent`.
 - `backend/data/d2_{train,val,test}.jsonl` with: `id, text, script, is_scam`.
 - `backend/data/seed_inbox.json`.

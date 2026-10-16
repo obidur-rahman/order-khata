@@ -1,6 +1,6 @@
 # 07 — Evaluation Plan
 
-Goal: one honest, defensible set of numbers, produced by `ml/05_evaluate.py` and stored in `backend/artifacts/eval.json`.
+Goal: one honest, defensible set of numbers, produced by section 8 of `ml/notebooks/order_khata_lab.ipynb` and stored in `backend/artifacts/eval.json`.
 
 ## 1. Questions the evaluation answers
 1. How accurate is the 6-class classifier overall and per script (bn / bl / en / mx)?
@@ -23,7 +23,7 @@ Goal: one honest, defensible set of numbers, produced by `ml/05_evaluate.py` and
 | B2 | Zero-shot Groq LLM only |
 | E1 | Decision model only (calibrated) |
 | E2 | Decision model + LLM agreement rule |
-| E3 | Full Dokanbox policy (E2 + escalate + scam rule) |
+| E3 | Full Order Khata policy (E2 + escalate + scam rule) |
 | (optional) E4 | Hosted decision model (Mercury Decide / Span-01 Lite) |
 | (optional) F1 | LoRA fine-tuned small model (only if time remains) |
 

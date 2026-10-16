@@ -2,6 +2,10 @@
 
 Rule: a deployed, working, ugly version beats an unfinished beautiful one. **Deploy by hour 18, then improve.**
 
+Where this plan names an `ml/*.py` script, read it as a section of
+`ml/notebooks/order_khata_lab.ipynb`: the pipeline is implemented there and a script is
+generated from it if one is ever needed, never hand-written.
+
 ## Phase 0 — Hour 0–3: feasibility (gate)
 | Task | Pass condition |
 |---|---|

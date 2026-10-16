@@ -1,10 +1,10 @@
-# 01 — Product Requirements Document (PRD): Dokanbox
+# 01 — Product Requirements Document (PRD): Order Khata
 
 ## 1. Problem
 Small online sellers in Bangladesh run their shops through Facebook Page inboxes. A seller can receive hundreds of messages a day in Bangla, Banglish (romanized Bangla) and English. Today every message is read and sorted by hand. Order messages get buried under price questions, delivery complaints wait while the seller answers "hi", and scam attempts (fake payment claims, advance-payment fraud, phishing links) look like normal chat.
 
 ## 2. Product
-Dokanbox is a triage inbox. It reads each incoming message and:
+Order Khata is a triage inbox. It reads each incoming message and:
 1. Classifies it: **Order, Price question, Delivery, Complaint, Scam, Other**.
 2. Attaches a **calibrated confidence score** and a one-line reason.
 3. **Auto-handles** clear messages; routes **unsure, conflicting, angry or scam-like** messages to a **human review queue** rather than guessing.

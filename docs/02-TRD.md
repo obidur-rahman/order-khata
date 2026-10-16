@@ -1,4 +1,4 @@
-# 02 — Technical Requirements Document (TRD): Dokanbox
+# 02 — Technical Requirements Document (TRD): Order Khata
 
 ## 1. Architecture
 ```
@@ -21,17 +21,17 @@ Everything is one deployable. No separate frontend host, no external DB.
 | Layer | Choice | Notes |
 |---|---|---|
 | Frontend | Next.js (App Router) with `output: 'export'`, TypeScript, Tailwind CSS | Static export only: no SSR, no server actions, no `next/image` optimizer (`images.unoptimized: true`) |
-| Fonts | Plus Jakarta Sans (display), Inter (body), Noto Sans Bengali | Loaded via `next/font` at build time |
+| Fonts | Bricolage Grotesque (display), Inter (body), IBM Plex Mono (labels), Noto Sans Bengali | Loaded via `next/font` at build time |
 | Backend | Python 3.11, FastAPI, Uvicorn | |
 | Model runtime | PyTorch CPU + `transformers` / the Laya package | Weights downloaded from HF Hub on first boot, cached |
 | Baselines | scikit-learn (TF-IDF char n-grams + logistic regression) | Also used as the scam head |
-| DB | SQLite via SQLModel (or plain `sqlite3`) | File at `/data/dokanbox.db`; ephemeral on free Spaces, re-seeded at startup |
+| DB | SQLite via SQLModel (or plain `sqlite3`) | File at `/data/order_khata.db`; ephemeral on free Spaces, re-seeded at startup |
 | Second signal | Groq chat-completions API (JSON output) | Key `GROQ_API_KEY` as Space secret. Fallback: Gemini free tier (`GEMINI_API_KEY`) |
 | Hosting | Hugging Face Space, SDK: Docker | `app_port: 7860` |
 
 ## 3. Repository layout
 ```
-dokanbox/
+order_khata/
 ├── AGENTS.md
 ├── docs/                      # these documents
 ├── backend/
@@ -53,18 +53,22 @@ dokanbox/
 │   ├── data/                  # prepared splits (parquet/jsonl), seed inbox json
 │   ├── artifacts/             # calibration params, scam model, eval results json
 │   └── requirements.txt
-├── ml/                        # offline scripts (not shipped in the Space image unless needed)
-│   ├── 01_load_and_map.py
-│   ├── 02_hour0_bakeoff.py
-│   ├── 03_calibrate.py
-│   ├── 04_train_scam_head.py
-│   ├── 05_evaluate.py         # writes backend/artifacts/eval.json
-│   └── 06_build_seed_inbox.py
+├── ml/                        # offline work (not shipped in the Space image)
+│   ├── notebooks/
+│   │   └── order_khata_lab.ipynb   # THE pipeline: `Restart & Run All` re-derives every
+│   │                               # artifact under backend/ — load+map D1, baseline,
+│   │                               # Laya gate, escalate head, scam head, calibration,
+│   │                               # evaluation, export contract (see docs/03 §6)
+│   └── artifacts/             # gitignored: LLM answer cache, figures
 ├── frontend/
-│   ├── app/                   # routes: /, /inbox, /try, /dashboard, /evaluation
+│   ├── app/                   # routes: /, /inbox, /try, /dashboard, /evaluation,
+│   │                          # /preferences
 │   ├── components/
 │   ├── lib/                   # api client, routing recompute (route.ts), types,
-│   │                          # brand/hooks/store helpers,
+│   │                          # brand/hooks/store helpers, prefs.ts (theme +
+│   │                          # language), prefKeys.ts (their storage keys,
+│   │                          # shared with the pre-paint script), i18n.ts
+│   │                          # (interface strings),
 │   │                          # parity_runner.ts (feeds fixtures to the parity test)
 │   └── next.config.mjs
 ├── tests/                     # pytest suite; fixtures/route_cases.json is fed
@@ -73,6 +77,14 @@ dokanbox/
 ├── Dockerfile
 └── README.md                  # HF Space front matter lives here
 ```
+
+There is no `ml/pipeline.py` yet. If a runnable script is ever needed it is **generated**
+from the notebook (`jupyter nbconvert --to script ml/notebooks/order_khata_lab.ipynb
+--output-dir ml`), never hand-written: the routing policy already exists twice (Python and
+`frontend/lib/route.ts`) and is parity-tested, so a third hand-made copy would drift
+silently. The notebook's own inlined copies of `config.py` / `router.py` / `text.py` /
+`calibrate.py` / `decision.aggregate_intents` / `llm.py` are extracted back into those
+files as part of the port (notebook section 11).
 
 ## 4. Request flow (classify)
 1. `POST /api/messages` with `{text, conversation_id?, sender_name?}`.

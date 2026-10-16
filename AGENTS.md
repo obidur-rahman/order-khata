@@ -1,13 +1,13 @@
 # AGENTS.md — rules for the coding harness (OpenCode)
 
-You are building **Dokanbox**, a 48-hour hackathon project. Read `docs/00-README.md` first, then the doc relevant to your task. The docs are the source of truth; if code and docs disagree, ask or update the doc in the same change.
+You are building **Order Khata**, a 48-hour hackathon project. Read `docs/00-README.md` first, then the doc relevant to your task. The docs are the source of truth; if code and docs disagree, ask or update the doc in the same change.
 
 ## Hard constraints
 - **$0.** No paid API, no paid hosting. Everything runs in one free Hugging Face Space (Docker, port 7860).
 - Frontend: Next.js with `output: 'export'` (static). **No SSR, no server actions, no route handlers, no `next/image` optimization.** Tailwind. TypeScript.
 - Backend: FastAPI (Python 3.11). SQLite. One container serves the API and the static frontend.
 - Never put API keys in code, logs, or the frontend. Use environment variables / Space secrets.
-- Light mode only. Follow `docs/06-UI-BRAND-SPEC.md` tokens exactly.
+- Light and dark, visitor-selected (a class on `<html>` + the tokens in `docs/06` §2). Every colour must come from a token, never a literal in a component — one palette, two themes. Interface language is Bangla or English, chosen by the visitor (`docs/06` §4.6).
 
 ## Honesty rules (do not violate in UI copy or docs)
 - Never call the data "real Facebook seller messages". Say "public Bangla e-commerce customer-message corpus" and "simulated Page inbox".

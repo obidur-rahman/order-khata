@@ -1,5 +1,5 @@
 ---
-title: Dokanbox
+title: Order Khata
 emoji: 📬
 colorFrom: yellow
 colorTo: black
@@ -8,11 +8,11 @@ app_port: 7860
 pinned: false
 ---
 
-# Dokanbox
+# Order Khata
 
 **Your shop's inbox, sorted.**
 
-Dokanbox reads every customer message sent to a small online shop in **Bangla,
+Order Khata reads every customer message sent to a small online shop in **Bangla,
 Banglish or English**, sorts it into **Order / Price / Delivery / Complaint /
 Scam / Other** with a calibrated confidence score, auto-handles the clear ones,
 and sends the unsure, conflicting or scam-like ones to a **human review queue**
@@ -100,7 +100,7 @@ win — on the Space these come from Space secrets):
 | `GROQ_MODELS` | optional | Model candidates in preference order (default: `qwen/qwen3.8-27b,openai/gpt-oss-20b`). A removed model falls through to the next. |
 | `GEMINI_API_KEY` | optional | Fallback second signal after all Groq entries fail. |
 | `HF_TOKEN` | optional | Hugging Face token for model downloads (server-side only). |
-| `DOKANBOX_DB` | optional | SQLite path (default `backend/data/dokanbox.db`; ephemeral, re-seeded at boot). |
+| `ORDER_KHATA_DB` | optional | SQLite path (default `backend/data/order_khata.db`; ephemeral, re-seeded at boot). |
 
 With no keys configured the app runs in **degraded mode**: decision-model-only,
 stricter confidence threshold, visible banner. This is a supported mode, not a
@@ -123,7 +123,7 @@ That coverage/accuracy dial is the product.
 This repo's root front matter already declares `sdk: docker`, `app_port: 7860`.
 The multi-stage Dockerfile (Node builds `frontend/out` → Python slim serves it)
 ships with Phase 2 of `docs/08-BUILD-PLAN.md` — until then the local Quick start
-above is the way to run Dokanbox, and Space secrets (`GROQ_API_KEYS`, etc.)
+above is the way to run Order Khata, and Space secrets (`GROQ_API_KEYS`, etc.)
 go under *Settings → Secrets* whenever the container lands.
 
 ## Data & honesty
@@ -134,7 +134,7 @@ go under *Settings → Secrets* whenever the container lands.
 - The inbox in this demo is **simulated**; there is no live Facebook/Meta
   integration (that needs app review — it is the planned next step).
 - The corpus is largely machine-generated; the Evaluation page states every
-  limitation and shows real numbers only after `ml/05_evaluate.py` runs.
+  limitation and shows real numbers only after the notebook's evaluation section runs.
 - The data is **not** real Facebook seller messages.
 
 ## Repo layout
