@@ -38,12 +38,13 @@ export const metadata: Metadata = {
 };
 
 /** Apply the saved language and theme before the first paint. Without this
- *  the page flashes light English for a moment on every load.
+ *  the page flashes the default (dark) theme for a moment on every load, and
+ *  a light choice would be visibly overridden.
  *  Runs before React exists, so it is a plain string; the keys come from
  *  lib/prefKeys.ts so the names cannot drift from lib/prefs.ts. */
 const NO_FLASH = `(function(){try{var d=document.documentElement,s=localStorage;
 var th=s.getItem(${JSON.stringify(THEME_KEY)}),lg=s.getItem(${JSON.stringify(LANG_KEY)});
-if(th==="dark")d.classList.add("dark");d.style.colorScheme=th==="dark"?"dark":"light";
+if(th!=="light")d.classList.add("dark");d.style.colorScheme=th==="light"?"light":"dark";
 if(lg==="bn")d.lang="bn";}catch(e){}})();`;
 
 export default function RootLayout({

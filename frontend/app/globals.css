@@ -263,15 +263,9 @@ body {
   display: block;
 }
 
-/* Translucent chrome (docs/06 §6): content scrolls under the bar and the
-   edge fades instead of a hard divider being drawn. `.material` is the fill
-   that fades in on the landing after scroll; `.material-50` is the constant
-   half-transparent fill the app screens keep (user brief, docs/06 §4.1). */
-.material {
-  background: color-mix(in oklab, var(--paper) 72%, transparent);
-  backdrop-filter: blur(20px) saturate(170%);
-  -webkit-backdrop-filter: blur(20px) saturate(170%);
-}
+/* Translucent chrome (docs/06 §6): the bar is transparent at the top of the
+   page and fades in a half-transparent fill once content scrolls under it,
+   so the content behind it fades out instead of hitting a hard divider. */
 .material-50 {
   background: color-mix(in oklab, var(--paper) 50%, transparent);
   backdrop-filter: blur(20px) saturate(170%);
@@ -551,7 +545,6 @@ main {
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .material,
   .material-50 {
     background: var(--paper) !important;
     backdrop-filter: none !important;

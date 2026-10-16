@@ -195,12 +195,10 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
     "স্ক্যাম ডেটা SMS-ধাঁচের, দোকানের চ্যাট নয়।",
   ),
 
-  /* ── closing call to action + footer ──────────────────────────────── */
-  "cta.kicker": S("the risky decisions stay with you", "ঝুঁকির সিদ্ধান্ত আপনার কাছেই থাকে"),
-  "cta.try": S("Classify your own message", "নিজের মেসেজ যাচাই করুন"),
+  /* ── footer ───────────────────────────────────────────────────────── */
   "footer.blurb": S(
-    "A triage inbox for small online shops in Bangladesh. Built in 48 hours: Next.js static export and FastAPI in one free Hugging Face Space.",
-    "বাংলাদেশের ছোট অনলাইন দোকানের জন্য একটি ইনবক্স। ৪৮ ঘণ্টায় বানানো: Next.js স্ট্যাটিক এক্সপোর্ট আর FastAPI, একটি ফ্রি Hugging Face Space-এ।",
+    "A triage inbox for small online shops in Bangladesh.",
+    "বাংলাদেশের ছোট অনলাইন দোকানের জন্য একটি ইনবক্স।",
   ),
   "footer.product": S("product", "প্রোডাক্ট"),
   "footer.proof": S("proof", "প্রমাণ"),

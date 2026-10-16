@@ -38,8 +38,9 @@ export function loadLang(): Lang {
   return read(LANG_KEY) === "bn" ? "bn" : "en";
 }
 
+/** The visitor's choice wins; dark is the default when nothing is saved. */
 export function loadTheme(): Theme {
-  return read(THEME_KEY) === "dark" ? "dark" : "light";
+  return read(THEME_KEY) === "light" ? "light" : "dark";
 }
 
 export function applyPrefs(lang: Lang, theme: Theme): void {
@@ -74,11 +75,12 @@ export interface Prefs {
   t: (key: string) => string;
 }
 
-/** Reactive preferences. Renders English/light first (same as the server
- *  markup) and syncs from storage on mount, so hydration never mismatches. */
+/** Reactive preferences. Renders the defaults (English, dark — the same as the
+ *  server markup and the pre-paint script) and syncs from storage on mount, so
+ *  hydration never mismatches. */
 export function usePrefs(): Prefs {
   const [lang, setLangState] = useState<Lang>("en");
-  const [theme, setThemeState] = useState<Theme>("light");
+  const [theme, setThemeState] = useState<Theme>("dark");
 
   useEffect(() => {
     const sync = () => {

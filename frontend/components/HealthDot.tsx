@@ -5,6 +5,9 @@ import type { HealthResponse } from "@/lib/types";
 import { AlertIcon } from "./icons";
 
 export function HealthDot({ health }: { health: HealthResponse | null }) {
+  // The healthy state is the dot alone: the word "ready" sat in the bar and
+  // said nothing a filled dot does not. A warning still carries its text
+  // (docs/06 §7: colour is never the only signal).
   if (!health || !health.model_loaded) {
     return (
       <span className="label inline-flex items-center gap-1.5 text-muted" title="Warming up">
@@ -14,16 +17,26 @@ export function HealthDot({ health }: { health: HealthResponse | null }) {
     );
   }
   const degraded = health.llm_status !== "ok";
-  const color = degraded ? "var(--lane-scam)" : "var(--color-ink)";
-  const text = degraded ? "second signal unavailable" : "all engines ready";
+  if (!degraded) {
+    return (
+      <span
+        className="inline-flex items-center"
+        title={`${health.version} · all engines ready`}
+        aria-label="All engines ready"
+        role="status"
+      >
+        <span className="inline-block h-2 w-2 rounded-full" style={{ background: "var(--color-ink)" }} aria-hidden />
+      </span>
+    );
+  }
   return (
     <span
       className="label inline-flex items-center gap-1.5"
-      style={{ color }}
-      title={`${health.version} · ${text}`}
+      style={{ color: "var(--lane-scam)" }}
+      title={`${health.version} · second signal unavailable`}
     >
-      <span className="inline-block h-2 w-2 rounded-full" style={{ background: color }} aria-hidden />
-      {degraded ? "degraded" : "ready"}
+      <span className="inline-block h-2 w-2 rounded-full" style={{ background: "var(--lane-scam)" }} aria-hidden />
+      degraded
     </span>
   );
 }

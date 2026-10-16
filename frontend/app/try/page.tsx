@@ -82,7 +82,6 @@ export default function TryPage() {
           value={tau}
           min={config?.tau_min ?? 0.5}
           max={config?.tau_max ?? 0.99}
-          counts={{ auto: 0, review: 0, scam: 0 }}
           onChange={onTau}
         />
       </AppBar>

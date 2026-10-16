@@ -33,7 +33,7 @@ export function LaneTabs({
 }) {
   const { t } = usePrefs();
   return (
-    <div className="flex gap-1.5 overflow-x-auto" role="tablist" aria-label="Lanes">
+    <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Lanes">
       {TABS.map((tab) => {
         const isActive = active === tab.key;
         return (

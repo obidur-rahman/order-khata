@@ -1,12 +1,13 @@
 "use client";
 /** The one top bar, shared by the landing and the app screens (docs/06 §4.2).
  *
- * Surface (user brief): on the landing the bar is fully transparent over the
- * hero and the material fill fades in only after the visitor scrolls; every
- * other screen keeps a constant 50%-transparent fill. The section links sit
- * centred in the bar's own axis on desktop, and in a centred row underneath
- * on mobile. The segmented control carries no background either: the active
- * item is an accent wash, never an ink (black) pill.
+ * Surface (user brief): the bar is fully transparent at the top on every
+ * screen and picks up a 50%-transparent material fill only once the page has
+ * scrolled under it. The section links sit centred in the bar's own axis on
+ * desktop, and in a centred row underneath on mobile; the segmented control
+ * carries no background either: the active item is an accent wash, never an
+ * ink (black) pill. Wide tools (the threshold slider) get their own row below
+ * the bar so they cannot run into the centred links.
  */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -75,7 +76,6 @@ export function TopBar({
   children?: React.ReactNode;
   trailing?: React.ReactNode;
 }) {
-  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -84,13 +84,10 @@ export function TopBar({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isLanding = pathname === "/";
-  const surface = isLanding
-    ? scrolled
-      ? "material"
-      : "bg-transparent"
-    : "material-50";
-  const showEdge = isLanding ? scrolled : true;
+  // The bar is a frame, not a panel: transparent at the top of every screen,
+  // and only picks up the half-transparent material once the page has scrolled
+  // under it (user brief, docs/06 §4.1 + §6).
+  const surface = scrolled ? "material-50" : "bg-transparent";
 
   return (
     <header className={`sticky top-0 z-30 transition-colors duration-300 ${surface}`}>
@@ -105,21 +102,30 @@ export function TopBar({
           <NavLinks />
         </div>
 
-        <div className="ml-auto flex flex-wrap items-center justify-end gap-3">
-          {children}
+        <div className="ml-auto flex items-center gap-3">
           <PrefsControls />
           {trailing}
         </div>
       </div>
 
-      {/* mobile: the links get their own centred row under the bar */}
-      <div className="mx-auto flex max-w-[1400px] justify-center overflow-x-auto px-4 pb-2 lg:hidden">
-        <NavLinks />
+      {/* mobile: the links get their own centred row under the bar. They wrap
+          onto as many lines as they need — five labels do not fit one 390px
+          row, and a scroll area nobody notices is a worse answer than a
+          second line. */}
+      <div className="mx-auto max-w-[1400px] px-4 pb-2 lg:hidden">
+        <NavLinks className="w-full flex-wrap justify-center rounded-2xl" />
       </div>
+
+      {/* Wide tools (the threshold slider) get their own row instead of the
+          corner: the section links are centred on the bar's own axis, so a
+          wide control in the top row runs straight into them. */}
+      {children && (
+        <div className="mx-auto flex max-w-[1400px] justify-end px-4 pb-2 sm:px-6">{children}</div>
+      )}
 
       {/* scroll edge: only while the bar has a fill; the content behind it
           fades out instead of hitting a hard 1px divider (docs/06 §6) */}
-      {showEdge && (
+      {scrolled && (
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-full h-4"

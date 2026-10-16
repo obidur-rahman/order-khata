@@ -118,7 +118,7 @@ export default function EvaluationPage() {
             <span className="text-ink">
               <strong className="font-semibold">Not yet evaluated.</strong>{" "}
               <span className="text-muted">
-                The notebook's evaluation section has not been run. The values below are
+                The notebook&apos;s evaluation section has not been run. The values below are
                 zero placeholders, not results.
               </span>
             </span>
@@ -148,6 +148,18 @@ export default function EvaluationPage() {
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h2 className="label text-muted">Coverage vs accuracy</h2>
                 <span className="index text-[10px] text-muted">τ {tau.toFixed(2)} marked</span>
+              </div>
+              {/* legend lives in the markup, not inside the plot: drawn in the
+                  SVG it sat on top of the curves (user brief) */}
+              <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-muted">
+                <span className="label flex items-center gap-2">
+                  <span className="w-4 border-t-2 border-ink" aria-hidden />
+                  coverage (auto %)
+                </span>
+                <span className="label flex items-center gap-2">
+                  <span className="w-4 border-t-2 border-dashed border-accent" aria-hidden />
+                  auto accuracy
+                </span>
               </div>
               <div className="mt-4">
                 <CoverageCurve curve={e.coverage_curve ?? []} tau={tau} />

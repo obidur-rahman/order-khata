@@ -25,7 +25,7 @@ export function CoverageCurve({
   if (!curve.length) {
     return (
       <div className="flex h-56 items-center justify-center rounded-2xl border border-dashed border-line bg-surface/50 font-mono text-[11px] uppercase tracking-[0.1em] text-muted">
-        Coverage curve appears after the notebook's evaluation section runs.
+        Coverage curve appears after the notebook&apos;s evaluation section runs.
       </div>
     );
   }
@@ -62,13 +62,6 @@ export function CoverageCurve({
       <text x={markerX} y={10} textAnchor="middle" fontSize="10" fontFamily={MONO} fontWeight="500" fill="var(--color-accent)">
         τ {tau.toFixed(2)}
       </text>
-
-      <g fontSize="10" fontFamily={MONO} fill="var(--color-muted)">
-        <rect x={PAD.l + 8} y={PAD.t + 4} width="14" height="2" fill="var(--color-ink)" />
-        <text x={PAD.l + 28} y={PAD.t + 8}>coverage (auto %)</text>
-        <rect x={PAD.l + 8} y={PAD.t + 18} width="14" height="2" fill="var(--color-accent)" />
-        <text x={PAD.l + 28} y={PAD.t + 22}>auto accuracy</text>
-      </g>
     </svg>
   );
 }

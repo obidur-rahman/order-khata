@@ -15,7 +15,8 @@ export function ThresholdSlider({
   value: number;
   min: number;
   max: number;
-  counts: Record<Lane, number>;
+  /** Live lane counters. Omitted where they mean nothing (Try It). */
+  counts?: Record<Lane, number>;
   onChange: (v: number) => void;
 }) {
   const { t } = usePrefs();
@@ -36,19 +37,21 @@ export function ThresholdSlider({
         aria-valuetext={`${value.toFixed(2)}`}
       />
       <span className="tnum w-9 text-sm text-ink">{value.toFixed(2)}</span>
-      <span className="hidden items-center gap-2 font-mono text-[10px] uppercase tracking-[0.08em] md:flex" aria-live="polite">
-        <span style={{ color: LANE_META.auto.deep }}>
-          {counts.auto} {t("lane.auto.short")}
+      {counts && (
+        <span className="hidden items-center gap-2 font-mono text-[10px] uppercase tracking-[0.08em] md:flex" aria-live="polite">
+          <span style={{ color: LANE_META.auto.deep }}>
+            {counts.auto} {t("lane.auto.short")}
+          </span>
+          <span className="text-line">/</span>
+          <span style={{ color: LANE_META.review.deep }}>
+            {counts.review} {t("lane.review.short")}
+          </span>
+          <span className="text-line">/</span>
+          <span style={{ color: LANE_META.scam.deep }}>
+            {counts.scam} {t("lane.scam.short")}
+          </span>
         </span>
-        <span className="text-line">/</span>
-        <span style={{ color: LANE_META.review.deep }}>
-          {counts.review} {t("lane.review.short")}
-        </span>
-        <span className="text-line">/</span>
-        <span style={{ color: LANE_META.scam.deep }}>
-          {counts.scam} {t("lane.scam.short")}
-        </span>
-      </span>
+      )}
     </div>
   );
 }
