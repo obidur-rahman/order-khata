@@ -22,11 +22,11 @@ export function ErrorScreen({
           This page is a static shell. The inbox lives in the API.
         </p>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          Every number and message is served by the FastAPI backend on this same origin. Start
-          it (or wait for the free Space to finish booting), then retry.
+          Every number and message comes from the FastAPI backend. Start it (or wait for the
+          free Space to finish booting), then retry.
         </p>
         <p className="mt-4 rounded-xl border border-line bg-paper px-3.5 py-2 font-mono text-[12px] text-ink">
-          python -m uvicorn app.main:app --port 7860
+          cd backend && python -m uvicorn app.main:app --port 7860
         </p>
         {detail && (
           <p className="mt-3 font-mono text-[10.5px] tracking-[0.1em] text-muted uppercase">

@@ -43,15 +43,15 @@ order_khata/
 │   │   ├── text.py            # normalization + script detection (bn/bl/en/mx)
 │   │   ├── pipeline.py        # classify orchestration: engines → calibration → router
 │   │   ├── engines/
-│   │   │   ├── decision.py    # Laya wrapper → 15-intent probs → 6-class probs
-│   │   │   ├── scam.py        # scam probability
+│   │   │   ├── decision.py    # 15-intent probs → 5-class probs, + calibrated escalate head
+│   │   │   ├── scam.py        # scam probability (artifact-backed; no keyword fallback)
 │   │   │   ├── llm.py         # Groq/Gemini second signal + cache + fallback
 │   │   │   └── calibrate.py   # temperature scaling
 │   │   ├── router.py          # routing policy
 │   │   ├── simulator.py       # background replay
 │   │   └── api/               # route modules (messages, inbox, misc)
 │   ├── data/                  # prepared splits (parquet/jsonl), seed inbox json
-│   ├── artifacts/             # calibration params, scam model, eval results json
+│   ├── artifacts/             # calibration params, decision/escalate/scam joblib, eval results json
 │   └── requirements.txt
 ├── ml/                        # offline work (not shipped in the Space image)
 │   ├── notebooks/

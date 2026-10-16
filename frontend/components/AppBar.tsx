@@ -1,13 +1,16 @@
 "use client";
 /** The one top bar, shared by the landing and the app screens (docs/06 §4.2).
  *
- * Apple-style chrome: the bar is a translucent material, content scrolls
- * under it, and the bottom edge fades instead of drawing a divider. The
- * section links are a segmented control; language and appearance are a
- * second one, so both switches are one tap away on every screen.
+ * Surface (user brief): on the landing the bar is fully transparent over the
+ * hero and the material fill fades in only after the visitor scrolls; every
+ * other screen keeps a constant 50%-transparent fill. The section links sit
+ * centred in the bar's own axis on desktop, and in a centred row underneath
+ * on mobile. The segmented control carries no background either: the active
+ * item is an accent wash, never an ink (black) pill.
  */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { useHealth } from "@/lib/hooks";
 import { usePrefs } from "@/lib/prefs";
@@ -72,34 +75,60 @@ export function TopBar({
   children?: React.ReactNode;
   trailing?: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const isLanding = pathname === "/";
+  const surface = isLanding
+    ? scrolled
+      ? "material"
+      : "bg-transparent"
+    : "material-50";
+  const showEdge = isLanding ? scrolled : true;
+
   return (
-    <header className="material sticky top-0 z-30">
-      <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 sm:px-6">
+    <header className={`sticky top-0 z-30 transition-colors duration-300 ${surface}`}>
+      <div className="relative mx-auto flex max-w-[1400px] items-center gap-x-4 px-4 py-3 sm:px-6">
         <Link href="/" aria-label="Order Khata home" className="shrink-0">
           <Logo size={24} />
         </Link>
 
-        <NavLinks className="hidden lg:inline-flex" />
+        {/* centred section links: pinned to the bar's own horizontal centre,
+            so the nav is symmetric regardless of logo/control widths */}
+        <div className="absolute inset-y-0 left-1/2 hidden -translate-x-1/2 items-center lg:flex">
+          <NavLinks />
+        </div>
 
-        <div className="ml-auto flex items-center gap-3">
+        <div className="ml-auto flex flex-wrap items-center justify-end gap-3">
           {children}
           <PrefsControls />
           {trailing}
         </div>
-
-        <NavLinks className="-mx-1 order-last w-full overflow-x-auto lg:hidden" />
       </div>
 
-      {/* scroll edge: the content behind the bar fades out instead of hitting
-          a hard 1px divider (docs/06 §6) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-full h-4"
-        style={{
-          background:
-            "linear-gradient(to bottom, color-mix(in oklab, var(--paper) 55%, transparent), transparent)",
-        }}
-      />
+      {/* mobile: the links get their own centred row under the bar */}
+      <div className="mx-auto flex max-w-[1400px] justify-center overflow-x-auto px-4 pb-2 lg:hidden">
+        <NavLinks />
+      </div>
+
+      {/* scroll edge: only while the bar has a fill; the content behind it
+          fades out instead of hitting a hard 1px divider (docs/06 §6) */}
+      {showEdge && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-full h-4"
+          style={{
+            background:
+              "linear-gradient(to bottom, color-mix(in oklab, var(--paper) 55%, transparent), transparent)",
+          }}
+        />
+      )}
     </header>
   );
 }

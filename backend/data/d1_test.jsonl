@@ -1,0 +1,806 @@
+{"id": "test-0", "text": "ok ok ok ok?", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-1", "text": "অনেকদিন অপেক্ষা করছি, ভালো ঘড়ি সাজেস্ট করুন", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-2", "text": "human plase", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-3", "text": "Headphone kinte chai", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-4", "text": "আমি গত সপ্তাহে আপনাদের থেকে অর্ডার করেছিলাম আর পেমেন্ট কনফার্মেশন এসএমএস পাইনি", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-5", "text": "headphone kinte chai", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-6", "text": "i dont want to keep ths, take it back", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-7", "text": "একটু রংপুর এ ডেলিভারি দেন কি একটু", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-8", "text": "খালি আছে ভাই", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-9", "text": "একটু ভালো ঘড়ি সাজেস্ট করুন দয়া করে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-10", "text": "একদিনেই নষ্ট হয়ে গেছে জিনিসটা আপু", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-11", "text": "goodnight then", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-12", "text": "cannot open the payment option", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-13", "text": "How much though", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-14", "text": "শুনেন প্রোমো কোড কিভাবে ব্যবহার করবো প্লিজ", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-15", "text": "darun shohojogita dhonnobad??", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-16", "text": "t-shirt কিনতে chai", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-17", "text": "error", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "complaint"}
+{"id": "test-18", "text": "আপনাদের কাছে কি কি প্রোডাক্ট আছে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-19", "text": "many thanksh", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-20", "text": "পেমেন্ট কনফার্মেশন এসএমএস পাইনি", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-21", "text": "আচ্ছা চাই না", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-22", "text": "আচ্ছা আপনাদের কাছে কি কি প্রোডাক্ট আছে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-23", "text": "withdraw my order", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-24", "text": "প্রোমো কোড কিভাবে ব্যবহার করবো প্লিজ", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-25", "text": "hey what are your return rules sir", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-26", "text": "শুনেন কোথায়", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-27", "text": "cancel kora shombhob ki এখন", "script": "mx", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-28", "text": "সব মিলিয়ে কত হবে", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-29", "text": "ছাত্রদের জন্য ছাড় আছে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-30", "text": "thik ache rkhi", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-31", "text": "mobile dorkr", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-32", "text": "so how much advance is needed sir", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-33", "text": "human please", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-34", "text": "ডেলিভারি চার্জ কত", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-35", "text": "আচ্ছা স্টেটাস আপডেট দেন প্লিজ", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-36", "text": "do you stock this design anymore", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-37", "text": "ছাত্রদের জন্য ছাড় আছে প্লিজ", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-38", "text": "take my order off the list", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-39", "text": "do you ship to brisal", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-40", "text": "rocket e payment fail korche??", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-41", "text": "amar size e paboto", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-42", "text": "পাঠাবেন না আর .", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-43", "text": "dlivery er age call diben to", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-44", "text": "বিরক্ত করার জন্য দুঃখিত কিন্তু কেউ ফোন ধরে না", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-45", "text": "thanksh", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-46", "text": "do you ship to barisal", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-47", "text": "Thanks for the help", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-48", "text": "রিফান্ড প্রসেস কি", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-49", "text": "excuse me did not receive the payment confirmation sms sir", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-50", "text": "Many thanks", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-51", "text": "ttyl", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-52", "text": "has my thing been disptched", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-53", "text": "bkash e payment fail korche reply diben please", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-54", "text": "ছাত্রদের জন্য ছাড় আছে ভাই", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-55", "text": "shob kichu vul pathiychen", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "test-56", "text": "প্রোমো কোড কিভাবে ব্যবহার করবো", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-57", "text": "Has my order shipped", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-58", "text": "প্রোমো কোড কিভাবে ব্যবহার করবো আগেই ধন্যবাদ", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "thanks"}
+{"id": "test-59", "text": "ok ok ok ok", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "thanks"}
+{"id": "test-60", "text": "আরেকটু কম রাখা যায় না .", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-61", "text": "Courier", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-62", "text": "What are your return rules", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-63", "text": "cancel kora shombhob ki ekhon", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-64", "text": "how do i courier it back to you??", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-65", "text": "একটু ৭ দিনে পৌঁছাবে কি আপু", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-66", "text": "shobcheye kom dami kunta agei dhonnobad", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "product_search"}
+{"id": "test-67", "text": "bodol", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-68", "text": "vaiya achen", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "test-69", "text": "return requst kivabe dibo", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-70", "text": "thanks shobbujhe gechi", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-71", "text": "I dont want to keep this, take it back", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-72", "text": "will you reshtock this", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-73", "text": "থ্যাংকস একটু", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-74", "text": "শুনেন ভালো শাড়ি সাজেস্ট করুন", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-75", "text": "justtesting", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-76", "text": "laptop kinte chai", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-77", "text": "nobody replies to anything?", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-78", "text": "Parcel hate peye taka dibo", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "payment_issue"}
+{"id": "test-79", "text": "কেউ আমাকে কল দিতে বলেন??", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-80", "text": "শুনেন ফ্রি ডেলিভারির কোনো অফার আছে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-81", "text": "errr", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-82", "text": "english shekhau amake", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-83", "text": "shunen prodhanmontri ke plz", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-84", "text": "the product quality is verybad", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "test-85", "text": "aj pabu ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-86", "text": "ভাই পেমেন্ট কনফার্মেশন এসএমএস পাইনি", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-87", "text": "nobody replies toanything", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-88", "text": "escalate this to a person", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-89", "text": "rockete payment fail korche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-90", "text": "প্রোমো কোড কিভাবে ব্যবহার করবো??", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-91", "text": "আছে কি??", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-92", "text": "laptop knte chai", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-93", "text": "so hello please", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-94", "text": "অর্ডারটা বাদ দিন?", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-95", "text": "ghri dorkar", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-96", "text": "whatis your hotline number", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-97", "text": "callden", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-98", "text": "good night then", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-99", "text": "shub khoroch miliye koto", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-100", "text": "ami last week apnader theke order korechilam ar thik ache rakhi", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-101", "text": "karo সাথে soroshori kotha bolte চাই", "script": "mx", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-102", "text": "do you habe loyalty points", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-103", "text": "otp is not coming so i cannot pay", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "test-104", "text": "how many are left in stock", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-105", "text": "Shob khoroch miliye koto", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-106", "text": "ট্রেনের টিকিট কিভাবে কাটবো একটু", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-107", "text": "আজকের মতো রাখি ভাই", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-108", "text": "Do you stock this design anymore", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-109", "text": "eid er jonno notun kichu ache??", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-110", "text": "t-shirt kinte চাই", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-111", "text": "ভাই থ্যাংকস প্লিজ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-112", "text": "এখন যেতে হবে??", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-113", "text": "thanks", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-114", "text": "একদিনেই নষ্ট হয়ে গেছে জিনিসটা?", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "test-115", "text": "excuse me the package arrived torn asap", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "test-116", "text": "kurti dorkar??", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-117", "text": "birokto korar jonno sorry kintu shob kichu vul pathiyechen", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "test-118", "text": "রংপুর এ ডেলিভারি দেন কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-119", "text": "is there any dishcount", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-120", "text": "so do you deliver nationwide bro", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-121", "text": "do you have loyalty points", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-122", "text": "শুনেন প্যাকেট খুলিনি ফেরত নিবেন কি দয়া করে", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-123", "text": "ami ei dokan niye khub birokto ektu", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "test-124", "text": "Tinta nile koto rakhben", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-125", "text": "লাইভ এজেন্ট দরকার", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-126", "text": "Tumi ki biye korecho", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-127", "text": "kritoggota jani", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-128", "text": "headphone kinte চাই", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-129", "text": "i ordered from you last week and how much though", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-130", "text": "এটা ki এখন pawa jabe", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-131", "text": "is my ordr being processed", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-132", "text": "চট্টগ্রাম এ ডেলিভারি দেন কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-133", "text": "আমি গত সপ্তাহে আপনাদের থেকে অর্ডার করেছিলাম আর আপনি বট হলে মানুষ ডাকুন", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": "order_status"}
+{"id": "test-134", "text": "did not rceive the payment confirmation sms", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-135", "text": "শুনেন পাবো ভাই", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-136", "text": "hellu", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-137", "text": "শুনেন ২ দিনে পৌঁছাবে কি আপু", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-138", "text": "eta কি available", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-139", "text": "apnader service valo laglu", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-140", "text": "একটু বাচ্চাদের জন্য কিছু আছে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-141", "text": "many thanks", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-142", "text": "the packge arrived torn", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-143", "text": "৭ দিনে পৌঁছাবে কি .", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-144", "text": "ektu order confirm hoyeche ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-145", "text": "accha offer ektu", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-146", "text": "Available in red", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-147", "text": "do you ship to khulna??", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-148", "text": "আচ্ছা ৭ দিনে পৌঁছাবে কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-149", "text": "শুনেন কত টাকা পড়বে মোট একটু", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-150", "text": "এই প্রোডাক্ট পুরো বাজে টাকা নষ্ট??", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-151", "text": "পাঠাবেন না আর ভাই", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-152", "text": "Bot na manush chai", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-153", "text": "Withdraw my order", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-154", "text": "karo sate soroshori kotha bolte chai", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-155", "text": "do you ship to sylhet", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-156", "text": "chai na", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-157", "text": "mana jay na?", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-158", "text": "payment hocchena", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-159", "text": "cannt open the payment option", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-160", "text": "english shekhao amake", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-161", "text": "shuvo sokal .", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-162", "text": "ছবির সাথে মিল নেই .", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-163", "text": "টাকাটা ফেরত পাওয়া যাবে তো??", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-164", "text": "do you deliver on fridais", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-165", "text": "code", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-166", "text": "onek din opekkha korchi, rakhi", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-167", "text": "error .", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 1, "alt_intent": "complaint"}
+{"id": "test-168", "text": "Shesh", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-169", "text": "taka fert dile khushi hobo", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-170", "text": "shub kichu vul pathiyechen", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-171", "text": "Shobcheye kom dami kunta", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "product_search"}
+{"id": "test-172", "text": "koto takaporbe mot", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-173", "text": "শুনেন এই প্রোডাক্ট পুরো বাজে টাকা নষ্ট প্লিজ", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "test-174", "text": "এখনো অপেক্ষা করছি জিনিসটা কোথায়?", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-175", "text": "রিফান্ড প্রসেস কি .", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-176", "text": "কাল আবার আসবো", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-177", "text": "আপনাদের service valo laglo", "script": "mx", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-178", "text": "total cost all in", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-179", "text": "delivery er age call diben to", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-180", "text": "assalamu alaikum", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-181", "text": "একটু ভ্যাট সহ দাম কত হবে একটু", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-182", "text": "khoborki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "greeting"}
+{"id": "test-183", "text": "চট্টগ্রাম এ ডেলিভারি দেন কি .", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-184", "text": "২ দিনে পৌঁছাবে কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-185", "text": "show me something for womn", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-186", "text": "বাচ্চাদের জন্য কিছু আছে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-187", "text": "available in white", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-188", "text": "order confirm হয়েছে ki", "script": "mx", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-189", "text": "How do i return an item", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-190", "text": "ami ei dokan niye khub birukto", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "test-191", "text": "i want to cancl order #98452", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-192", "text": "mobiledorkar", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-193", "text": "bkash e payment fail korche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-194", "text": "this is nothing like the advert", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-195", "text": "i want to cancel order ORD12345", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-196", "text": "টাকা ferot dile khushi hobo", "script": "mx", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-197", "text": "এখনো অপেক্ষা করছি জিনিসটা কোথায় ভাই", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-198", "text": "শুনেন কতদিন আপু", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-199", "text": "will you restockthis", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-200", "text": "shuvo sokal", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-201", "text": "ordercancel kora jabe", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-202", "text": "টাকাটা ফেরত পাওয়া যাবে তো", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-203", "text": "Aj pabo ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-204", "text": "রংপুর এ ডেলিভারি দেন কি প্লিজ", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-205", "text": "Do you ship to barisal", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-206", "text": "ok how do i return an item bro", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-207", "text": "আচ্ছা অর্ডারটা বাদ দিন", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-208", "text": "has my thingbeen dispatched", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-209", "text": "taka ferut dile khushi hobo", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-210", "text": "accha bkash e payment fail korche bhai", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-211", "text": "available in black", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-212", "text": "order confirm hoyeche ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-213", "text": "ভাই সব মিলিয়ে কত হবে", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-214", "text": "tumi ki biyekorecho", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-215", "text": "nagad e payment fail korche?", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-216", "text": "ভালো মোবাইল সাজেস্ট করুন দয়া করে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-217", "text": "i did not understand anythng you said", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-218", "text": "dekan kichu", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-219", "text": "ghori dorkar", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-220", "text": "আপনি বট হলে মানুষ ডাকুন", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-221", "text": "i want to talk toan agent", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-222", "text": "বাচ্চাদের জন্য কিছু আছে আপু", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-223", "text": "tumi ki biye korecho", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-224", "text": "কেউ কোনো uttor dey na", "script": "mx", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-225", "text": "আসসালামু আলাইকুম ভাই পাবো", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "greeting"}
+{"id": "test-226", "text": "খালি আছে", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-227", "text": "eta kiavailable", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-228", "text": "amar bondhu apnader page suggest korlo, courier", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-229", "text": "accha mana jay na apu", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-230", "text": "শুনেন এখন যেতে হবে প্লিজ", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-231", "text": "অর্ডারটা বাদ দিন", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-232", "text": "offer cholche কি ekhon", "script": "mx", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-233", "text": "do you haveloyalty points", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-234", "text": "black friday te chhar দিবেন", "script": "mx", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-235", "text": "jusht testing", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-236", "text": "how much for everything here", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-237", "text": "any student discount .", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-238", "text": "আমি ei dokan niye khub birokto", "script": "mx", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "test-239", "text": "bad din", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-240", "text": "থ্যাংকস", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-241", "text": "shubo sokal", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-242", "text": "আচ্ছা এখনো অপেক্ষা করছি জিনিসটা কোথায় দয়া করে", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-243", "text": "আসসালামু আলাইকুম ভাই ডেলিভারি চার্জ কত", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-244", "text": "শিপমেন্ট কি হয়েছে আপু", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-245", "text": "কোথায়", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "product_search"}
+{"id": "test-246", "text": "শুনেন কোথায় দয়া করে", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-247", "text": "do you stock this design anymre", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-248", "text": "এখনো অপেক্ষা করছি জিনিসটা কোথায় আগেই ধন্যবাদ", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "thanks"}
+{"id": "test-249", "text": "আসসালামু আলাইকুম?", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-250", "text": "the prodct quality is very bad", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-251", "text": "ডেলিভারি চার্জ কত দয়া করে", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-252", "text": "খুব ভালো ব্যবহার পেলাম ধন্যবাদ একটু", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-253", "text": "i want to cancl order ORD12345", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-254", "text": "eid erjonno notun kichu ache", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "test-255", "text": "accha t-shirt kinte chai ektu", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-256", "text": "ভাই ২ দিনে পৌঁছাবে কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-257", "text": "একটু ঢাকায় আজ বৃষ্টি হবে কি", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-258", "text": "ektu vaiya achen ektu", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-259", "text": "has my thing bin dispatched", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-260", "text": "site e payment nicche na onno upai ache", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-261", "text": "nagad e payment failkorche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-262", "text": "প্রোডাক্ট ফেরত দিতে চাই প্লিজ", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-263", "text": "আজকের মতো রাখি??", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-264", "text": "what makes a good gift here", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-265", "text": "ok i want to cancel order #98452 thanks", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "thanks"}
+{"id": "test-266", "text": "Do you ship to sylhet", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-267", "text": "laptop কিনতে chai", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-268", "text": "ভালো ঘড়ি সাজেস্ট করুন", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-269", "text": "ami last week apnader theke order korechilam ar eid er jonno notun kichu ache", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-270", "text": "khubor ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "greeting"}
+{"id": "test-271", "text": "ভালো ঘড়ি সাজেস্ট করুন আপু", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-272", "text": "আচ্ছা আছে কি দয়া করে", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-273", "text": "কত দিনে পৌঁছাবে কি দয়া করে", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-274", "text": "what are your return rules .", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-275", "text": "rocket e payment fail korche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-276", "text": "শুনেন খালি আছে ভাই", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "test-277", "text": "কেউ ফোন ধরে না??", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-278", "text": "show me the cheaper options", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-279", "text": "delivery er age calldiben to", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-280", "text": "rocket diye dite parlam না", "script": "mx", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-281", "text": "আচ্ছা টাকাটা ফেরত পাওয়া যাবে তো আপু", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-282", "text": "bot na মানুষ chai", "script": "mx", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-283", "text": "kurtidorkar", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-284", "text": "Taka ferot dile khushi hobo", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-285", "text": "many thanks??", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-286", "text": "Call den", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-287", "text": "anyone there", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "test-288", "text": "একটু আমি অন্য জায়গা থেকে কিনে ফেলেছি বাতিল করুন একটু", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-289", "text": "hi are you there?", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "test-290", "text": "একটু ওকে তাহলে", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-291", "text": "asdfghjkl", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-292", "text": "how much thogh", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-293", "text": "just testing", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-294", "text": "ok i want to cancel order ORD12345 thanks", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-295", "text": "excange", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-296", "text": "কেউ ফোন ধরে না একটু", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-297", "text": "courier e diyechen ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-298", "text": "i want to cancel ordr ORD-778", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-299", "text": "ektu code", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-300", "text": "exchnge", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-301", "text": "i want to cancel order #98452", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-302", "text": "ফ্রি ডেলিভারির কোনো অফার আছে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-303", "text": "parcel hate peye taka dibo", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "payment_issue"}
+{"id": "test-304", "text": "shobcheye komdami kunta", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "product_search"}
+{"id": "test-305", "text": "totalcost all in", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-306", "text": "how much advance is neded", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "payment_issue"}
+{"id": "test-307", "text": "একটু বগুড়া এ ডেলিভারি দেন কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-308", "text": "t-shirt kinte chai?", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-309", "text": "আচ্ছা আছে কি", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-310", "text": "darn shohojogita dhonnobad", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-311", "text": "english shekho amake", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-312", "text": "black friday te chhar diben", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-313", "text": "offer", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-314", "text": "I want to cancel order ord-778", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-315", "text": "prudhanmontri ke", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-316", "text": "rocket diye দিতে parlam na", "script": "mx", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-317", "text": "how do i return an item", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-318", "text": "return request kibabe dibo", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-319", "text": "আচ্ছা টাকা কেটে নিয়েছে কিন্তু অর্ডার হয়নি", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-320", "text": "ok goodbye", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-321", "text": "tell me a joke?", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-322", "text": "এখানে সব নিলে কত পড়বে?", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-323", "text": "accha courier e diyechen ki vai", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-324", "text": "black friday te chhar dibn", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-325", "text": "i dont need this anymore", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-326", "text": "accha bad din bhai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "goodbye"}
+{"id": "test-327", "text": "will yesterdays order arrive today", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-328", "text": "available in black sir", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "product_search"}
+{"id": "test-329", "text": "shobcheye kom dami kunta", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "product_search"}
+{"id": "test-330", "text": "ভাই ছবির সাথে মিল নেই ভাই", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-331", "text": "বগুড়া এ ডেলিভারি দেন কি একটু", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-332", "text": "accha cancel kora shombhob ki ekhon ektu", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-333", "text": "keu kuno uttor dey na", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-334", "text": "courier e diyechen ki?", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-335", "text": "this is nothing like the advert thank you", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-336", "text": "hello?", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-337", "text": "ektu shob kichu vul pathiyechen apu", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-338", "text": "khobor ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "greeting"}
+{"id": "test-339", "text": "ভাই আসসালামু আলাইকুম", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-340", "text": "accha asdf ghjkl apu", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-341", "text": "আচ্ছা ঢাকায় আজ বৃষ্টি হবে কি দয়া করে", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-342", "text": "আজকের মতো রাখি", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-343", "text": "rocket diye dite prlam na", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-344", "text": "Karo sathe soroshori kotha bolte chai", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-345", "text": "কত টাকা পড়বে মোট??", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-346", "text": "this is nothing like the advert sir", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-347", "text": "Exchange", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-348", "text": "ok do you ship to sylhet thanks", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-349", "text": "Assalamu alaikum", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-350", "text": "gram e pathanor bebstha ache", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-351", "text": "আচ্ছা এখানে সব নিলে কত পড়বে", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-352", "text": "প্যাকেট খুলিনি ফেরত নিবেন কি", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-353", "text": "customer support ernumber den", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-354", "text": "বিরক্ত করার জন্য দুঃখিত কিন্তু আসসালামু আলাইকুম", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-355", "text": "শুনেন বট না দয়া করে", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-356", "text": "এখানে সব নিলে কত পড়বে", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-357", "text": "is this chat actve", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-358", "text": "ভাই শিপমেন্ট কি হয়েছে ভাই", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-359", "text": "t-shirt kinte chai", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-360", "text": "আচ্ছা তুমি কি মানুষ", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-361", "text": "ভাই কেউ আমাকে কল দিতে বলেন", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-362", "text": "আপনি বট হলে মানুষ ডাকুন?", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-363", "text": "Shob color ki ekhono ache", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-364", "text": "how much for everything here??", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-365", "text": "hello do you deliver nationwide", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-366", "text": "শুনেন রিফান্ড প্রসেস কি", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-367", "text": "শুনেন আপনাদের ধন্যবাদ জানাতেই হয় একটু", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-368", "text": "কার্ড দিয়ে পেমেন্ট করতে পারছি না", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-369", "text": "শুনেন বাচ্চাদের জন্য কিছু আছে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-370", "text": "the product quality is very bad", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "test-371", "text": "আচ্ছা রংপুর এ ডেলিভারি দেন কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-372", "text": "hey what is your hotline number sir", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-373", "text": "এই প্রোডাক্ট পুরো বাজে টাকা নষ্ট ভাই", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "test-374", "text": "শুনেন চট্টগ্রাম এ ডেলিভারি দেন কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-375", "text": "raki", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-376", "text": "আজ পাবো ki", "script": "mx", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-377", "text": "nobody replies to anything", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-378", "text": "কত দিনে পৌঁছাবে কি??", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-379", "text": "dekhan kichu", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-380", "text": "ektu eta ki available vai", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-381", "text": "টাকা কেটে নিয়েছে কিন্তু অর্ডার হয়নি", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 1, "alt_intent": "order_status"}
+{"id": "test-382", "text": "shob color ki ekhno ache", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-383", "text": "কতদিন ভাই", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-384", "text": "ভাই পাঠাবেন না আর", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-385", "text": "show me something frmal for office", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-386", "text": "will yesterdays order arrive today please", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-387", "text": "the package arrived torn", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "test-388", "text": "abailable in red", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-389", "text": "একটু ট্রেনের টিকিট কিভাবে কাটবো", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-390", "text": "order cancel kura jabe", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-391", "text": "site e payment nicche naonno upay ache", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-392", "text": "আচ্ছা অর্ডারটা বাদ দিন প্লিজ", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-393", "text": "anyne there", "script": "en", "intent": "greeting", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-394", "text": "how much for evrything here", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-395", "text": "বিরক্ত করার জন্য দুঃখিত কিন্তু চট্টগ্রাম এ ডেলিভারি দেন কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-396", "text": "ভালো শাড়ি সাজেস্ট করুন ধন্যবাদ", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": "thanks"}
+{"id": "test-397", "text": "ডেলিভারি চার্জ কত?", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-398", "text": "bot না manush চাই", "script": "mx", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-399", "text": "tinta nile kuto rakhben", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "test-400", "text": "eid er জন্য notun kichu আছে", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-401", "text": "শুনেন তুমি কি মানুষ", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-402", "text": "পাঠাবেন না আর", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-403", "text": "will yesterdays order arrive today thank you", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-404", "text": "Mobile dorkar", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-405", "text": "do you ship to sylhet?", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-406", "text": "cancel kora shombhob kiekhon", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-407", "text": "আমার সাইজে পাবো তো", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-408", "text": "কত দিনে পৌঁছাবে কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-409", "text": "এখানে সব নিলে কত পড়বে প্লিজ", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-410", "text": "available in red", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-411", "text": "excuse me available in white asap", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-412", "text": "availablein white", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-413", "text": "ভ্যাট সহ দাম কত হবে .", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-414", "text": "Nobody replies to anything", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-415", "text": "mobile dorkar", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-416", "text": "i am new here so please help, tell me a joke", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-417", "text": "এটা ki available", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-418", "text": "স্টেটাস আপডেট দেন প্লিজ", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-419", "text": "শুনেন স্টেটাস আপডেট দেন প্লিজ একটু", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-420", "text": "has my order shippd", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-421", "text": "ভাই প্রোডাক্ট ফেরত দিতে চাই", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-422", "text": "একটু আমি অন্য জায়গা থেকে কিনে ফেলেছি বাতিল করুন", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-423", "text": "Ttyl", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-424", "text": "একটু একদিনেই নষ্ট হয়ে গেছে জিনিসটা একটু", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-425", "text": "ভ্যাট সহ দাম কত হবে প্লিজ", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-426", "text": "escalate this toa person", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-427", "text": "vai eid er jonno notun kichu ache ektu", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "test-428", "text": "chai na?", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-429", "text": "order cancel kora jabe", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-430", "text": "do you deliver on fridays??", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-431", "text": "do you ship to khulna", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-432", "text": "excuse me how many are left in stock bro", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-433", "text": "site e payment nicche na onno upay ache", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-434", "text": "hey tell me a joke", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-435", "text": "ভাই টাকা কেটে নিয়েছে কিন্তু অর্ডার হয়নি প্লিজ", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 1, "alt_intent": "order_status"}
+{"id": "test-436", "text": "সব মিলিয়ে কত হবে দয়া করে", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-437", "text": "show me the cheaper options?", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-438", "text": "আপনাদের ধন্যবাদ জানাতেই হয় আপু", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-439", "text": "aj pabo ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-440", "text": "Nagad e payment fail korche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-441", "text": "achen", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "test-442", "text": "শিপমেন্ট কি হয়েছে", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-443", "text": "call den", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-444", "text": "এই প্রোডাক্ট পুরো বাজে টাকা নষ্ট", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-445", "text": "সব color ki ekhono ache", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-446", "text": "Vaiya achen", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "test-447", "text": "is this chat active", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-448", "text": "প্রোডাক্ট ফেরত দিতে চাই", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-449", "text": "i dont want to keep this, take it back", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-450", "text": "english shekhaoamake", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-451", "text": "আমি গত সপ্তাহে আপনাদের থেকে অর্ডার করেছিলাম আর পাবো", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-452", "text": "excuse me do you ship to khulna asap", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-453", "text": "এখন যেতে হবে", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-454", "text": "I want to cancel order ord12345", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-455", "text": "karo sathe soroshori kotha bolte chai", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-456", "text": "ektu thik ache rakhi", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-457", "text": "What makes a good gift here", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-458", "text": "okok ok ok", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "thanks"}
+{"id": "test-459", "text": "Show me something formal for office", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-460", "text": "bot na manush chai", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-461", "text": "ektu amar size e pabo to", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-462", "text": "আপনাদের কাছে কি কি প্রোডাক্ট আছে আপু", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-463", "text": "ভাই কাল আবার আসবো প্লিজ", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-464", "text": "shbcheye kom dami kunta", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-465", "text": "has my order shipped?", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-466", "text": "Do you ship to khulna", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-467", "text": "apnader service valo laglo", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-468", "text": "সালাম কতদিন", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "greeting"}
+{"id": "test-469", "text": "ami ei dokan niye khub birokto .", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "test-470", "text": "anyonethere", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-471", "text": "kurti dorkar reply diben please", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-472", "text": "offr", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-473", "text": "আমার সাইজে পাবো তো?", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-474", "text": "কেউ আমাকে কল দিতে বলেন রিপ্লাই দিবেন প্লিজ", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-475", "text": "Show me the cheaper options", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-476", "text": "ektu bodol vai", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-477", "text": "courier .", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-478", "text": "What is your hotline number", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-479", "text": "kritoggota janai vai", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-480", "text": "cannot open the payment option .", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-481", "text": "is my orderbeing processed", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-482", "text": "thanks for the help", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-483", "text": "কেউ ফোন ধরে না", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-484", "text": "keu kono uttr dey na", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-485", "text": "আচ্ছা কি কি আছে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-486", "text": "সব মিলিয়ে কত হবে ভাই", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-487", "text": "Return request kivabe dibo", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-488", "text": "eta ki available", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-489", "text": "is my order being processed??", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-490", "text": "বট না??", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-491", "text": "বিরক্ত করার জন্য দুঃখিত কিন্তু বগুড়া এ ডেলিভারি দেন কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-492", "text": "tutal cost all in", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-493", "text": "dekhn kichu", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-494", "text": "how much though", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-495", "text": "পাবো??", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-496", "text": "hey show me something for women asap", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-497", "text": "পাবো", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-498", "text": "show me something formal for office thanks", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-499", "text": "ভাই ফ্রি ডেলিভারির কোনো অফার আছে প্লিজ", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-500", "text": "excuse me the product quality is very bad thanks", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-501", "text": "sorry to bother you but anyone there", "script": "en", "intent": "greeting", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-502", "text": "eta ki ekhonpawa jabe", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-503", "text": "Rakhi", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-504", "text": "Take my order off the list", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-505", "text": "hello", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-506", "text": "valo doctor suggest koro", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-507", "text": "আপনাদের কাছে কি কি প্রোডাক্ট আছে প্লিজ", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-508", "text": "is there any discount", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-509", "text": "parcl hate peye taka dibo", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-510", "text": "hey i dont need this anymore please", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-511", "text": "keu kono uttor dey na", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-512", "text": "ওকে তাহলে", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "thanks"}
+{"id": "test-513", "text": "excuse me what makes a good gift here thanks", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-514", "text": "shunen customer support er number den plz", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-515", "text": "what is your hotline number", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-516", "text": "ট্রেনের টিকিট কিভাবে কাটবো", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-517", "text": "পাবো দয়া করে", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-518", "text": "একটু ছাত্রদের জন্য ছাড় আছে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-519", "text": "eta ki ekhn pawa jabe", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-520", "text": "show me something formal for office", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-521", "text": "পেমেন্ট কনফার্মেশন এসএমএস পাইনি?", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-522", "text": "koto taka porbe mot??", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-523", "text": "how do i courier it back to you bro", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-524", "text": "couriere diyechen ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-525", "text": "keu kono uttor dey na??", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-526", "text": "৭ দিনে পৌঁছাবে কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-527", "text": "i ordered from you last week and nobody replies to anything", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-528", "text": "how muc for everything here", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-529", "text": "i want to cancel order ORD-778 thanks in advance", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-530", "text": "do you deliver on fridys", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-531", "text": "is there any discount thanks", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-532", "text": "ছবির সাথে মিল নেই দয়া করে", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "test-533", "text": "Anyone there", "script": "en", "intent": "greeting", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-534", "text": "eta ki ekhon pawa jabe?", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-535", "text": "eta ki available .", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-536", "text": "thik আছে rakhi", "script": "mx", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-537", "text": "ছবির সাথে মিল নেই", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "test-538", "text": "আছে কি", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-539", "text": "idont need this anymore", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-540", "text": "sheshh", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "product_availability"}
+{"id": "test-541", "text": "exchange", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-542", "text": "Order cancel kora jabe", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-543", "text": "thanks shob bujhe gechi", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-544", "text": "লাইভ এজেন্ট দরকার?", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-545", "text": "assalamu alaikum plz", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-546", "text": "Will yesterdays order arrive today", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-547", "text": "i want to cancel order ORD-778", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-548", "text": "shob color ki ekhono ache??", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-549", "text": "ওকে তাহলে দয়া করে", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "thanks"}
+{"id": "test-550", "text": "কি কি আছে?", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-551", "text": "salam chai na", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-552", "text": "any student discount", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-553", "text": "do you deliver nationwide?", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-554", "text": "salam offer cholche ki ekhon", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-555", "text": "otp is not cming so i cannot pay", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "test-556", "text": "rakhi", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-557", "text": "tinta nile koto rakhben??", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-558", "text": "thnks for the help", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-559", "text": "howmuch though", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-560", "text": "excuse me hi are you there asap", "script": "en", "intent": "greeting", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-561", "text": "i want to cancel order ord-778", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-562", "text": "আসসালামু আলাইকুম", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-563", "text": "একদিনেই নষ্ট হয়ে গেছে জিনিসটা", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-564", "text": "Chai na", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-565", "text": "কেউ আমাকে কল দিতে বলেন দয়া করে", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-566", "text": "koto টাকা porbe mot", "script": "mx", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-567", "text": "ভ্যাট সহ দাম কত হবে", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-568", "text": "চেকআউটে গিয়ে আটকে যাচ্ছে দয়া করে", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "test-569", "text": "চট্টগ্রাম এ ডেলিভারি দেন কি ভাই", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-570", "text": "সালাম এই প্রোডাক্ট পুরো বাজে টাকা নষ্ট", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "test-571", "text": "shvo sokal", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-572", "text": "তুমি কি মানুষ", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-573", "text": "Offer cholche ki ekhon", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-574", "text": "i did not understand anything yousaid", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-575", "text": "nagad e payment fail korche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-576", "text": "achn", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-577", "text": "স্টেটাস আপডেট দেন প্লিজ দয়া করে", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-578", "text": "সব khoroch miliye koto", "script": "mx", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-579", "text": "tell me a poem", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-580", "text": "শুনেন পেমেন্ট কনফার্মেশন এসএমএস পাইনি ভাই", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-581", "text": "i did not understand anyting you said", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-582", "text": "offer cholche ki এখন", "script": "mx", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-583", "text": "Laptop kinte chai", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-584", "text": "is my order being processed", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-585", "text": "payment hocche না", "script": "mx", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-586", "text": "did not receive the payment cunfirmation sms", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-587", "text": "Payment hocche na", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-588", "text": "tinta nile koto rakhben", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "test-589", "text": "thnks", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-590", "text": "hey escalate this to a person please", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-591", "text": "ভালো মোবাইল সাজেস্ট করুন?", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-592", "text": "ভালো মোবাইল সাজেস্ট করুন", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-593", "text": "site e payment nicche na onno upay আছে", "script": "mx", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-594", "text": "একটু কতদিন", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-595", "text": "Is this chat active", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-596", "text": "Mana jay na", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-597", "text": "apnader service valo lglo", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-598", "text": "লাইভ এজেন্ট দরকার প্লিজ", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-599", "text": "how do i return an item .", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-600", "text": "ami last week apnader theke order korechilam ar tumi ki biye korecho", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-601", "text": "চাই না .", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-602", "text": "asdf ghjkl", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-603", "text": "আমার বন্ধু আপনাদের পেজ সাজেস্ট করলো, কত টাকা পড়বে মোট", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-604", "text": "খুব ভালো ব্যবহার পেলাম ধন্যবাদ প্লিজ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-605", "text": "i dont want to keep this, takeit back", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-606", "text": "baddin", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-607", "text": "chaina", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-608", "text": "Talk to you later", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-609", "text": "বট না রিপ্লাই দিবেন প্লিজ", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-610", "text": "customer support er number den", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-611", "text": "আজকের মতো রাখি দয়া করে", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-612", "text": "hey take my order off the list bro", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-613", "text": "ঢাকায় আজ বৃষ্টি হবে কি .", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-614", "text": "ঢাকায় আজ বৃষ্টি হবে কি", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-615", "text": "excuse me otp is not coming so i cannot pay", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-616", "text": "how much in total please", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-617", "text": "চাই না", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-618", "text": "বট না", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-619", "text": "একটু আমার সাইজে পাবো তো", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-620", "text": "parcel hatepeye taka dibo", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-621", "text": "did not receive the payment confirmation sms", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "test-622", "text": "do you deliver on fridays", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-623", "text": "how do i courier it back to you", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-624", "text": "otp is not coming so i cannotpay", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-625", "text": "সব ভালো তো আপনার", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "thanks"}
+{"id": "test-626", "text": "how many are left in stck", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-627", "text": "ভালো শাড়ি সাজেস্ট করুন একটু", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-628", "text": "what are your return rules", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-629", "text": "talk toyou later", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-630", "text": "has my order shipped", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-631", "text": "বট না দয়া করে", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-632", "text": "টাকাটা ফেরত পাওয়া যাবে তো দয়া করে", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-633", "text": "shob khoroch miliye koto", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-634", "text": "order confirm hoyeche কি", "script": "mx", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-635", "text": "Bodol", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-636", "text": "how many are leftin stock", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-637", "text": "shob কিছু ভুল pathiyechen", "script": "mx", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-638", "text": "offer cholcheki ekhon", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-639", "text": "আপনাদের ধন্যবাদ জানাতেই হয়", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-640", "text": "আচ্ছা আপনাদের ধন্যবাদ জানাতেই হয়", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-641", "text": "thik ache rakhi", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-642", "text": "show me the cheaper options asap", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-643", "text": "shunen aj pabo ki bhai", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-644", "text": "shob kichu vul pathiyechen", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "test-645", "text": "Darun shohojogita dhonnobad", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-646", "text": "hi are you there", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "test-647", "text": "শুনেন আরেকটু কম রাখা যায় না", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-648", "text": "ektu bot na manush chai ektu", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-649", "text": "tell me a joke", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-650", "text": "শুভ সকাল ছাত্রদের জন্য ছাড় আছে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-651", "text": "Apnader service valo laglo", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-652", "text": "talk to you later", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-653", "text": "human please??", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-654", "text": "ভাই আপনি বট হলে মানুষ ডাকুন", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-655", "text": "কার্ড দিয়ে পেমেন্ট করতে পারছি না ভাই", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-656", "text": "Thanks shob bujhe gechi", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-657", "text": "ভালো মোবাইল সাজেস্ট করুন আগেই ধন্যবাদ", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-658", "text": "ভাই কত টাকা পড়বে মোট", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-659", "text": "offer cholche ki ekhon", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-660", "text": "will you restock this", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-661", "text": "ভালো মোবাইল সাজেস্ট করুন ভাই", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-662", "text": "call den .", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-663", "text": "প্যাকেট খুলিনি ফেরত নিবেন কি??", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-664", "text": "আচ্ছা খুব ভালো ব্যবহার পেলাম ধন্যবাদ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-665", "text": "koto taka prbe mot", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-666", "text": "doyou deliver nationwide", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-667", "text": "shesh", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-668", "text": "i want to cancel order #98452 .", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-669", "text": "আরেকটু কম রাখা যায় না", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-670", "text": "hey ok ok ok ok", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "thanks"}
+{"id": "test-671", "text": "do you have loyalty points??", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-672", "text": "i did not understand anything you said", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "complaint"}
+{"id": "test-673", "text": "I dont need this anymore", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-674", "text": "humanplease", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-675", "text": "withdrawmy order", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-676", "text": "goodbye", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-677", "text": "available in red?", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-678", "text": "ফ্রি ডেলিভারির কোনো অফার আছে প্লিজ", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-679", "text": "accha valo doctor suggest koro bhai", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-680", "text": "kurti dorkar", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-681", "text": "সব ভালো তো আপনার?", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-682", "text": "এখন যেতে হবে আপু", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-683", "text": "darun shohojogita dhonnobad", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-684", "text": "availble in black", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-685", "text": "eid er jonno notun kichu আছে", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-686", "text": "do you ship to barisal please reply", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-687", "text": "আপনি বট হলে মানুষ ডাকুন দয়া করে", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-688", "text": "return request kivabe dibo", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-689", "text": "একটু চাই না", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-690", "text": "Site e payment nicche na onno upay ache", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-691", "text": "একটু ডেলিভারি চার্জ কত একটু", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-692", "text": "cude", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-693", "text": "this is nothing like the advert?", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-694", "text": "kritoggota janai", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-695", "text": "any student discuunt", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-696", "text": "এখনো অপেক্ষা করছি জিনিসটা কোথায়", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-697", "text": "anystudent discount", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-698", "text": "cancel kora shomvob ki ekhon", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-699", "text": "bkashe payment fail korche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-700", "text": "laptopkinte chai", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-701", "text": "how do i courer it back to you", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-702", "text": "how much in total", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-703", "text": "একটু ভালো ঘড়ি সাজেস্ট করুন", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-704", "text": "thanks shob bujhe gechi??", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-705", "text": "একটু খালি আছে", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-706", "text": "কার্ড দিয়ে পেমেন্ট করতে পারছি না??", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-707", "text": "তুমি কি মানুষ প্লিজ", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-708", "text": "my friend suggested your page, i want to talk to an agent", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-709", "text": "guodbye", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-710", "text": "shob color ki ekhono ache", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-711", "text": "কি কি আছে একটু", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-712", "text": "চেকআউটে গিয়ে আটকে যাচ্ছে", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-713", "text": "is there any discount .", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-714", "text": "do youstock this design anymore", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-715", "text": "চাই na", "script": "mx", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "test-716", "text": "Order confirm hoyeche ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-717", "text": "Offer", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-718", "text": "this is nothing like the advrt", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-719", "text": "what makes agood gift here", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-720", "text": "payment hocche na??", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-721", "text": "assalamu alaikum take my order off the list", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-722", "text": "takemy order off the list", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-723", "text": "একটু রিফান্ড প্রসেস কি একটু", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-724", "text": "eta ki ekhon pawa jabe", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-725", "text": "বগুড়া এ ডেলিভারি দেন কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-726", "text": "amar size e pabo to", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-727", "text": "do you deliver nationwide", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-728", "text": "thx", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-729", "text": "আচ্ছা কেউ ফোন ধরে না ভাই", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-730", "text": "আচ্ছা ট্রেনের টিকিট কিভাবে কাটবো দয়া করে", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-731", "text": "keu কোনো uttor dey na", "script": "mx", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "test-732", "text": "কতদিন", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-733", "text": "ok total cost all in thanks", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-734", "text": "কি কি আছে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-735", "text": "Hi are you there", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-736", "text": "has my thing been dispatched", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-737", "text": "খুব ভালো ব্যবহার পেলাম ধন্যবাদ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-738", "text": "আচ্ছা সব ভালো তো আপনার দয়া করে", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-739", "text": "so good night then bro", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-740", "text": "shunen black friday te chhar diben ektu", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-741", "text": "কোথায়??", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "test-742", "text": "show me something for women", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-743", "text": "escalate this to a prson", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-744", "text": "so talk to you later bro", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-745", "text": "Achen", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-746", "text": "valo doctor suggest kuro", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-747", "text": "vaiyaachen", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-748", "text": "i want to talk to an agent", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-749", "text": "salam code", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "greeting"}
+{"id": "test-750", "text": "আরেকটু কম রাখা যায় না আপু", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-751", "text": "আমি এখানে নতুন তাই একটু সাহায্য করুন, অর্ডারটা বাদ দিন", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-752", "text": "আমি অন্য জায়গা থেকে কিনে ফেলেছি বাতিল করুন", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-753", "text": "আচ্ছা প্রোডাক্ট ফেরত দিতে চাই", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-754", "text": "eid er jonno notun kichu ache", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-755", "text": "koto taka porbe mot", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-756", "text": "টাকা কেটে নিয়েছে কিন্তু অর্ডার হয়নি .", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 1, "alt_intent": "order_status"}
+{"id": "test-757", "text": "bkash e payment fail krche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-758", "text": "ভালো শাড়ি সাজেস্ট করুন", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-759", "text": "payment hocche na", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-760", "text": "৭ দিনে পৌঁছাবে কি রিপ্লাই দিবেন প্লিজ", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-761", "text": "tell me a poem??", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-762", "text": "prdhanmontri ke", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-763", "text": "how much in total .", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-764", "text": "I want to talk to an agent", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-765", "text": "বিরক্ত করার জন্য দুঃখিত কিন্তু চাই না", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "goodbye"}
+{"id": "test-766", "text": "bot na mansh chai", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-767", "text": "rcket e payment fail korche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-768", "text": "vai headphone kinte chai ektu", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-769", "text": "kurti dorkar bhai", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-770", "text": "courier", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-771", "text": "assalamu alaikm", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-772", "text": "asdf ghjkl?", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-773", "text": "shob khoroch miliye koto reply diben please", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-774", "text": "আসসালামু আলাইকুম আপু", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-775", "text": "order confirm huyeche ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-776", "text": "Will you restock this", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-777", "text": "how much advance is needed", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "test-778", "text": "কাল আবার আসবো ভাই", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-779", "text": "শুনেন কাল আবার আসবো", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-780", "text": "curier", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-781", "text": "শিপমেন্ট কি হয়েছে??", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-782", "text": "ভাই ভালো শাড়ি সাজেস্ট করুন একটু", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-783", "text": "ami ei dokan niye khub birokto", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "test-784", "text": "amar size e পাবো to", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-785", "text": "Bad din", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "complaint"}
+{"id": "test-786", "text": "T-shirt kinte chai", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-787", "text": "mana jay na", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-788", "text": "কেউ আমাকে কল দিতে বলেন", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-789", "text": "একটু কত দিনে পৌঁছাবে কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-790", "text": "ভাই কার্ড দিয়ে পেমেন্ট করতে পারছি না দয়া করে", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-791", "text": "বগুড়া এ ডেলিভারি দেন কি দয়া করে", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-792", "text": "valo doctor suggestkoro", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-793", "text": "একটু প্যাকেট খুলিনি ফেরত নিবেন কি", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-794", "text": "কত টাকা পড়বে মোট", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-795", "text": "taka ferot dile khushi hobo", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "test-796", "text": "black friday te chhardiben", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-797", "text": "ghori durkar", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-798", "text": "withdraw my order?", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-799", "text": "শুনেন আমার সাইজে পাবো তো দয়া করে", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "test-800", "text": "khobr ki", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "greeting"}
+{"id": "test-801", "text": "prodhanmontri ke", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "test-802", "text": "karo sathe soroshori kotha bolte chai??", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "test-803", "text": "২ দিনে পৌঁছাবে কি আপু", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "test-804", "text": "how much in totl", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "test-805", "text": "ghoridorkar", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}

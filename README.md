@@ -49,8 +49,8 @@ cd backend
 python -m uvicorn app.main:app --host 127.0.0.1 --port 7860
 ```
 
-Use `python -m uvicorn` (not bare `uvicorn` — it is often not on PATH on
-Windows). Open <http://127.0.0.1:7860> — the landing page, inbox, Try It,
+Use `python -m uvicorn` (not bare `uvicorn`, which is often not on PATH on
+Windows). Open <http://127.0.0.1:7860>. The landing page, inbox, Try It,
 Dashboard and Evaluation screens all work against the same server.
 
 **Stop:** Ctrl+C in that terminal. If a restart fails with
@@ -64,17 +64,21 @@ taskkill /PID <pid> /F            # Windows    (kill <pid> on POSIX)
 
 ### Frontend development (hot reload, optional)
 
-The dev server needs to know where the API is; the backend allows this
-dev-origin (localhost:3000) via CORS.
+Two terminals: the backend on 7860, the dev server on 3000.
 
-```powershell
-cd frontend
-$env:NEXT_PUBLIC_API_BASE="http://127.0.0.1:7860"; npm run dev   # Windows
-# NEXT_PUBLIC_API_BASE=http://127.0.0.1:7860 npm run dev        # bash
+```bash
+cd backend && python -m uvicorn app.main:app --host 127.0.0.1 --port 7860   # terminal 1
+cd frontend && npm run dev                                                    # terminal 2
 ```
 
-Open <http://localhost:3000>. The production path needs no env var: the built
-`frontend/out` is served same-origin from the backend on 7860.
+Open <http://localhost:3000>. The dev server finds the API through
+`frontend/.env.development` (`NEXT_PUBLIC_API_BASE=http://127.0.0.1:7860`),
+which `next dev` reads and `next build` ignores, so no env var is needed on
+the command line, and the backend allows this dev origin (localhost:3000) via
+CORS. If you change the API port, change it there too.
+
+The production path needs no env var at all: the built `frontend/out` is
+served same-origin from the backend on 7860.
 
 ### Tests
 
@@ -83,8 +87,8 @@ python -m pytest tests/ -q        # router, parity, label mapping, API, scam inv
 cd frontend && npx eslint .       # lint
 ```
 
-The routing policy exists **twice on purpose** — Python (`backend/app/router.py`)
-and TypeScript (`frontend/lib/route.ts`) — so the threshold slider recomputes
+The routing policy exists **twice on purpose**: Python (`backend/app/router.py`)
+and TypeScript (`frontend/lib/route.ts`), so the threshold slider recomputes
 lanes client-side with zero network. `tests/test_parity.py` feeds the same
 fixtures to both via Node and asserts byte-identical output. **Change one,
 change both.**
@@ -92,7 +96,7 @@ change both.**
 ## Configuration (`.env`, never committed)
 
 The backend reads a `.env` at the repo root (real environment variables always
-win — on the Space these come from Space secrets):
+win; on the Space they come from Space secrets):
 
 | Variable | Required | Meaning |
 |---|---|---|
@@ -108,31 +112,47 @@ failure state.
 
 ## How a message is routed
 
-1. `scam_prob ≥ 0.50` → **Scam lane**, never auto-handled (hard invariant, unit-tested).
-2. `escalate_prob ≥ 0.50` (e.g. the customer asks for a human) → **Review**.
+1. `scam_prob ≥ 0.70` → **Scam lane**, never auto-handled (hard invariant, unit-tested).
+2. `escalate_prob ≥ 0.20` on the *calibrated* escalate score (e.g. the customer
+   asks for a human) → **Review**.
 3. Confidence below the threshold τ (default 0.85; `other` uses `max(0.60, τ−0.20)`;
    degraded mode uses `τ+0.05`) → **Review**.
-4. The independent LLM second signal disagrees → **Review**.
+4. The independent LLM second signal disagrees **and the model is not decisive
+   (`top_prob < 0.90`)** → **Review**. The LLM is a tie-breaker, not an oracle:
+   measured on test, the model was right 96% of the time where the LLM disagreed
+   with a call at ≥ 0.90 and the LLM 23%, so an unconditional veto cost accuracy
+   *and* coverage.
 5. Otherwise → **Auto**.
 
 τ is a slider in the UI: raise it and more messages move to human review.
-That coverage/accuracy dial is the product.
+That coverage/accuracy dial is the product. At τ = 0.85 the auto lane holds 53.6%
+of the inbox at 94.2% accuracy. Coverage is bounded because messages that ask for
+a person, and messages the model is unsure about, are never auto-answered
+(`docs/07` §5 works through the arithmetic).
+
+With no trained artifacts the engine returns a flat distribution and everything
+goes to review with `model_loaded: false` on `/api/health`. There is no keyword
+fallback: it looked like a second opinion without being one.
 
 ## Deploy (Hugging Face Space)
 
-This repo's root front matter already declares `sdk: docker`, `app_port: 7860`.
-The multi-stage Dockerfile (Node builds `frontend/out` → Python slim serves it)
-ships with Phase 2 of `docs/08-BUILD-PLAN.md` — until then the local Quick start
-above is the way to run Order Khata, and Space secrets (`GROQ_API_KEYS`, etc.)
-go under *Settings → Secrets* whenever the container lands.
+This repo's root front matter declares `sdk: docker`, `app_port: 7860`, and the
+multi-stage `Dockerfile` builds the static frontend with Node and serves it from
+Python slim. Space secrets (`GROQ_API_KEYS`, etc.) go under *Settings → Secrets*.
+
+The container needs two things the lab generates, both committed on purpose:
+`backend/artifacts/*.joblib` (the shipped engines; without them the Space boots
+degraded) and `backend/data/seed_inbox.json` (the demo inbox). `Dockerfile` itself
+has **not** been built locally (no Docker on the dev machine); treat the first
+Space build as the test.
 
 ## Data & honesty
 
 - Intent data: public Bangla e-commerce customer-message corpus (derivative of
-  **BanglaEComIntent**, CC BY-NC-SA 4.0 — non-commercial).
+  **BanglaEComIntent**, CC BY-NC-SA 4.0, non-commercial).
 - Scam data: Bengali SMS smishing corpus (MIT).
 - The inbox in this demo is **simulated**; there is no live Facebook/Meta
-  integration (that needs app review — it is the planned next step).
+  integration (that needs app review; it is the planned next step).
 - The corpus is largely machine-generated; the Evaluation page states every
   limitation and shows real numbers only after the notebook's evaluation section runs.
 - The data is **not** real Facebook seller messages.
@@ -140,10 +160,10 @@ go under *Settings → Secrets* whenever the container lands.
 ## Repo layout
 
 ```
-backend/app/     FastAPI: engines (decision, scam, llm, calibrate), router, db, API
+backend/app/     FastAPI: engines (decision+escalate, scam, llm, calibrate), router, db, API
 frontend/        Next.js static export: app/ screens, components/, lib/ (route.ts twin)
 tests/           pytest suite; fixtures/route_cases.json feeds BOTH router implementations
-ml/              offline scripts: data prep, bake-off, calibration, evaluation
+ml/              the notebook that *is* the pipeline, plus its caches under ml/artifacts/
 docs/            PRD, TRD, data/routing/API/UI/evaluation specs, build plan, demo script
 ```
 

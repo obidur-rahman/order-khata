@@ -71,6 +71,10 @@ def _conn() -> sqlite3.Connection:
 
 
 def init_db() -> None:
+    # Create the data directory: on the free Space the image may ship no data/
+    # at all (every .jsonl there is gitignored), and SQLite cannot create a
+    # database inside a directory that does not exist.
+    db_path().parent.mkdir(parents=True, exist_ok=True)
     with _lock, _conn() as conn:
         conn.executescript(_SCHEMA)
 
@@ -178,7 +182,7 @@ def _record(conn: sqlite3.Connection, msg: sqlite3.Row) -> dict[str, Any]:
 def list_conversations(lane: str = "all", limit: int = 100, since_id: Optional[str] = None) -> list[dict[str, Any]]:
     sql = """
     WITH latest AS (
-      SELECT m.*, ROW_NUMBER() OVER (
+      SELECT m.*, m.rowid AS msg_rowid, ROW_NUMBER() OVER (
         PARTITION BY conversation_id ORDER BY received_at DESC, rowid DESC
       ) AS rn
       FROM messages m
@@ -196,7 +200,11 @@ def list_conversations(lane: str = "all", limit: int = 100, since_id: Optional[s
     if since_id:
         sql += " AND l.id > ?"
         params.append(since_id)
-    sql += " ORDER BY l.received_at DESC LIMIT ?"
+    # `received_at` has one-second resolution and the whole seed pool shares one
+    # second, so ordering on it alone leaves the inbox in whatever order SQLite
+    # felt like returning — the newest arrival must win, hence the insertion order
+    # (rowid) as the tiebreak.
+    sql += " ORDER BY l.received_at DESC, l.msg_rowid DESC LIMIT ?"
     params.append(limit)
     with _conn() as conn:
         rows = conn.execute(sql, params).fetchall()

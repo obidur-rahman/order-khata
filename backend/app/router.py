@@ -10,6 +10,7 @@ from __future__ import annotations
 from typing import Any, Mapping, Tuple
 
 from .config import (
+    DECISIVE_T,
     DEGRADED_MARGIN,
     DEGRADED_MAX,
     ESCALATE_T,
@@ -87,8 +88,12 @@ def route(signals: Mapping[str, Any], tau: float = TAU_DEFAULT) -> Tuple[str, st
     if top_prob < required:
         return LANE_REVIEW, f"Low confidence (p = {fmt_prob(top_prob)})"
 
-    # 4. Second opinion disagrees (skipped in degraded mode).
-    if not degraded and str(llm_class) != top_class:
+    # 4. Second opinion disagrees (skipped in degraded mode). The LLM is a
+    # tie-breaker, not an oracle: it may only veto a call the model itself is
+    # unsure about. Measured on D1 test (notebook 8.4) — of the calls it
+    # disagreed with at top_prob >= 0.90 the model was right 96% of the time and
+    # the LLM 23% — so vetoing those cost coverage AND accuracy.
+    if not degraded and str(llm_class) != top_class and top_prob < DECISIVE_T:
         return LANE_REVIEW, f"Second opinion disagrees (LLM: {llm_class})"
 
     # 5. Auto.

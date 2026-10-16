@@ -89,9 +89,11 @@ export default function EvaluationPage() {
           {tr("nav.evaluation")}
         </h1>
         <p className="text-sm text-muted">
-          Every number below is produced offline by{" "}
-          <code className="rounded-md border border-line bg-surface px-1.5 font-mono text-[12px]">ml/05_evaluate.py</code>{" "}
-          and served from{" "}
+          Every number below comes from one offline run of{" "}
+          <code className="rounded-md border border-line bg-surface px-1.5 font-mono text-[12px]">
+            ml/notebooks/order_khata_lab.ipynb §8
+          </code>{" "}
+          and is served from{" "}
           <code className="rounded-md border border-line bg-surface px-1.5 font-mono text-[12px]">artifacts/eval.json</code>.
         </p>
 
@@ -99,7 +101,7 @@ export default function EvaluationPage() {
           <div className="mt-6 rounded-2xl border border-dashed border-line bg-surface p-6 text-sm text-muted">
             <p className="font-semibold text-ink">Evaluation file not available yet.</p>
             <p className="mt-1">
-              Run ml/05_evaluate.py to generate it. No numbers are shown because none exist.
+              Run the notebook to generate it. No numbers are shown because none exist.
             </p>
           </div>
         )}
@@ -116,8 +118,8 @@ export default function EvaluationPage() {
             <span className="text-ink">
               <strong className="font-semibold">Not yet evaluated.</strong>{" "}
               <span className="text-muted">
-                ml/05_evaluate.py has not been run. The values below are zero placeholders,
-                not results.
+                The notebook's evaluation section has not been run. The values below are
+                zero placeholders, not results.
               </span>
             </span>
           </div>

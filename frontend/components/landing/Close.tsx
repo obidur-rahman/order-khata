@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { ArrowRightIcon, ArrowUpRightIcon } from "@/components/icons";
 import { usePrefs } from "@/lib/prefs";
+import { Reveal } from "../Reveal";
 import { ArrowLink, Section, SectionHead } from "./parts";
 
 const PROVENANCE = ["honest.data.1", "honest.data.2", "honest.data.3"];
@@ -92,53 +93,66 @@ export function FinalCTA() {
   );
 }
 
+const FOOT_LINKS = [
+  { href: "/inbox/", key: "nav.inbox" },
+  { href: "/try/", key: "nav.try" },
+  { href: "/dashboard/", key: "nav.dashboard" },
+  { href: "/evaluation/", key: "nav.evaluation" },
+  { href: "/preferences/", key: "nav.preferences" },
+];
+
 export function SiteFooter() {
   const { t } = usePrefs();
-  const columns = [
-    {
-      title: t("footer.product"),
-      links: [
-        { href: "/inbox/", label: t("nav.inbox") },
-        { href: "/try/", label: t("nav.try") },
-        { href: "/dashboard/", label: t("nav.dashboard") },
-      ],
-    },
-    {
-      title: t("footer.proof"),
-      links: [
-        { href: "/evaluation/", label: t("nav.evaluation") },
-        { href: "/preferences/", label: t("nav.preferences") },
-      ],
-    },
-  ];
-
   return (
-    <footer className="border-t border-line px-6 py-16">
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-12 md:flex-row md:items-start md:justify-between">
-        <div className="max-w-md">
-          <Logo size={26} />
-          <p className="mt-6 text-[14px] leading-relaxed text-muted">{t("footer.blurb")}</p>
+    <footer className="px-4 pb-12 md:px-6">
+      {/* the closing block: an oversized brand panel that bookends the hero's
+          colour field, with everything practical compressed into the strip
+          below it */}
+      <Reveal>
+        <div className="wash relative mx-auto max-w-[1400px] overflow-hidden rounded-3xl px-6 py-16 shadow-lift md:px-14 md:py-24">
+          <div
+            aria-hidden
+            className="dotgrid pointer-events-none absolute inset-0 opacity-40 dark:opacity-25"
+          />
+          <div className="relative flex flex-col items-center gap-7 text-center">
+            <Logo size={56} />
+            <p
+              className="font-display font-extrabold text-ink"
+              style={{ fontSize: "clamp(44px, 9vw, 118px)", lineHeight: 0.96, letterSpacing: "-0.04em" }}
+            >
+              Order Khata
+            </p>
+            <p className="max-w-xl text-[15px] leading-relaxed text-muted">{t("footer.blurb")}</p>
+            <Link
+              href="/inbox/"
+              className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 font-mono text-[12px] uppercase tracking-[0.1em] text-paper shadow-soft transition hover:bg-accent-deep"
+            >
+              {t("hero.ctaInbox")}
+              <ArrowRightIcon size={16} className="text-accent transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-x-16 gap-y-8">
-          {columns.map((col) => (
-            <div key={col.title}>
-              <p className="label text-muted">{col.title}</p>
-              <ul className="mt-5 space-y-3">
-                {col.links.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="text-[14px] text-ink transition hover:text-accent">
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+      </Reveal>
+
+      {/* slim strip: the five links, then honesty + provenance in one line */}
+      <div className="mx-auto mt-8 flex max-w-[1400px] flex-col items-center gap-5">
+        <nav
+          className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2"
+          aria-label="Footer"
+        >
+          {FOOT_LINKS.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="text-[13px] text-ink underline decoration-line underline-offset-4 transition hover:text-accent hover:decoration-accent"
+            >
+              {t(l.key)}
+            </Link>
           ))}
-        </div>
-      </div>
-      <div className="mx-auto mt-16 flex max-w-[1400px] flex-wrap items-center justify-between gap-3 border-t border-line pt-8">
-        <p className="label text-muted">{t("footer.note")}</p>
-        <p className="label text-muted">{t("footer.legal")}</p>
+        </nav>
+        <p className="label max-w-4xl text-center leading-[1.9] text-muted">
+          {t("footer.note")} · {t("footer.credits")} · {t("footer.legal")}
+        </p>
       </div>
     </footer>
   );

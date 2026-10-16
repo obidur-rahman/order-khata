@@ -264,9 +264,16 @@ body {
 }
 
 /* Translucent chrome (docs/06 §6): content scrolls under the bar and the
-   edge fades instead of a hard divider being drawn. */
+   edge fades instead of a hard divider being drawn. `.material` is the fill
+   that fades in on the landing after scroll; `.material-50` is the constant
+   half-transparent fill the app screens keep (user brief, docs/06 §4.1). */
 .material {
   background: color-mix(in oklab, var(--paper) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+}
+.material-50 {
+  background: color-mix(in oklab, var(--paper) 50%, transparent);
   backdrop-filter: blur(20px) saturate(170%);
   -webkit-backdrop-filter: blur(20px) saturate(170%);
 }
@@ -348,7 +355,7 @@ h3 {
     gap: 2px;
     border: 1px solid var(--line);
     border-radius: 999px;
-    background: color-mix(in oklab, var(--surface) 84%, transparent);
+    background: transparent;
   }
   .seg > button,
   .seg > a {
@@ -372,13 +379,18 @@ h3 {
   }
   .seg > [aria-current="page"],
   .seg > [aria-pressed="true"] {
-    background: var(--ink);
-    color: var(--paper);
-    box-shadow: var(--shadow-soft);
+    /* selected state = accent wash, never an ink (black) pill (docs/06 §2) */
+    background: var(--accent-tint);
+    color: var(--accent-deep);
+    box-shadow: none;
   }
   .seg > [aria-pressed="true"]:hover {
-    color: var(--paper);
-    background: var(--ink);
+    color: var(--accent-deep);
+    background: var(--accent-tint);
+  }
+  .seg > a[aria-current="page"]:hover {
+    color: var(--accent-deep);
+    background: var(--accent-tint);
   }
 }
 
@@ -459,8 +471,71 @@ h3 {
   }
 }
 
+/* page entrance: every screen rises 6px into place on mount */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+main {
+  animation: page-in 0.45s cubic-bezier(0.16, 0.84, 0.28, 1) both;
+}
+
+/* scroll reveal (components/Reveal): rise once when it enters, then stay.
+   Exponential ease-out — no bounce, no overshoot. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 0.84, 0.28, 1),
+    transform 0.7s cubic-bezier(0.16, 0.84, 0.28, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* hero field: four token-coloured orbs drift behind the headline so the
+   colour field breathes. Token-driven (color-mix over the palette), so the
+   dark theme is correct without a second definition. */
+@keyframes blob-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(4%, 5%, 0) scale(1.1);
+  }
+  66% {
+    transform: translate3d(-4%, -4%, 0) scale(0.92);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+.hero-blob {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(72px);
+  opacity: 0.5;
+  will-change: transform;
+  animation: blob-drift 26s ease-in-out infinite;
+}
+
 /* reduced motion: gentler, non-vestibular feedback; loops stop */
 @media (prefers-reduced-motion: reduce) {
+  .hero-blob {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
   .msg-new,
   .fade-up {
     animation: fade-in 200ms ease-out;
@@ -476,7 +551,8 @@ h3 {
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .material {
+  .material,
+  .material-50 {
     background: var(--paper) !important;
     backdrop-filter: none !important;
   }

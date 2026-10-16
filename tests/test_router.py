@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import json
 
+import pytest
+
+from app.config import DECISIVE_T, TAU_DEFAULT
 from app.router import fmt_prob, required_threshold, route, tau_other
 
 from conftest import FIXTURES
@@ -19,6 +22,46 @@ def test_fixture_cases():
     for case in _cases():
         lane, reason = route(case["signals"], case.get("tau", 0.85))
         assert {"lane": lane, "reason": reason} == case["expected"], case["name"]
+
+
+@pytest.mark.parametrize(
+    "top_prob,scam_prob,escalate_prob,llm_class,llm_status,expected",
+    [
+        # rule 5: clear class, confident, nothing flagged
+        (0.90, 0.02, 0.0, "order", "ok", "auto"),
+        # rule 1: confident but flagged -> the invariant wins
+        (0.90, 0.70, 0.0, "order", "ok", "scam"),
+        # rule 3: not confident enough
+        (0.35, 0.02, 0.0, "order", "ok", "review"),
+        # rule 2: the customer may need a person (boundary and just under)
+        (0.99, 0.02, 0.20, "order", "ok", "review"),
+        (0.99, 0.02, 0.1999, "order", "ok", "auto"),
+        # rule 4: the tie-breaker may veto an unsure call ...
+        (0.88, 0.02, 0.0, "complaint", "ok", "review"),
+        (DECISIVE_T - 0.01, 0.02, 0.0, "complaint", "ok", "review"),
+        # ... but never a decisive one
+        (DECISIVE_T, 0.02, 0.0, "complaint", "ok", "auto"),
+        (0.95, 0.02, 0.0, "complaint", "ok", "auto"),
+        # degraded: no second opinion, so the bar rises by DEGRADED_MARGIN
+        (0.90, 0.02, 0.0, None, "unavailable", "auto"),
+        (0.35, 0.02, 0.0, None, "unavailable", "review"),
+        (0.89, 0.02, 0.0, "complaint", "unavailable", "review"),
+    ],
+)
+def test_route_rules(top_prob, scam_prob, escalate_prob, llm_class, llm_status, expected):
+    """The rule order of docs/04 §4, one case per rule and boundary."""
+    lane, _ = route(
+        {
+            "top_class": "order",
+            "top_prob": top_prob,
+            "scam_prob": scam_prob,
+            "escalate_prob": escalate_prob,
+            "llm_class": llm_class,
+            "llm_status": llm_status,
+        },
+        TAU_DEFAULT,
+    )
+    assert lane == expected
 
 
 def test_tau_other():

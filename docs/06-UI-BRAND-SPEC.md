@@ -2,16 +2,16 @@
 
 **Principle:** it must look and behave like a real production SaaS. One editorial world: soft ink on warm paper, a quiet mono label layer, oversized display type, **one radius scale and a soft shadow for anything raised**, a single electric-blue accent, and a muted hue per class. Restrained and dense inside the app; a long-form editorial product story on the landing page. Nothing is pure black or pure white, and nothing is a hard corner. Ships in **light and dark**; the visitor picks (see §4.6).
 
-**Theme rule:** every colour is a CSS variable declared twice — on `:root` (light) and on `.dark` (dark). Components never write `dark:` classes for colour, they just use the token (`bg-paper`, `text-ink`, `border-line`). `lib/prefs.ts` puts the class on `<html>`; `app/layout.tsx` applies the saved choice before first paint so there is no flash.
+**Theme rule:** every colour is a CSS variable declared twice: on `:root` (light) and on `.dark` (dark). Components never write `dark:` classes for colour, they just use the token (`bg-paper`, `text-ink`, `border-line`). `lib/prefs.ts` puts the class on `<html>`; `app/layout.tsx` applies the saved choice before first paint so there is no flash.
 
 ## 1. Brand
 - **Name:** Order Khata (অর্ডার খাতা in Bangla wordmark variant)
 - **Tagline:** Your shop's inbox, sorted.
-- **Logo:** the mark is artwork, not drawn paths — `frontend/public/logo_light.png` and `logo_dark.png` are the 500×500 RGBA masters (rounded tile baked into the alpha, transparent corners, so it sits on any surface without a mask). What ships are the downscaled `-96.png` / `-192.png` derivatives, loaded through `srcSet` + `sizes`: a 24px mark costs ~6 KB instead of ~100 KB, and nothing in the app fetches a master. The pair swaps on the `.dark` class in CSS only (`.logo-swap`, `app/globals.css`), so the right artwork is on screen from the first frame: no JavaScript, no `dark:` class in a component, no flash. The wordmark stays real text — Bricolage Grotesque ExtraBold, title case `Order Khata` — so it keeps the display metrics and scales with the mark. `next/image` is not used anywhere: the Space serves a static export, so there is no optimizer to delegate to.
+- **Logo:** the mark is artwork, not drawn paths: `frontend/public/logo_light.png` and `logo_dark.png` are the 500×500 RGBA masters (rounded tile baked into the alpha, transparent corners, so it sits on any surface without a mask). What ships are the downscaled `-96.png` / `-192.png` derivatives, loaded through `srcSet` + `sizes`: a 24px mark costs ~6 KB instead of ~100 KB, and nothing in the app fetches a master. The pair swaps on the `.dark` class in CSS only (`.logo-swap`, `app/globals.css`), so the right artwork is on screen from the first frame: no JavaScript, no `dark:` class in a component, no flash. The wordmark stays real text (Bricolage Grotesque ExtraBold, title case `Order Khata`) so it keeps the display metrics and scales with the mark. `next/image` is not used anywhere: the Space serves a static export, so there is no optimizer to delegate to.
 - **Voice:** short, confident, plain, warm. No AI jargon on the main screens ("Needs your eyes", "Handled for you"). Prefer a sentence a shop owner would say over a sentence a product page would say.
 
 ## 2. Color tokens (CSS variables / Tailwind theme)
-An ink/paper base, one accent, a muted hue per class, and one semantic red. The accent means **"this needs your eyes / your action"** — it marks the review lane, actions and links, never a class. The dark column is the whole "dark theme": no second palette lives anywhere else (including TypeScript — `lib/brand.ts` points at the runtime variables).
+An ink/paper base, one accent, a muted hue per class, and one semantic red. The accent means **"this needs your eyes / your action"**: it marks the review lane, actions and links, never a class. The dark column is the whole "dark theme": no second palette lives anywhere else (including TypeScript: `lib/brand.ts` points at the runtime variables).
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
@@ -36,7 +36,7 @@ An ink/paper base, one accent, a muted hue per class, and one semantic red. The 
 | `--lane-review` (Review) | #1A3AFF | #8A9BFF | accent |
 | `--lane-scam` (Scam) | #C03B34 | #FF8F86 | red |
 
-Two vocabularies, and only two. Tailwind utilities get a `--color-*` entry in `@theme` (`--color-ink: var(--ink)` → `bg-paper`, `text-ink`, `border-line`). The class and lane hues do not: they have no utility, so they are read as-is (`--c-order`, `--lane-auto`, `--lane-auto-deep`) by `lib/brand.ts` and applied inline — one spelling per token, never an alias. Class and lane hues also carry a `-deep` variant for text and filled chips; in dark the deep variant is the *lighter* one, because it has to carry text on a dark surface.
+Two vocabularies, and only two. Tailwind utilities get a `--color-*` entry in `@theme` (`--color-ink: var(--ink)` → `bg-paper`, `text-ink`, `border-line`). The class and lane hues do not: they have no utility, so they are read as-is (`--c-order`, `--lane-auto`, `--lane-auto-deep`) by `lib/brand.ts` and applied inline: one spelling per token, never an alias. Class and lane hues also carry a `-deep` variant for text and filled chips; in dark the deep variant is the *lighter* one, because it has to carry text on a dark surface.
 
 Rules: the accent is never used for status. Status always pairs colour with an icon and a text label (accessibility). Each class keeps a real but muted hue so probability bars and distributions read at a glance; class chips are capsules with a mono label and a small round swatch, so the label always carries the meaning and colour never does. One semantic red survives for scam because it has to read as a warning, not a hue. Verify text contrast ≥ 4.5:1 in **both** themes and adjust the token that carries text. Colour is never the only carrier in either theme.
 
@@ -60,7 +60,7 @@ These override Tailwind's own `--radius-*` values in `@theme`, so `rounded-2xl` 
 | `--shadow-soft` | A resting card. Barely there: 1px contact + one wide, low-opacity bloom |
 | `--shadow-lift` | Hover, selection, and anything floating (the resolve bar, the error panel, the closing CTA) |
 
-The shadow colour lives in `--shadow-1` / `--shadow-2`, which are warm and shallow by day and deepened in dark mode — a soft edge has to read against near-black. A raised surface lifts with this shadow *instead of* a hard 2px border; every `border-2` in the old spec is now `border` + radius.
+The shadow colour lives in `--shadow-1` / `--shadow-2`, which are warm and shallow by day and deepened in dark mode: a soft edge has to read against near-black. A raised surface lifts with this shadow *instead of* a hard 2px border; every `border-2` in the old spec is now `border` + radius.
 
 ## 3. Typography
 | Role | Font | Weight | Size |
@@ -78,14 +78,14 @@ Font stack must put a Bengali-capable font in the fallback so Bangla never rende
 
 ## 4. Screens
 ### 4.1 Landing `/`
-A long-form editorial product story, not a hero-and-buttons page: the problem, how it works (five steps on one rail), the lanes, the safety dial (an interactive τ illustration using the same `route()` as the server), rigor (headline numbers read from `artifacts/eval.json`, and "not yet evaluated" until it runs), and built honest (provenance + limits). Sections are separated by **space, not rules** — no hairline dividers between sections — and they carry **no section labels or eyebrow titles**: the display headline is the heading. There are no "01 / 02" numbers.
+A long-form editorial product story, not a hero-and-buttons page: the problem, how it works (five steps on one rail), the lanes, the safety dial (an interactive τ illustration using the same `route()` as the server), rigor (headline numbers read from `artifacts/eval.json`, and "not yet evaluated" until it runs), and built honest (provenance + limits). Sections are separated by **space, not rules** (no hairline dividers between sections), and they carry **no section labels or eyebrow titles**: the display headline is the heading. There are no "01 / 02" numbers.
 
-Hero: oversized tight display type **"Sort the noise. Keep the sale."** over a full-bleed colour field (`.wash`: accent, price-violet, complaint-rose and delivery-teal radial washes, all token-derived so dark mode works). Mono dateline metadata and a static legend of the six classes. No scroll cue, no ring control. Primary button **Open the live inbox**, secondary **See the evaluation**. Footer: dataset credits and "demo uses a simulated Page feed".
+Hero: oversized tight display type **"Sort the noise. Keep the sale."**, centred on the screen, over a full-bleed colour field (`.wash`: accent, price-violet, complaint-rose and delivery-teal radial washes, plus four slowly drifting token-coloured orbs — everything drawn from the palette so dark mode works). No dateline row: the tagline and the "simulated Page feed" label were removed from the hero on request, and the simulation is still disclosed in the footer and on the Evaluation page. The hero closes with a static legend of the six classes. No scroll cue, no ring control. Primary button **Open the live inbox**, secondary **See the evaluation**. Footer: an oversized brand closing block (logo, wordmark, blurb, CTA) over the same colour field, with the five section links and the honesty line (simulated Page feed · dataset credits · legal) in a slim strip beneath it.
 
-Nav: one shared top bar (§5 `TopBar`) on every screen — translucent material, content scrolling under it, a soft gradient edge instead of a bottom border, and a segmented control holding the page links. **No in-page anchor links**; the landing's own sections are not navigation targets.
+Nav: one shared top bar (§5 `TopBar`) on every screen, **fully transparent**: no fill, no blur, no edge fade; the bar is a frame, not a panel. The section links sit centred on the bar's own axis on desktop, and in a centred row beneath it on mobile, inside a segmented control that carries no background either: the active item is an accent wash, never an ink (black) pill. **No in-page anchor links**; the landing's own sections are not navigation targets.
 
 ### 4.2 Inbox `/inbox` (main product)
-- Top bar: the shared `TopBar` (§4.1) — logo, shop switcher (static "Rina's Fashion House · Page"), threshold slider (label "Threshold τ", value shown, live counters "Auto 38 / Review 14 / Scam 3"), language + appearance toggles, health dot. Page links live in the segmented control with an ink fill on the active one.
+- Top bar: the shared `TopBar` (§4.1): logo, shop switcher (static "Rina's Fashion House · Page"), threshold slider (label "Threshold τ", value shown, live counters "Auto 38 / Review 14 / Scam 3"), language + appearance toggles, health dot. Page links live in the segmented control with an ink fill on the active one.
 - Lane tabs under top bar: All / Handled for you / Needs your eyes / Scam alerts, each with a count. Lane colour is icon + text first; the icons colour auto (green), review (accent) and scam (red).
 - Left (≈320 px): conversation list. Row: avatar (rounded ink tile with the customer's initial), name, last message preview, time, class chip, tiny confidence ring. The active row gets an accent left rule and an accent-tint background.
 - Center: thread view, chat bubbles, original script preserved. Review items show a sticky banner (accent border) with the route reason and buttons **Confirm "{class}"** / **Change to…** (resolve action).
@@ -105,16 +105,16 @@ Headline numbers (macro-F1, accuracy, ECE before/after), coverage-vs-accuracy cu
 ### 4.6 Preferences `/preferences`
 The screen that asks how the app should read. Two choice groups, each a stack of large tappable rows with the current one marked:
 
-- **Language** — English / বাংলা. Sets `lang` on `<html>` and switches the interface strings (`lib/i18n.ts`).
-- **Appearance** — Light / Dark. Sets the `.dark` class on `<html>` (§2) and `color-scheme` so native controls follow.
+- **Language:** English / বাংলা. Sets `lang` on `<html>` and switches the interface strings (`lib/i18n.ts`).
+- **Appearance:** Light / Dark. Sets the `.dark` class on `<html>` (§2) and `color-scheme` so native controls follow.
 
 Both apply instantly, are saved on the device in `localStorage` (`order_khata.lang`, `order_khata.theme`), and are mirrored by a compact toggle in the top bar so they are one tap away on every screen. Nothing is sent to the backend; there is no account. A live row at the bottom previews the three lane labels in the chosen language.
 
-**Language scope (deliberate):** the chrome and the narrative are translated — navigation, headings, buttons, the landing story, the footer, lane labels. Two things stay English: the six class names (they are the model's output labels and appear verbatim in the API contract, `docs/05`) and the detection internals (engine names, ECE, macro-F1, τ). Body copy inside Inbox / Dashboard / Evaluation is still English; add keys to `lib/i18n.ts` when that changes.
+**Language scope (deliberate):** the chrome and the narrative are translated: navigation, headings, buttons, the landing story, the footer, lane labels. Two things stay English: the six class names (they are the model's output labels and appear verbatim in the API contract, `docs/05`) and the detection internals (engine names, ECE, macro-F1, τ). Body copy inside Inbox / Dashboard / Evaluation is still English; add keys to `lib/i18n.ts` when that changes.
 
 ## 5. Components (build once, reuse)
-`TopBar / AppBar, PrefsControls, ClassChip, LaneChip / LaneIcon, ConfidenceBar, ProbBars, LaneTabs, ThresholdSlider, ConversationRow, MessageBubble, AIPanel, ResolveBar, StatCard, Histogram, CoverageCurve, HealthDot, LoadingScreen, ErrorScreen, EmptyState`. Landing primitives: `Section, SectionHead, ArrowLink, PrimaryCTA, GhostCTA`.
-Charts: plain SVG only — no chart dependency.
+`TopBar / AppBar, PrefsControls, ClassChip, LaneChip / LaneIcon, ConfidenceBar, ProbBars, LaneTabs, ThresholdSlider, ConversationRow, MessageBubble, AIPanel, ResolveBar, StatCard, Histogram, CoverageCurve, HealthDot, LoadingScreen, ErrorScreen, EmptyState, Reveal`. Landing primitives: `Section, SectionHead, ArrowLink, PrimaryCTA, GhostCTA`.
+Charts: plain SVG only, no chart dependency.
 
 ## 6. Interaction rules
 - Slider changes recompute lanes client-side instantly (no network) using `lib/route.ts`.
@@ -122,10 +122,10 @@ Charts: plain SVG only — no chart dependency.
 - Optimistic UI for resolve.
 - Loading: a branded loading screen while `/api/health` reports not ready (cold start).
 - Responsive: desktop-first (judges), usable at 390 px: single column with bottom lane tabs.
-- Empty/error states are designed, never blank. When the API is unreachable the app screens show `ErrorScreen` — an explanation, the start command, the underlying error, and a Retry button — never an endless spinner.
-- Honour `prefers-reduced-motion` (loops stop, feedback stays) and `prefers-reduced-transparency` (translucent chrome goes solid).
+- Empty/error states are designed, never blank. When the API is unreachable the app screens show `ErrorScreen`: an explanation, the start command, the underlying error, and a Retry button. Never an endless spinner.
+- Honour `prefers-reduced-motion` (loops stop, feedback stays; the hero orbs and scroll reveals switch off) and `prefers-reduced-transparency` (any translucency goes solid).
 - Theme and language live in `localStorage` and are applied by `lib/prefs.ts`; a custom event (`order_khata:prefs`) tells every mounted control to re-read, so no provider is needed. τ needs no event: `lib/store.ts` saves it and each screen reads it on mount. The language/theme choice is applied by an inline script in `app/layout.tsx` before first paint (keys from `lib/prefKeys.ts`, shared with `lib/prefs.ts`).
 - Press feedback lands on pointer-down (`:active` scale 0.98), never only on release.
 
 ## 7. Accessibility
-Keyboard-navigable lanes and list, visible focus ring (accent outline + a soft accent halo — never pure black), `aria-live="polite"` for new messages, color never the only status carrier. Both theme and language controls are real buttons with `aria-pressed` / `aria-current` and accessible names, and text contrast is verified in both themes (§2).
+Keyboard-navigable lanes and list, visible focus ring (accent outline + a soft accent halo, never pure black), `aria-live="polite"` for new messages, color never the only status carrier. Both theme and language controls are real buttons with `aria-pressed` / `aria-current` and accessible names, and text contrast is verified in both themes (§2).

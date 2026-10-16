@@ -1,50 +1,28 @@
 """Decision engine — S1 (docs/04 §1).
 
-Production engine: Laya fine-tuned checkpoint (Hour-0 gate, docs/08 Phase 0).
-Until it lands, a deterministic keyword stub implements the same interface so
-the whole pipeline runs and tests offline. The stub returns per-class scores
-passed through a sharp softmax — confident on clear single-class signals,
-unsure on conflicting or unknown text (which routes to review, as it should).
+The shipped engine is the artifact trained in `ml/notebooks/order_khata_lab.ipynb`:
+TF-IDF char n-grams + logistic regression over the 15 D1 intents (section 3.1),
+aggregated into the 5 base classes, plus a binary escalate head with the Platt
+calibrator fitted on validation (section 5.1).
+
+`aggregate_intents` is the pure part and stays byte-identical to that notebook's
+inlined copy (section 0.4).
+
+There is no keyword fallback. With no artifact the engine reports itself
+unavailable and returns a flat distribution, which cannot clear any threshold, so
+every message goes to review — honest, and the app still boots (AGENTS.md
+degraded-mode rule). Keyword heuristics scored confident nonsense and looked like
+a second opinion without being one.
 """
 from __future__ import annotations
 
+import logging
 import math
-import re
+from typing import Any, Optional
 
-from ..config import BASE_CLASSES, INTENT_TO_CLASS
+from ..config import BASE_CLASSES, INTENT_TO_CLASS, artifacts_dir
 
-# Latin tokens are matched on word boundaries; Bengali tokens match as
-# substrings (the lookarounds only guard against Latin letters).
-def _hit(text: str, token: str) -> bool:
-    return re.search(r"(?<![A-Za-z])" + re.escape(token) + r"(?![A-Za-z])", text, re.I) is not None
-
-
-KEYWORDS: dict[str, tuple[str, ...]] = {
-    "order": (
-        "order", "buy", "purchase", "book", "stock", "available",
-        "নিতে", "নিতে চাই", "কিনব", "কিনতে", "chailam", "chau", "nibo",
-    ),
-    "price_question": (
-        "price", "cost", "discount", "offer", "rate", "cheap",
-        "কত", "দাম", "টাকা", "koto", "tk", "taka", "dam",
-    ),
-    "delivery_problem": (
-        "delivery", "deliver", "shipping", "courier", "tracking", "address",
-        "পৌঁছ", "কত দিন", "কতদিন",
-    ),
-    "complaint": (
-        "complaint", "complain", "refund", "return", "damaged", "broken",
-        "wrong", "missing", "not working",
-        "খারাপ", "ভুল", "বিরক্ত",
-    ),
-}
-
-_ESCALATE_KEYWORDS: tuple[str, ...] = (
-    "human", "agent", "admin", "manager", "support team", "call me",
-    "আলাদা ভাবে", "ম্যানেজার",
-)
-
-_SOFTMAX_T = 0.25  # sharp: a single clear signal scores ~0.92
+log = logging.getLogger("order_khata.engines.decision")
 
 
 def aggregate_intents(intent_probs: dict[str, float]) -> dict[str, float]:
@@ -58,26 +36,75 @@ def aggregate_intents(intent_probs: dict[str, float]) -> dict[str, float]:
     return out
 
 
+def _logit(p: float) -> float:
+    """Probability -> log-odds, clipped away from 0 and 1 (notebook 5.1)."""
+    p = min(max(float(p), 1e-6), 1 - 1e-6)
+    return math.log(p / (1 - p))
+
+
 class DecisionEngine:
     """Interface: predict(normalized_text) -> (base_probs, escalate_prob)."""
 
-    name = "stub-keywords"
+    def __init__(
+        self,
+        intent_clf: Any = None,
+        escalate_clf: Any = None,
+        escalate_cal: Any = None,
+        meta: Optional[dict] = None,
+    ) -> None:
+        self._intent = intent_clf
+        self._escalate = escalate_clf
+        self._cal = escalate_cal
+        self.meta = meta or {}
+
+    @property
+    def loaded(self) -> bool:
+        return self._intent is not None and self._escalate is not None and self._cal is not None
+
+    @property
+    def name(self) -> str:
+        return "tfidf-lr" if self.loaded else "unavailable"
+
+    @classmethod
+    def load(cls) -> "DecisionEngine":
+        """Load both artifacts, or return an engine that honestly knows nothing.
+
+        Any failure lands here — a missing file, a pickle from an incompatible
+        scikit-learn, a truncated download. Boot must not depend on the artifact
+        being present, so the broad catch is the point.
+        """
+        try:
+            import joblib
+
+            intent = joblib.load(artifacts_dir() / "decision_tfidf.joblib")
+            esc = joblib.load(artifacts_dir() / "escalate_tfidf.joblib")
+            return cls(
+                intent_clf=intent["intent_clf"],
+                escalate_clf=esc["escalate_clf"],
+                escalate_cal=esc["escalate_cal"],
+                meta={
+                    "intent_kind": intent.get("kind"),
+                    "escalate_kind": esc.get("kind"),
+                    "trained_on": intent.get("trained_on"),
+                    "calibrated_on": esc.get("calibrated_on"),
+                },
+            )
+        except Exception as exc:  # noqa: BLE001 — degraded mode is a supported state
+            log.warning("decision artifacts not loaded (%s): %s; "
+                        "every message will go to review", type(exc).__name__, exc)
+            return cls()
 
     def predict(self, text: str) -> tuple[dict[str, float], float]:
-        lower = text.lower()
-        hits = {c: sum(1 for tok in toks if _hit(lower, tok)) for c, toks in KEYWORDS.items()}
-        escalate = 1.0 if any(_hit(lower, tok) for tok in _ESCALATE_KEYWORDS) else 0.02
+        if not self.loaded:
+            flat = 1.0 / len(BASE_CLASSES)
+            return {c: flat for c in BASE_CLASSES}, 0.0
 
-        if sum(hits.values()) == 0:
-            hits["other"] = 0.0  # unknown text: small bias, lands in review
-            scores = {c: (0.5 if c == "other" else 0.0) for c in BASE_CLASSES}
-        else:
-            scores = {c: float(hits.get(c, 0)) for c in BASE_CLASSES}
+        row = self._intent.predict_proba([text])[0]
+        intents = self._intent.named_steps["lr"].classes_
+        base5 = aggregate_intents(dict(zip(intents, row)))
 
-        # Sharp softmax over class scores.
-        shifted = {c: s / _SOFTMAX_T for c, s in scores.items()}
-        m = max(shifted.values())
-        exps = {c: math.exp(v - m) for c, v in shifted.items()}
-        z = sum(exps.values())
-        probs = {c: exps[c] / z for c in BASE_CLASSES}
-        return probs, escalate
+        # Raw head, then calibration — both steps, always in this order, exactly
+        # as notebook section 5.1 defines them.
+        raw = float(self._escalate.predict_proba([text])[0, 1])
+        escalate = float(self._cal.predict_proba([[_logit(raw)]])[0, 1])
+        return base5, escalate

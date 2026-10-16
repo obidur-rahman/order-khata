@@ -1,0 +1,794 @@
+{"id": "validation-0", "text": "ogrim pathiyechi kintu dekhacche না", "script": "mx", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-1", "text": "can it be sent as a condition parcel", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-2", "text": "excuse me the stitching came apart in one day", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-3", "text": "leaving", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-4", "text": "ঢাকার বাইরে ডেলিভারি হয় কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-5", "text": "what offersh run this month", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-6", "text": "i am not satisfied with your service", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-7", "text": "ekta power bank লাগবে", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-8", "text": "shipment ki hoyche", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-9", "text": "paymenterror dekhacche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-10", "text": "কন্ডিশনে পাঠানো যাবে", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-11", "text": "ekta power bank lagbe", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-12", "text": "এটা কেন এত দাম??", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-13", "text": "সর্বনিম্ন দাম কত", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-14", "text": "office er karo sathe kotha bola jabe", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-15", "text": "পরে আসবো", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-16", "text": "shat din hoye gelo refund pai নাই", "script": "mx", "intent": "return_refund", "cls": "complaint", "escalate": 1, "alt_intent": "complaint"}
+{"id": "validation-17", "text": "সেম ডে ডেলিভারি চার্জ কত", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "validation-18", "text": "অগ্রিম পাঠিয়েছি কিন্তু দেখাচ্ছে না?", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-19", "text": "Do you deliver to upazila level", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-20", "text": "got great treatment thanks", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-21", "text": "ভাই নতুন কাস্টমার আমি হ্যালো", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-22", "text": "আচ্ছা একসাথে তিনটা নিলে অফার আছে একটু", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-23", "text": "i am new here so please help, oh really", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "greeting"}
+{"id": "validation-24", "text": "accha ekta jokes bolo bhai", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-25", "text": "what timeis prayer", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-26", "text": "kemn achen", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-27", "text": "ami ekhane notun tai ektu help korun, please order ta kete din", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-28", "text": "ছাড়", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-29", "text": "gotgreat treatment thanks", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-30", "text": "I no longer want this item", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-31", "text": "kicu na", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-32", "text": "here is my order id please check??", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-33", "text": "panjabi stock e ache ki??", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-34", "text": "ekta headphone lagbe", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-35", "text": "শুনেন দুইবার অর্ডার হয়ে গেছে একটা বাদ দিন", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-36", "text": "ভাই অগ্রিম পাঠিয়েছি কিন্তু দেখাচ্ছে না প্লিজ", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-37", "text": "নতুন কি কি এসেছে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-38", "text": "tracking number din vai", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-39", "text": "what brands do you crry", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-40", "text": "i am donehere", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-41", "text": "chomotkar service dhonnobad??", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-42", "text": "tumi ki meye na chele??", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-43", "text": "আপনাদের ওপর ভরসা নষ্ট হয়ে গেছে", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-44", "text": "ogrim pathiyeci kintu dekhacche na", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-45", "text": "give me your officephone number", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-46", "text": "is tomorrow a holiday", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-47", "text": "manusher sathekotha bolte chai", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-48", "text": "shunen shukrobare o delivery hoy vai", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-49", "text": "Whats up", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-50", "text": "i sent the advance but it does not show", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-51", "text": "sorry to bother you but will it be there tomorrow", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-52", "text": "number den", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-53", "text": "ভাই দায়িত্বশীল কারো সাথে কথা বলান", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-54", "text": "শুনেন অর্ডারটা আর রাখতে চাই না", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-55", "text": "price after discount??", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-56", "text": "ektu vanga jinis peyechi vai", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "validation-57", "text": "when will i get my refund sir", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-58", "text": "চাকরির খবর আছে কি একটু", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-59", "text": "লিস্ট থেকে সরিয়ে দিন অর্ডারটা", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-60", "text": "apnader service e shontushto na", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-61", "text": "Is tomorrow a holiday", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-62", "text": "একটু মেয়েদের জন্য কিছু দেখান", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-63", "text": "connect meto customer care", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-64", "text": "office e porar moto kchu ache", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-65", "text": "assalamu alaikum vai chhar deoya jabe", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-66", "text": "Oh really", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "greeting"}
+{"id": "validation-67", "text": "Any voucher for first order", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-68", "text": "can smeone call me please", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-69", "text": "আচ্ছা আজকের আবহাওয়া কেমন", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-70", "text": "ছাড় .", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-71", "text": "Order id dilam dekhe bolen", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-72", "text": "isthis available right now", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-73", "text": "onek din opekkha korchi, hey ki obostha", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-74", "text": "greetingsh", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-75", "text": "numberden", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-76", "text": "Tracking number din", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-77", "text": "give me your office phone number", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-78", "text": "ok stop that order please", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-79", "text": "chatroder jonno ছাড় আছে", "script": "mx", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-80", "text": "tracking number din .", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-81", "text": "ei item ta abarashbe ki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-82", "text": "accha mobile stock e ache ki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-83", "text": "ওটিপি আসছে না পেমেন্ট করতে পারছি না ভাই", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-84", "text": "ভাই পণ্য বদল করা যাবে কি আপু", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-85", "text": "ami last week apnader theke order korechilam ar dekha hobe", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-86", "text": "মজুদ আছে কি এখন", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-87", "text": "mobile stock e acheki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-88", "text": "notun customer der jonno কি আছে", "script": "mx", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-89", "text": "accha dekha hobe apu", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-90", "text": "vanga jinis peyechi", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "validation-91", "text": "একটু পরে আসবো", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-92", "text": "নাম্বার দেন .", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-93", "text": "আপনাদের service e shontushto na", "script": "mx", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-94", "text": "what are your best sellers bro", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-95", "text": "Replace it", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-96", "text": "wrong size selected please cncel", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-97", "text": "is this abailable right now", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-98", "text": "নাম্বার দেন", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-99", "text": "leabing", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-100", "text": "drop it", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-101", "text": "faild", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-102", "text": "আচ্ছা মেয়েদের জন্য কিছু দেখান", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-103", "text": "what brands do you carry", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-104", "text": "Hi how are you", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-105", "text": "সালাম আমি এটা রাখতে চাই না ফেরত নিন", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-106", "text": "when will iget my refund", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-107", "text": "ok same day delivery cost bro", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-108", "text": "order ki pathano hoyche", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-109", "text": "is this available rght now", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-110", "text": "chhar deuya jabe", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-111", "text": "wrong size selected please cancel??", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-112", "text": "manusher sathe kotha blte chai", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-113", "text": "koto taka এটা", "script": "mx", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-114", "text": "বিজ্ঞাপনে যা দেখিয়েছেন তা পাইনি দয়া করে", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-115", "text": "এই বিষয়টা উপরে জানান আপু", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-116", "text": "stop thatorder", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-117", "text": "thanks for being so patient asap", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-118", "text": "ektu bundle offer ache apu", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-119", "text": "panjabi stock e ache কি", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-120", "text": "shunen size melene bodle dite parben vai", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-121", "text": "ভাই এই বিষয়টা উপরে জানান", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-122", "text": "আমার মালটা কোথায় আটকে আছে??", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-123", "text": "আল্লাহ হাফেজ", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-124", "text": "এই বিষয়টা উপরে জানান ধন্যবাদ", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": "complaint"}
+{"id": "validation-125", "text": "chatroder জন্য ছাড় ache", "script": "mx", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-126", "text": "মানা যায় না", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-127", "text": "এই বিষয়টা উপরে জানান একটু", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-128", "text": "any voucher for first order", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-129", "text": "is onli this colour left", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-130", "text": "এই বিষয়টা উপরে জানান", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-131", "text": "discount soho koto .", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-132", "text": "panjabi stock eache ki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-133", "text": "do you have a coupon code", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-134", "text": "shuvodupur vai", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-135", "text": "ekhane shob nile koto porbe?", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-136", "text": "i ordered from you last week and got great treatment thanks", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-137", "text": "kalke pabo to eta?", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-138", "text": "মজুদ আছে কি এখন দয়া করে", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-139", "text": "connect me to customer care .", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-140", "text": "খুব নিম্নমানের জিনিস দিয়েছেন??", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-141", "text": "Grateful for your support", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-142", "text": "আচ্ছা ছাড়", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-143", "text": "what do you have for men", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-144", "text": "প্রাইস লিস্ট দিবেন প্লিজ", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-145", "text": "আল্লাহ হাফেজ .", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-146", "text": "রিফান্ড কবে পাবো প্লিজ", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-147", "text": "আর কয়টা আছে একটু", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-148", "text": "bye", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-149", "text": "হ্যালো গরমের জন্য সুতির কিছু", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-150", "text": "amar bondhu apnader page suggest korlo, ami ekhon offline hocchi", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-151", "text": "দুইবার অর্ডার হয়ে গেছে একটা বাদ দিন একটু", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-152", "text": "bot bondho করে staff din", "script": "mx", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-153", "text": "আর কয়টা আছে?", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-154", "text": "একটু লিস্ট থেকে সরিয়ে দিন অর্ডারটা", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-155", "text": "ogrim pathiyechi kintu dekhacchena", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-156", "text": "same day delivery cost", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "validation-157", "text": "ok got great treatment thanks sir", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-158", "text": "ekta powr bank lagbe", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-159", "text": "আচ্ছা আপনাদের ওপর ভরসা নষ্ট হয়ে গেছে", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-160", "text": "ogrim pathiyechi কিন্তু dekhacche na", "script": "mx", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-161", "text": "the stitching came apart in one day", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "validation-162", "text": "Duita nile koto", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-163", "text": "i want to speak to someone directly", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-164", "text": "টাকা কাটলো কিন্তু কনফার্মেশন আসেনি??", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-165", "text": "oh really", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-166", "text": "where is last weeks order", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-167", "text": "order ki pathano hoyeche .", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-168", "text": "What do you have for men", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-169", "text": "আসসালামু আলাইকুম ভাই বিজ্ঞাপনে যা দেখিয়েছেন তা পাইনি", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-170", "text": "onek din opekkha korchi, ekta t-shirt lagbe", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-171", "text": "ektu office e porar moto kichu ache", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-172", "text": "মেয়েদের জন্য কিছু দেখান আপু", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-173", "text": "vnga jinis peyechi", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "validation-174", "text": "ekta headphne lagbe", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-175", "text": "I must thank your team", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-176", "text": "ekhane shob nile কত porbe", "script": "mx", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-177", "text": "kemun achen", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-178", "text": "ORD-778 order cancel kortechai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-179", "text": "মানা যায় না ধন্যবাদ", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "thanks"}
+{"id": "validation-180", "text": "আচ্ছা ঢাকার বাইরে ডেলিভারি হয় কি দয়া করে", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-181", "text": "kalke pabo to এটা", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-182", "text": "i am new here so please help, is only this colour left", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-183", "text": "আমার মায়ের জন্য কিছু হবে দয়া করে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-184", "text": "একসাথে তিনটা নিলে অফার আছে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "validation-185", "text": "thanks for beng so patient", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-186", "text": "kchu na", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-187", "text": "প্রাইস লিস্ট দিবেন .", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-188", "text": "i sent the advnce but it does not show", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-189", "text": "শুনেন নতুন কাস্টমার আমি হ্যালো ভাই", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-190", "text": "Kon courier diye pathan", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-191", "text": "ORD-778 order cancel korte চাই", "script": "mx", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-192", "text": "Same day delivery cost", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "validation-193", "text": "shipment ki hoyeche", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-194", "text": "assalamu alaikum vai size melene bodle dite parben", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-195", "text": "একটু চাকরির খবর আছে কি ভাই", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-196", "text": "Here is my order id please check", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-197", "text": "chomotkar service dhonnobad", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-198", "text": "order nkoch korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-199", "text": "hi how are you .", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-200", "text": "order কি pathano hoyeche", "script": "mx", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-201", "text": "একটা headphone lagbe", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-202", "text": "একটু দায়িত্বশীল কারো সাথে কথা বলান ভাই", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-203", "text": "মেয়েদের জন্য কিছু দেখান", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-204", "text": "কোনো খবর নেই কেন অর্ডারের .", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-205", "text": "transaction id dilammiliye dekhun", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-206", "text": "chhar deoya jabe", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "validation-207", "text": "free delivery koto takar order e?", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-208", "text": "what are your best sellers", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-209", "text": "hello vai ei item ta abar ashbe ki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-210", "text": "any news on yesterdays order thanks in advance", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-211", "text": "অগ্রিম পাঠিয়েছি কিন্তু দেখাচ্ছে না দয়া করে", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-212", "text": "আচ্ছা তাই আপু", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "greeting"}
+{"id": "validation-213", "text": "শুনেন খুব ভালো লাগলো ধন্যবাদ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-214", "text": "can it besent as a condition parcel", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-215", "text": "শুনেন এটা কেন এত দাম আপু", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-216", "text": "please order ta kete din??", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-217", "text": "cancl", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-218", "text": "kichu na", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-219", "text": "hi there the item is faulty i need a replacement", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 1, "alt_intent": "complaint"}
+{"id": "validation-220", "text": "ekta t-shirt lgbe", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-221", "text": "কিছু na", "script": "mx", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-222", "text": "i willreport you", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-223", "text": "Ogrim pathiyechi kintu dekhacche na", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-224", "text": "ektu juta stock e ache ki vai", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "product_search"}
+{"id": "validation-225", "text": "ভাই বান্ডেল অফার আছে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-226", "text": "দুইবার অর্ডার হয়ে গেছে একটা বাদ দিন", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-227", "text": "আচ্ছা নাম্বার দেন", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-228", "text": "gratefulfor your support", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-229", "text": "একটু এটা এখনো বিক্রি করছেন", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-230", "text": "office e porar moto কিছু ache", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-231", "text": "doyou have a coupon code", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-232", "text": "ei product ta puro বাজে taka noshto", "script": "mx", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "validation-233", "text": "বিরক্ত করার জন্য দুঃখিত কিন্তু কোনো খবর নেই কেন অর্ডারের", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-234", "text": "shuvo dupur vai", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-235", "text": "Later", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-236", "text": "পেমেন্ট অপশনে ঢুকতে পারছি না", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-237", "text": "সর্বনিম্ন দাম কত দয়া করে", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-238", "text": "upokarholo", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-239", "text": "একটু তোমার নাম কি", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "validation-240", "text": "শুনেন আর কয়টা আছে", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-241", "text": "প্রাইস লিস্ট দিবেন", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-242", "text": "রিফান্ড কবে পাবো দয়া করে", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-243", "text": "ভাই কোনো খবর নেই কেন অর্ডারের দয়া করে", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-244", "text": "order kipathano hoyeche", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-245", "text": "টাকা কাটলো কিন্তু কনফার্মেশন আসেনি প্লিজ", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-246", "text": "অর্ডারটা স্টপ করেন", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-247", "text": "mobile stock e ache ki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-248", "text": "আচ্ছা চাকরির খবর আছে কি", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-249", "text": "will it be there tomorrow", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-250", "text": "dhakayaj bristi hobe ki", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-251", "text": "ekta t-shirt lagbe??", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-252", "text": "ekta pooer bank lagbe", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-253", "text": "please order ta kete din ektu", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-254", "text": "drup it", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-255", "text": "How much", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-256", "text": "my friend suggested your page, i sent the advance but it does not show", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 1, "alt_intent": "order_status"}
+{"id": "validation-257", "text": "আপডেট??", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-258", "text": "একটু মানা যায় না ভাই", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-259", "text": "Exchange policy ki apnader", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-260", "text": "ektu ei product ta puro baje taka noshto apu", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-261", "text": "Office er karo sathe kotha bola jabe", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-262", "text": "dhakay আজ bristi hobe কি", "script": "mx", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-263", "text": "একটু অর্ডারটা স্টপ করেন প্লিজ", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-264", "text": "replaceit", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-265", "text": "ডেলিভারি কতদিন লাগে?", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-266", "text": "একটু রিটার্ন পলিসি কি প্লিজ", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-267", "text": "assalamu alaikum vai duita nile koto", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "greeting"}
+{"id": "validation-268", "text": "We will talk again", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-269", "text": "আমি গত সপ্তাহে আপনাদের থেকে অর্ডার করেছিলাম আর রাখছি এখন", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-270", "text": "please order ta kete din", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-271", "text": "লাস্ট পিস কি এটা দয়া করে", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-272", "text": "when will i get my refund??", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-273", "text": "ei item ta abar আসবে কি", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-274", "text": "1023456order cancel korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-275", "text": "ami ekhon offline hocci", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-276", "text": "nobody answers the phone sir", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "validation-277", "text": "খুব ভালো লাগলো ধন্যবাদ প্লিজ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-278", "text": "Is only this colour left", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "validation-279", "text": "ঢাকার বাইরে ডেলিভারি হয় কি .", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-280", "text": "shunen order nakoch korte chai apu", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-281", "text": "anything cheaper than this", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-282", "text": "the item is fulty i need a replacement", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-283", "text": "shipment কি hoyeche", "script": "mx", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-284", "text": "my friend suggested your page, the gateway keeps timing out", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-285", "text": "exchange polcy ki apnader", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-286", "text": "একটু বিজ্ঞাপনে যা দেখিয়েছেন তা পাইনি", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-287", "text": "ORD-778 order cancel করতে chai", "script": "mx", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-288", "text": "#98452 order cancel করতে chai", "script": "mx", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-289", "text": "duita nile koto", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-290", "text": "বান্ডেল অফার আছে??", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-291", "text": "Ord-778 order cancel korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-292", "text": "good morning can it be sent as a condition parcel", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "greeting"}
+{"id": "validation-293", "text": "exchange policy ki আপনাদের", "script": "mx", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-294", "text": "connect me to customer care", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-295", "text": "dhakay aj bristi hobe ki", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-296", "text": "order nakoch korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-297", "text": "ভাই মানা যায় না", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-298", "text": "taka katlo kintu confirmation ashenai", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-299", "text": "apnadr thanks janatei hoy", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-300", "text": "পণ্য বদল করা যাবে কি", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-301", "text": "রিটার্ন পলিসি কি??", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-302", "text": "apnader thanks janatei hoy", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-303", "text": "ORD-778 order cancel korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-304", "text": "bye??", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-305", "text": "মজুদ আছে কি এখন প্লিজ", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-306", "text": "apnader service e shontushtona", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-307", "text": "ei prduct ta puro baje taka noshto", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-308", "text": "size melene bodle dite parbn", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-309", "text": "ekta jokes bolo", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-310", "text": "i am not satisfied withyour service", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-311", "text": "i want to speak to someone directly .", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-312", "text": "কেউ আছেন", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "validation-313", "text": "manusher sathe kotha bolte chai", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-314", "text": "ogrim pathiyechi kintu dekhacche na", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-315", "text": "do you deliver to upazila lvel", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-316", "text": "i sent the adbance but it does not show", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-317", "text": "আচ্ছা তাই", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "greeting"}
+{"id": "validation-318", "text": "the gateway keeps timing out", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-319", "text": "is only this colour left", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-320", "text": "apnader service e shontushto না", "script": "mx", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-321", "text": "আচ্ছা ছাড় দেওয়া যাবে দয়া করে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-322", "text": "অগ্রিম পাঠিয়েছি কিন্তু দেখাচ্ছে না", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-323", "text": "ei item ta abar ashbe ki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-324", "text": "bot bondho kore staff din", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-325", "text": "আসি", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-326", "text": "নতুন কাস্টমার আমি হ্যালো .", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-327", "text": "জিনিস ta pochondo হয় nai ফেরত nen", "script": "mx", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-328", "text": "my friend suggested your page, anything cheaper than this", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-329", "text": "Give me your office phone number", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-330", "text": "জিনিস ta pochondo হয় নাই ferot nen", "script": "mx", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-331", "text": "will this item come back .", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-332", "text": "leaving thanks", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "thanks"}
+{"id": "validation-333", "text": "লিস্ট থেকে সরিয়ে দিন অর্ডারটা একটু", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-334", "text": "do you have a coupon code thanks", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-335", "text": "what offrs run this month", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-336", "text": "ভাই কন্ডিশনে পাঠানো যাবে", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-337", "text": "নাম্বার দেন ভাই", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-338", "text": "আচ্ছা সমাধান হয়ে গেল ধন্যবাদ একটু", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-339", "text": "chhar deoya jabe .", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-340", "text": "kon courier diye pathan", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-341", "text": "stock e kotogulo baki ache", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-342", "text": "juta stock e আছে ki", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-343", "text": "Kalke pabo to eta", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-344", "text": "তোমার নাম কি??", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-345", "text": "do you have a coupon code??", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-346", "text": "price after discount", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-347", "text": "shat din hoye gelorefund pai nai", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 1, "alt_intent": "payment_issue"}
+{"id": "validation-348", "text": "এটা কেন এত দাম", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-349", "text": "শুভ সকাল টাকা কাটলো কিন্তু কনফার্মেশন আসেনি", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-350", "text": "vai vai ektu somoy hobe vai", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "validation-351", "text": "sorry to bother you but connect me to customer care", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-352", "text": "onek ধন্যবাদ", "script": "mx", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-353", "text": "can it be sent as a cndition parcel", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-354", "text": "mobile stock e আছে ki", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-355", "text": "ভাই পেমেন্ট অপশনে ঢুকতে পারছি না", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-356", "text": "ei item ta abar আসবে ki", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-357", "text": "will this item come back", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-358", "text": "hi there is only this colour left", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-359", "text": "any news on yesterdays order", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-360", "text": "chatroder jonno chhar ache", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-361", "text": "#98452 ordercancel korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-362", "text": "stop that order", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-363", "text": "mubile stock e ache ki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-364", "text": "সমাধান হয়ে গেল ধন্যবাদ দয়া করে", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-365", "text": "dekha hobe", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "validation-366", "text": "office er karo sathe kotha bola jabe?", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-367", "text": "shukrobare o delivery hoy", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-368", "text": "size melene bodle dite parben?", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-369", "text": "আসি প্লিজ", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-370", "text": "size melene বদলে দিতে parben", "script": "mx", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-371", "text": "vai shat din hoye gelo refund pai nai bhai", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 1, "alt_intent": "complaint"}
+{"id": "validation-372", "text": "what brands doyou carry", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-373", "text": "eta ki holo", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-374", "text": "asdfgh qwerty?", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-375", "text": "what are your best sellrs", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-376", "text": "ভাঙা jinis পেয়েছি", "script": "mx", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "return_refund"}
+{"id": "validation-377", "text": "কেউ আছেন ভাই", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "validation-378", "text": "hi there nobody answers the phone", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "validation-379", "text": "নতুন কি কি এসেছে??", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-380", "text": "wrong sizeselected please cancel", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-381", "text": "juta stock e ache ki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-382", "text": "ami last week apnader theke order korechilam ar ekhane shob nile koto porbe", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-383", "text": "ektu bye plz", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-384", "text": "আজকের আবহাওয়া কেমন দয়া করে", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-385", "text": "condition e patano jabe", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-386", "text": "lter", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "validation-387", "text": "the size does not fit can i exchange", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-388", "text": "ভাই লাস্ট পিস কি এটা প্লিজ", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-389", "text": "#98452 order cancel korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-390", "text": "is this available right now", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-391", "text": "discountsoho koto", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-392", "text": "juta stock e acheki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-393", "text": "excuse me getting a payment error bro", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-394", "text": "শুনেন খুব নিম্নমানের জিনিস দিয়েছেন দয়া করে", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-395", "text": "ami jai", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-396", "text": "1023456 order cancel korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-397", "text": "hey failed thanks", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "thanks"}
+{"id": "validation-398", "text": "অর্ডারটা আর রাখতে চাই না", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-399", "text": "bundle offer ache", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-400", "text": "jinis ta pochondo hoy nai ferut nen", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-401", "text": "order id dilam dekhe bolen??", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-402", "text": "Tumi ki meye na chele", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-403", "text": "Apnader thanks janatei hoy", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-404", "text": "chomotkar service dhonnobd", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-405", "text": "asdfgh qoerty", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-406", "text": "how much?", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-407", "text": "উপকার হলো?", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-408", "text": "একটু উপকার হলো একটু", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-409", "text": "same day deliverycost", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-410", "text": "free delivery koto takarorder e", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-411", "text": "Nobody answers the phone", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "validation-412", "text": "ei product ta puro baje taka noshto dhonnobad", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-413", "text": "উপকার হলো", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-414", "text": "আসসালামু আলাইকুম ভাই এটা কেন এত দাম", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-415", "text": "hey i will report you thanks", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-416", "text": "vanga jinispeyechi", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-417", "text": "আর কয়টা আছে ধন্যবাদ", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-418", "text": "what time is prayer", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-419", "text": "conditione pathano jabe", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-420", "text": "শুনেন গরমের জন্য সুতির কিছু ভাই", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-421", "text": "ekta jokes bulo", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-422", "text": "vai ami ekhon offline hocchi ektu", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-423", "text": "duta nile koto", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-424", "text": "notun customer der jonno ki ache", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-425", "text": "cancel", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-426", "text": "the stitching came apartin one day", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-427", "text": "chhar deoya jabe ektu", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-428", "text": "apnader thanksh janatei hoy", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-429", "text": "123456", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-430", "text": "i must thank your team", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-431", "text": "আপনার ব্যবহার খুব ভালো ধন্যবাদ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-432", "text": "free delivery koto takar order e", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-433", "text": "Kichu na", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-434", "text": "ami jai bhai", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-435", "text": "office e porar moto kichu ache", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-436", "text": "Juta stock e ache ki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-437", "text": "failed .", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-438", "text": "nmber den", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-439", "text": "delvery charge inside dhaka", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-440", "text": "বান্ডেল অফার আছে ভাই", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-441", "text": "whats up", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-442", "text": "greetngs", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-443", "text": "আমার মালটা কোথায় আটকে আছে ভাই", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-444", "text": "আমার মায়ের জন্য কিছু হবে??", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-445", "text": "i no longer want this item?", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-446", "text": "Koto taka eta", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-447", "text": "tumi ki meye na chele", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-448", "text": "thanks for being so patient .", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-449", "text": "একটু আসি", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-450", "text": "এটা ki holo", "script": "mx", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-451", "text": "here is my order id please check", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-452", "text": "payment error dekhacche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-453", "text": "টাকা কাটলো কিন্তু কনফার্মেশন আসেনি", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-454", "text": "একটু মজুদ আছে কি এখন", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-455", "text": "ডেলিভারি কতদিন লাগে ভাই", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-456", "text": "is tomrrow a holiday", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-457", "text": "উপকার হলো প্লিজ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-458", "text": "got gret treatment thanks", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-459", "text": "hey the gateway keeps timing out sir", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-460", "text": "kemon achen", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-461", "text": "আচ্ছা ঢাকার বাইরে ডেলিভারি হয় কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-462", "text": "kalke pabo to eta", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-463", "text": "the gatewy keeps timing out", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-464", "text": "আমি গত সপ্তাহে আপনাদের থেকে অর্ডার করেছিলাম আর ছাড় দেওয়া যাবে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-465", "text": "হুম আপু", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "greeting"}
+{"id": "validation-466", "text": "ektu kalke pabo to eta", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-467", "text": "failed", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-468", "text": "discount soho koto", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-469", "text": "what offers run this month", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-470", "text": "আমি ekhon offline hocchi", "script": "mx", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-471", "text": "transaction id dilam miliye dekhun .", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-472", "text": "hey any voucher for first order", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-473", "text": "any newson yesterdays order", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-474", "text": "আপডেট একটু", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-475", "text": "when will i receive my ordr", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-476", "text": "নতুন customer der জন্য ki ache", "script": "mx", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-477", "text": "excuse me replace it thanks", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-478", "text": "Bundle offer ache", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-479", "text": "grateful for your support", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-480", "text": "আর কয়টা আছে", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-481", "text": "ছাড় দেওয়া যাবে প্লিজ", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-482", "text": "i ordered from you last week and i want to speak to someone directly", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": "order_status"}
+{"id": "validation-483", "text": "apnader thanks janatei হয়", "script": "mx", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-484", "text": "i mustthank your team", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-485", "text": "number den?", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-486", "text": "সমাধান হয়ে গেল ধন্যবাদ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-487", "text": "আপডেট", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-488", "text": "Connect me to customer care", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-489", "text": "accha upohar deyar moto ki ache apu", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-490", "text": "kalke পাবো to eta", "script": "mx", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-491", "text": "wrong size selected please cancel please reply", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-492", "text": "রাখছি এখন দয়া করে", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-493", "text": "getting a payment error?", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-494", "text": "order id dilam dekhe bolen", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-495", "text": "The item is faulty i need a replacement", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-496", "text": "আচ্ছা ওটিপি আসছে না পেমেন্ট করতে পারছি না প্লিজ", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-497", "text": "শুভ দুপুর ভাই .", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-498", "text": "ektat-shirt lagbe", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-499", "text": "later", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-500", "text": "when will i get my refund", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-501", "text": "Upohar deyar moto ki ache", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-502", "text": "hey ki obstha", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-503", "text": "transaction id dilam miliye dekhun", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-504", "text": "vai eta ki holo plz", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-505", "text": "এটার প্রাইস কত পড়বে", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-506", "text": "discount suho koto", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-507", "text": "লিস্ট থেকে সরিয়ে দিন অর্ডারটা?", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-508", "text": "where is last weeks order?", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-509", "text": "ekta headphone lagbe plz", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-510", "text": "ektu notun customer der jonno ki ache bhai", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-511", "text": "upokr holo", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-512", "text": "so what time is prayer sir", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-513", "text": "cancel ektu", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-514", "text": "ektu shuvo dupur vai bhai", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-515", "text": "Give me the real price", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-516", "text": "কন্ডিশনে পাঠানো যাবে আপু", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-517", "text": "keno", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-518", "text": "section ta ekbar dekhan to .", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-519", "text": "drop it??", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-520", "text": "ছাড় দেওয়া যাবে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-521", "text": "দায়িত্বশীল কারো সাথে কথা বলান", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-522", "text": "here is my ordr id please check", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-523", "text": "any neos on yesterdays order", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-524", "text": "how much", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-525", "text": "বিজ্ঞাপনে যা দেখিয়েছেন তা পাইনি", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-526", "text": "ami ekhon offline hocchi .", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-527", "text": "সমাধান হয়ে গেল ধন্যবাদ .", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-528", "text": "একটা power bank lagbe", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-529", "text": "stop that ordr", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-530", "text": "the gatewai keeps timing out", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-531", "text": "i want to speak to someone drectly", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-532", "text": "getting a payment error", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-533", "text": "bndle offer ache", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-534", "text": "Bot bondho kore staff din", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-535", "text": "upohar deyar moto ki আছে", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-536", "text": "একটু ছাড় দেওয়া যাবে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-537", "text": "এটা কেন এত দাম দয়া করে", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-538", "text": "whats up?", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-539", "text": "heyki obostha", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-540", "text": "Dhakay aj bristi hobe ki", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-541", "text": "শুভ সকাল কন্ডিশনে পাঠানো যাবে", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "greeting"}
+{"id": "validation-542", "text": "shukrobare o delivery hoy??", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-543", "text": "manusher sathe kutha bolte chai", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-544", "text": "i am done here", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-545", "text": "রাখছি এখন", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-546", "text": "Cancel", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-547", "text": "accha 1023456 order cancel korte chai vai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-548", "text": "do you deliver to upazila level thanks in advance", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-549", "text": "excuse me later bro", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-550", "text": "hey can someone call me please thanks", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-551", "text": "অর্ডারটা আর রাখতে চাই না দয়া করে", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-552", "text": "give me the real price", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-553", "text": "kichu না", "script": "mx", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-554", "text": "can someone call me please", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-555", "text": "এটা এখনো বিক্রি করছেন প্লিজ", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-556", "text": "onek dhunnobad", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-557", "text": "taka katlo kintu confirmation ashe nai", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-558", "text": "vanga জিনিস peyechi", "script": "mx", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-559", "text": "dkha hobe", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "out_of_scope"}
+{"id": "validation-560", "text": "Will it be there tomorrow", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-561", "text": "একটু হুম", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-562", "text": "manusher সাথে kotha বলতে chai", "script": "mx", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-563", "text": "আচ্ছা প্রাইস লিস্ট দিবেন ভাই", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-564", "text": "pnjabi stock e ache ki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-565", "text": "গরমের জন্য সুতির কিছু প্লিজ", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-566", "text": "bot bondho kure staff din", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-567", "text": "Getting a payment error", "script": "en", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-568", "text": "give me the real prce", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-569", "text": "office er karo sathe কথা bola jabe", "script": "mx", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-570", "text": "I am done here", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-571", "text": "এটা এখনো বিক্রি করছেন রিপ্লাই দিবেন প্লিজ", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-572", "text": "#98452 order cancel korte চাই", "script": "mx", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-573", "text": "delivery charge inside dhaka", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-574", "text": "panjabi stock e ache ki", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-575", "text": "assalamu alaikum vai cancel", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-576", "text": "ekhane shob nile koto porbe", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-577", "text": "excuse me whats up thanks", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "thanks"}
+{"id": "validation-578", "text": "tumi ki meye na chele ektu", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-579", "text": "i must thnk your team", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-580", "text": "খুব নিম্নমানের জিনিস দিয়েছেন", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-581", "text": "Ekhane shob nile koto porbe", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-582", "text": "koto taka eta", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-583", "text": "What brands do you carry", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-584", "text": "the item is faulty i need a replacement", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-585", "text": "আমি এটা রাখতে চাই না ফেরত নিন আপু", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-586", "text": "ami ekhane notun tai ektu help korun, eta ki holo", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "validation-587", "text": "চাকরির খবর আছে কি", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-588", "text": "আপনার ব্যবহার খুব ভালো ধন্যবাদ প্লিজ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-589", "text": "stock ekotogulo baki ache", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-590", "text": "ami last week apnader theke order korechilam ar order nakoch korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-591", "text": "প্লিজ order ta kete din", "script": "mx", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-592", "text": "excuse me oh really", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-593", "text": "আপনাদের ওপর ভরসা নষ্ট হয়ে গেছে প্লিজ", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-594", "text": "nubody answers the phone", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "validation-595", "text": "kon courier diyepathan", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-596", "text": "হুম", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "greeting"}
+{"id": "validation-597", "text": "accha upokar holo ektu", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-598", "text": "ekta t-shirt লাগবে", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-599", "text": "free delivery koto tkar order e", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-600", "text": "অর্ডারটা স্টপ করেন আপু", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-601", "text": "section ta ekbar dkhan to", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-602", "text": "নতুন কাস্টমার আমি হ্যালো", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-603", "text": "duita nile koto??", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-604", "text": "anything cheaper than thish", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "product_search"}
+{"id": "validation-605", "text": "order ki pathano hoyeche", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-606", "text": "transactin id dilam miliye dekhun", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-607", "text": "i will repurt you", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-608", "text": "apnadr service e shontushto na", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-609", "text": "dropit", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-610", "text": "order nakoch korte চাই", "script": "mx", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-611", "text": "jinis ta pochondo hoy nai fert nen", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-612", "text": "অনেক dhonnobad", "script": "mx", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-613", "text": "এটার প্রাইস কত পড়বে একটু", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-614", "text": "dhaky aj bristi hobe ki", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-615", "text": "keno .", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-616", "text": "পরে আসবো দয়া করে", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-617", "text": "ভাই ektu somoy হবে", "script": "mx", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "validation-618", "text": "any voucher for first order?", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-619", "text": "মানা যায় না .", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-620", "text": "ami last week apnader theke order korechilam ar notun customer der jonno ki ache", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-621", "text": "Any news on yesterdays order", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-622", "text": "কোনো খবর নেই কেন অর্ডারের", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-623", "text": "excuse me when will i receive my order", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-624", "text": "Keno", "script": "bl", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-625", "text": "chatroder jonnochhar ache", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-626", "text": "আসি?", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-627", "text": "kuto taka eta", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-628", "text": "আচ্ছা আজকের আবহাওয়া কেমন আপু", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-629", "text": "রিফান্ড কবে পাবো", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-630", "text": "একটু আমি এটা রাখতে চাই না ফেরত নিন", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-631", "text": "vaiektu somoy hobe", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "validation-632", "text": "shat din hoye gelo refund pai nai", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 1, "alt_intent": "complaint"}
+{"id": "validation-633", "text": "size melene bodle dite parben", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-634", "text": "রাখছি এখন একটু", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-635", "text": "একটু সেম ডে ডেলিভারি চার্জ কত একটু", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "validation-636", "text": "notn customer der jonno ki ache", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-637", "text": "give me your office phone nmber", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-638", "text": "i no longer want this item", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-639", "text": "hi how are you", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-640", "text": "price aftr discount", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": "discount_offer"}
+{"id": "validation-641", "text": "salam ORD-778 order cancel korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-642", "text": "how muc", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-643", "text": "খুব ভালো লাগলো ধন্যবাদ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-644", "text": "লাস্ট পিস কি এটা", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-645", "text": "wrong size selected please cancel", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-646", "text": "আচ্ছা আল্লাহ হাফেজ", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-647", "text": "oh realli", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "greeting"}
+{"id": "validation-648", "text": "the item is faulty i need a replacement??", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-649", "text": "Shukrobare o delivery hoy", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-650", "text": "শুনেন খুব ভালো লাগলো ধন্যবাদ আপু", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-651", "text": "রিটার্ন পলিসি কি", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-652", "text": "নতুন কি কি এসেছে ভাই", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-653", "text": "একটু আমার মায়ের জন্য কিছু হবে ভাই", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-654", "text": "shipment ki hoyeche .", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-655", "text": "আমার মালটা কোথায় আটকে আছে", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-656", "text": "এটার প্রাইস কত পড়বে প্লিজ", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-657", "text": "আপনাদের ওপর ভরসা নষ্ট হয়ে গেছে??", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-658", "text": "আমি এটা রাখতে চাই না ফেরত নিন", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": "order_cancel"}
+{"id": "validation-659", "text": "ektu payment error dekhacche bhai", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-660", "text": "ORD-778 ordr cancel korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-661", "text": "এটা এখনো বিক্রি করছেন", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-662", "text": "do you deliver to upazila level??", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-663", "text": "the stitching came apart in one day thanks in advance", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-664", "text": "একসাথে তিনটা নিলে অফার আছে?", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-665", "text": "পেমেন্ট অপশনে ঢুকতে পারছি না ভাই", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-666", "text": "when will i receive my order", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-667", "text": "1023456 order cancel korte chai agei dhonnobad", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-668", "text": "ekta power bank lagbe agei dhonnobad", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-669", "text": "dhakay aj bristi hobe কি", "script": "mx", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-670", "text": "deal", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-671", "text": "ok i no longer want this item sir", "script": "en", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-672", "text": "একসাথে তিনটা নিলে অফার আছে দয়া করে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-673", "text": "দায়িত্বশীল কারো সাথে কথা বলান?", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-674", "text": "ডেলিভারি কতদিন লাগে", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-675", "text": "i am not satsfied with your service", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-676", "text": "Ami jai", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-677", "text": "condition e pathano jabe", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-678", "text": "size melene বদলে dite পারবেন", "script": "mx", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-679", "text": "tumi ki meye না chele", "script": "mx", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-680", "text": "what time is pryer", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-681", "text": "salam shat din hoye gelo refund pai nai", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-682", "text": "do you deliver to upazila level", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-683", "text": "upohar deyr moto ki ache", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-684", "text": "একটু কন্ডিশনে পাঠানো যাবে", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-685", "text": "আচ্ছা অর্ডারটা স্টপ করেন", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-686", "text": "chatroder jonno chhar ache .", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-687", "text": "hi", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-688", "text": "What are your best sellers", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-689", "text": "আমার বন্ধু আপনাদের পেজ সাজেস্ট করলো, ঢাকার বাইরে ডেলিভারি হয় কি", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-690", "text": "ok will this item come back thanks", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "thanks"}
+{"id": "validation-691", "text": "অর্ডারটা আর রাখতে চাই না??", "script": "bn", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-692", "text": "দুইটা nile koto", "script": "mx", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-693", "text": "আজকের আবহাওয়া কেমন", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-694", "text": "can someonecall me please", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-695", "text": "ekta powerbank lagbe", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-696", "text": "upohar deyar moto ki ache", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-697", "text": "whereis last weeks order", "script": "en", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-698", "text": "upokar holo", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-699", "text": "notun customer der jonno ki ache??", "script": "bl", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-700", "text": "আচ্ছা তাই .", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "thanks"}
+{"id": "validation-701", "text": "hey the size does not fit can i exchange bro", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-702", "text": "hey is tomorrow a holiday", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-703", "text": "the stitching came apart in one day??", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-704", "text": "লাস্ট পিস কি এটা .", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-705", "text": "office e porar moto kichu আছে", "script": "mx", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-706", "text": "Will this item come back", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-707", "text": "ছাড় প্লিজ", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-708", "text": "তোমার নাম কি দয়া করে", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-709", "text": "Eta ki holo", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-710", "text": "greetings .", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-711", "text": "taka katlo kintu confirmation ashe nai?", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-712", "text": "বিজ্ঞাপনে যা দেখিয়েছেন তা পাইনি .", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-713", "text": "excuse me will it be there tomorrow sir", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": "shipping_delivery"}
+{"id": "validation-714", "text": "taka katlo kintu confirmation ashe নাই", "script": "mx", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-715", "text": "শুনেন পেমেন্ট অপশনে ঢুকতে পারছি না", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-716", "text": "i am not satishfied with your service", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-717", "text": "grateful for yuur support", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-718", "text": "dekha hobe?", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": "greeting"}
+{"id": "validation-719", "text": "আল্লাহ হাফেজ ভাই", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-720", "text": "replace it", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-721", "text": "office er karosathe kotha bola jabe", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-722", "text": "Kemon achen", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-723", "text": "#98452 order cancel korte chai .", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-724", "text": "একটু সর্বনিম্ন দাম কত", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-725", "text": "আমার বন্ধু আপনাদের পেজ সাজেস্ট করলো, অফিসের কারো সাথে কথা বলা যাবে", "script": "bn", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-726", "text": "anythng cheaper than this", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-727", "text": "Shat din hoye gelo refund pai nai", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 1, "alt_intent": "complaint"}
+{"id": "validation-728", "text": "asdfgh qwerty", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-729", "text": "shunen stock e kotogulo baki ache apu", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-730", "text": "vai ektu somy hobe", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": "agent_request"}
+{"id": "validation-731", "text": "শুনেন ওটিপি আসছে না পেমেন্ট করতে পারছি না", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-732", "text": "manusher sathe কথা bolte চাই", "script": "mx", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-733", "text": "আচ্ছা সেম ডে ডেলিভারি চার্জ কত", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": "price_inquiry"}
+{"id": "validation-734", "text": "Section ta ekbar dekhan to", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-735", "text": "amar bondhu apnader page suggest korlo, shipment ki hoyeche", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-736", "text": "ভাই ডেলিভারি কতদিন লাগে আপু", "script": "bn", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-737", "text": "stck e kotogulo baki ache", "script": "bl", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-738", "text": "ok deal sir", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": "thanks"}
+{"id": "validation-739", "text": "i am new here so please help, will this item come back", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-740", "text": "ekhne shob nile koto porbe", "script": "bl", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-741", "text": "anything cheaper thanthis", "script": "en", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-742", "text": "can it be sent as a condition parcel??", "script": "en", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-743", "text": "tracking number din", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-744", "text": "আমি এটা রাখতে চাই না ফেরত নিন??", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-745", "text": "বান্ডেল অফার আছে", "script": "bn", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-746", "text": "একটু আমার মালটা কোথায় আটকে আছে", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-747", "text": "ভাই কেউ আছেন", "script": "bn", "intent": "greeting", "cls": "other", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "validation-748", "text": "ekta t-shirt lagbe", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-749", "text": "পরে আসবো আপু", "script": "bn", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-750", "text": "গরমের জন্য সুতির কিছু", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-751", "text": "এটা এখনো বিক্রি করছেন??", "script": "bn", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-752", "text": "আপনার ব্যবহার খুব ভালো ধন্যবাদ??", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-753", "text": "টাকা কাটলো কিন্তু কনফার্মেশন আসেনি আপু", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-754", "text": "The size does not fit can i exchange", "script": "en", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-755", "text": "তোমার নাম কি", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-756", "text": "আচ্ছা তাই একটু", "script": "bn", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-757", "text": "ei product ta puro baje taka noshto", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-758", "text": "i will report you", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-759", "text": "সর্বনিম্ন দাম কত ভাই", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-760", "text": "shunen kon courier diye pathan bhai", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-761", "text": "excuse me 123456", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": "order_status"}
+{"id": "validation-762", "text": "what offers run this month??", "script": "en", "intent": "discount_offer", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-763", "text": "খুব নিম্নমানের জিনিস দিয়েছেন আপু", "script": "bn", "intent": "complaint", "cls": "complaint", "escalate": 0, "alt_intent": "return_refund"}
+{"id": "validation-764", "text": "thanks for being so patient", "script": "en", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-765", "text": "শুনেন আপনার ব্যবহার খুব ভালো ধন্যবাদ", "script": "bn", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-766", "text": "ওটিপি আসছে না পেমেন্ট করতে পারছি না", "script": "bn", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-767", "text": "condition e pathano jabe dhonnobad", "script": "bl", "intent": "shipping_delivery", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-768", "text": "accha shipment ki hoyeche", "script": "bl", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": null}
+{"id": "validation-769", "text": "we will talk again", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-770", "text": "what do you have for men??", "script": "en", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-771", "text": "section ta ekbar dekhan to", "script": "bl", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-772", "text": "nobody answers the phone", "script": "en", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": "agent_request"}
+{"id": "validation-773", "text": "Asdfgh qwerty", "script": "en", "intent": "out_of_scope", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-774", "text": "is only this clour left", "script": "en", "intent": "product_availability", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-775", "text": "bot bondho kore staff din agei dhonnobad", "script": "bl", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-776", "text": "1023456 order cncel korte chai", "script": "bl", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-777", "text": "please order ta kete দিন", "script": "mx", "intent": "order_cancel", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-778", "text": "একটু রিফান্ড কবে পাবো", "script": "bn", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-779", "text": "exchange policy ki apnader??", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-780", "text": "exchange policy ki apnader", "script": "bl", "intent": "return_refund", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-781", "text": "আচ্ছা এটার প্রাইস কত পড়বে", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-782", "text": "Payment error dekhacche", "script": "bl", "intent": "payment_issue", "cls": "complaint", "escalate": 0, "alt_intent": null}
+{"id": "validation-783", "text": "কোনো খবর নেই কেন অর্ডারের একটু", "script": "bn", "intent": "order_status", "cls": "delivery_problem", "escalate": 0, "alt_intent": "complaint"}
+{"id": "validation-784", "text": "i have been waiting a while, give me your office phone number", "script": "en", "intent": "agent_request", "cls": "other", "escalate": 1, "alt_intent": null}
+{"id": "validation-785", "text": "Apnader service e shontushto na", "script": "bl", "intent": "complaint", "cls": "complaint", "escalate": 1, "alt_intent": null}
+{"id": "validation-786", "text": "Chomotkar service dhonnobad", "script": "bl", "intent": "thanks", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-787", "text": "ami ekhon offline hocchi", "script": "bl", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-788", "text": "প্রাইস লিস্ট দিবেন আগেই ধন্যবাদ", "script": "bn", "intent": "price_inquiry", "cls": "price_question", "escalate": 0, "alt_intent": null}
+{"id": "validation-789", "text": "আমার মায়ের জন্য কিছু হবে", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-790", "text": "আচ্ছা নতুন কি কি এসেছে একটু", "script": "bn", "intent": "product_search", "cls": "order", "escalate": 0, "alt_intent": null}
+{"id": "validation-791", "text": "greetings", "script": "en", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-792", "text": "vai ektu somoy hobe", "script": "bl", "intent": "greeting", "cls": "other", "escalate": 0, "alt_intent": null}
+{"id": "validation-793", "text": "we will talk again .", "script": "en", "intent": "goodbye", "cls": "other", "escalate": 0, "alt_intent": null}

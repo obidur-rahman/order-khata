@@ -2,7 +2,7 @@
 /** AI panel (docs/06 §4.2): class chip, confidence bar with the enforced
  * threshold tick, six-class probability bars, second opinion, route reason,
  * latency. Route recomputation uses the SAME route() as the backend. */
-import { requiredThreshold, route, type RouteSignals } from "@/lib/route";
+import { SCAM_T, requiredThreshold, route, type RouteSignals } from "@/lib/route";
 import type { Prediction } from "@/lib/types";
 import { ClassChip } from "./ClassChip";
 import { ConfidenceBar } from "./ConfidenceBar";
@@ -46,7 +46,9 @@ export function AIPanel({
 }) {
   const [, reason] = route(signalsOf(pred), tau);
   const required = requiredThreshold(pred.top_class, tau, degraded);
-  const isScam = pred.scam_prob >= 0.5;
+  // Same gate the router uses (docs/04 §4 rule 1): SCAM_T, not a local guess —
+  // the card says "never auto-handled", which is only true at the real threshold.
+  const isScam = pred.scam_prob >= SCAM_T;
 
   return (
     <div className="space-y-3.5">

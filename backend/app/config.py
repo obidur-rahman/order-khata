@@ -80,10 +80,21 @@ TAU_MIN = 0.50              # slider range
 TAU_MAX = 0.99
 TAU_OTHER_OFFSET = 0.20     # tau_other = max(TAU_OTHER_MIN, tau - offset)
 TAU_OTHER_MIN = 0.60
-SCAM_T = 0.50               # fixed, not tied to the slider (hard invariant)
-ESCALATE_T = 0.50
+SCAM_T = 0.70               # fixed, not tied to the slider (hard invariant)
+ESCALATE_T = 0.20           # read against the CALIBRATED escalate score
+DECISIVE_T = 0.90           # at/above this the model's call is not vetoed (rule 4)
 DEGRADED_MARGIN = 0.05      # degraded: top_prob >= min(0.99, tau + 0.05)
 DEGRADED_MAX = 0.99
+
+# SCAM_T: chosen on D1/D2 validation (notebook 6.3) as the first cut meeting the
+# <= 2% false-alarm target of docs/07 §5. At 0.50 the head flagged 2.11% of
+# ordinary shop chat; 0.70 flags 0.25% while recall holds at 0.97.
+# ESCALATE_T: the escalate head is Platt-calibrated on validation (notebook 5.1)
+# because class_weight="balanced" inflated its raw scores (mean 0.28 against a
+# 0.12 base rate). 0.20 keeps the recall the raw 0.50 gave, with better precision.
+# DECISIVE_T: the LLM may only veto a call the model is unsure about. Where it
+# disagreed with a call at >= 0.90 the model was right 96% of the time and the LLM
+# 23%, so vetoing those cost coverage and accuracy both (notebook 8.4).
 
 # ---------------------------------------------------------------------------
 # LLM second signal (docs/04 §3.1)

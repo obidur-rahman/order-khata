@@ -8,6 +8,7 @@ import { api } from "@/lib/api";
 import { usePrefs } from "@/lib/prefs";
 import { loadTau } from "@/lib/store";
 import type { EvalResponse } from "@/lib/types";
+import { Reveal } from "../Reveal";
 import { ArrowLink, Section, SectionHead } from "./parts";
 
 function pct(v: number | undefined): string {
@@ -77,19 +78,21 @@ export function Rigor() {
           <p className="mt-4 max-w-2xl text-[16px] leading-[1.75] text-muted">{t("rigor.pendingBody")}</p>
         </div>
       ) : (
-        <dl className="mt-20 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-20 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s, i) => (
-            <div key={s.label} className="rounded-2xl border border-line bg-surface p-6 shadow-soft">
-              <dt className="label text-muted">{s.label}</dt>
-              <dd
-                className="tnum mt-4 text-[48px] leading-none"
-                style={{ color: TONES[i % TONES.length] }}
-              >
-                {s.value}
-              </dd>
-            </div>
+            <Reveal key={s.label} delay={i * 80}>
+              <div className="h-full rounded-2xl border border-line bg-surface p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-lift">
+                <div className="label text-muted">{s.label}</div>
+                <div
+                  className="tnum mt-4 text-[48px] leading-none"
+                  style={{ color: TONES[i % TONES.length] }}
+                >
+                  {s.value}
+                </div>
+              </div>
+            </Reveal>
           ))}
-        </dl>
+        </div>
       )}
 
       <div className="mt-16 flex flex-wrap items-end justify-between gap-6">

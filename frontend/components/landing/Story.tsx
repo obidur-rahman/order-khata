@@ -6,13 +6,14 @@ import { LaneIcon } from "@/components/LaneChip";
 import { LANE_META } from "@/lib/brand";
 import { usePrefs } from "@/lib/prefs";
 import type { Lane } from "@/lib/types";
+import { Reveal } from "../Reveal";
 import { Section, SectionHead } from "./parts";
 
-/** Colour carries the meaning of a fact, not of a status. */
+/** Colour carries the meaning of a fact, not of a status. Three cards, each
+ * saying something a shop owner actually cares about (docs/06 §4.1). */
 const FACTS: { k: string; n: string; tint: string }[] = [
   { k: "fact.scripts", n: "3", tint: "var(--accent)" },
   { k: "fact.classes", n: "6", tint: "var(--c-price)" },
-  { k: "fact.signals", n: "2", tint: "var(--c-delivery)" },
   { k: "fact.rule", n: "1", tint: "var(--lane-scam)" },
 ];
 
@@ -44,17 +45,19 @@ export function TheProblem() {
         {t("problem.quote")}
       </blockquote>
 
-      <dl className="mt-20 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-        {FACTS.map((f) => (
-          <div key={f.k} className="rounded-2xl border border-line bg-surface p-6 shadow-soft">
-            <dt className="label text-muted">{t(f.k)}</dt>
-            <dd className="tnum mt-4 text-[60px] leading-none" style={{ color: f.tint }}>
-              {f.n}
-            </dd>
-            <dd className="mt-4 text-[14px] leading-relaxed text-muted">{t(`${f.k}.body`)}</dd>
-          </div>
+      <div className="mt-20 grid gap-x-10 gap-y-12 sm:grid-cols-3">
+        {FACTS.map((f, i) => (
+          <Reveal key={f.k} delay={i * 90}>
+            <div className="h-full rounded-2xl border border-line bg-surface p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-lift">
+              <div className="label text-muted">{t(f.k)}</div>
+              <div className="tnum mt-4 text-[60px] leading-none" style={{ color: f.tint }}>
+                {f.n}
+              </div>
+              <p className="mt-4 text-[14px] leading-relaxed text-muted">{t(`${f.k}.body`)}</p>
+            </div>
+          </Reveal>
         ))}
-      </dl>
+      </div>
     </Section>
   );
 }
@@ -81,7 +84,7 @@ const SPECIMENS: Specimen[] = [
   },
   {
     lane: "scam",
-    rule: "scam_prob ≥ 0.50 · never auto-handled",
+    rule: "scam_prob ≥ 0.70 · never auto-handled",
     text: "Send the OTP to verify your account and click this link to claim your prize",
     script: "en",
   },
@@ -103,11 +106,11 @@ export function TheLanes() {
       />
 
       <div className="mt-20 grid gap-8 md:grid-cols-3">
-        {SPECIMENS.map((s) => (
-          <article
-            key={s.lane}
-            className="flex flex-col rounded-2xl border border-line bg-surface p-7 shadow-soft"
-          >
+        {SPECIMENS.map((s, i) => (
+          <Reveal key={s.lane} delay={i * 90}>
+            <article
+              className="flex h-full flex-col rounded-2xl border border-line bg-surface p-7 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-lift"
+            >
             <div className="flex items-center gap-2.5">
               <span style={{ color: `var(--lane-${s.lane})` }}>
                 <LaneIcon icon={LANE_META[s.lane].icon} size={14} />
@@ -129,7 +132,8 @@ export function TheLanes() {
             <p className="mt-auto pt-7 font-mono text-[10.5px] leading-relaxed uppercase tracking-[0.1em] text-muted">
               {s.rule}
             </p>
-          </article>
+            </article>
+          </Reveal>
         ))}
       </div>
 

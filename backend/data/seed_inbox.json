@@ -1,0 +1,684 @@
+{
+ "conversations": [
+  {
+   "customer_name": "Imran Akter",
+   "messages": [
+    {
+     "text": "t-shirt কিনতে chai",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Mehedi Rahman",
+   "messages": [
+    {
+     "text": "the product quality is very bad",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Shakib Islam",
+   "messages": [
+    {
+     "text": "khobor ki",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Imran Hossain",
+   "messages": [
+    {
+     "text": "black friday te chhar দিবেন",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Tania Akter",
+   "messages": [
+    {
+     "text": "shob কিছু ভুল pathiyechen",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Tanjila Hossain",
+   "messages": [
+    {
+     "text": "payment hocche na",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Nusrat Rahman",
+   "messages": [
+    {
+     "text": "ভ্যাট সহ দাম কত হবে",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Tanjila Rahman",
+   "messages": [
+    {
+     "text": "ok total cost all in thanks",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Tania Rahman",
+   "messages": [
+    {
+     "text": "মহান Independence Day-র শুভেচ্ছা। বিশ্বস্ত ও smart banking service-এ ২৪/৭ সোনালী Bank আপনার side-এ। মোঃ আফজাল করিম CEO এন্ড MD",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Nayeem Chowdhury",
+   "messages": [
+    {
+     "text": "what makes agood gift here",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Tanjila Islam",
+   "messages": [
+    {
+     "text": "any student discuunt",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Tania Sarker",
+   "messages": [
+    {
+     "text": "Sonali Bank urgent: Apnar ATM card suspiciously 3 times wrong PIN use hoyeche. Please reset apnar PIN ekhuni sonali-reset.org visit kore. Delay hole card block hobe.",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Mehedi Islam",
+   "messages": [
+    {
+     "text": "order confirm hoyeche কি",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Nusrat Sarker",
+   "messages": [
+    {
+     "text": "nagad e payment failkorche",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Imran Hossain",
+   "messages": [
+    {
+     "text": "excuse me otp is not coming so i cannot pay",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Habib Hossain",
+   "messages": [
+    {
+     "text": "human please",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Sumaiya Sarker",
+   "messages": [
+    {
+     "text": "কেউ কোনো uttor dey na",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Mehedi Akter",
+   "messages": [
+    {
+     "text": "koto taka porbe mot",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Nayeem Hossain",
+   "messages": [
+    {
+     "text": "order confirm হয়েছে ki",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Habib Hossain",
+   "messages": [
+    {
+     "text": "৭ দিনে পৌঁছাবে কি রিপ্লাই দিবেন প্লিজ",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Jannat Sarker",
+   "messages": [
+    {
+     "text": "ভাই ফ্রি ডেলিভারির কোনো অফার আছে প্লিজ",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Nusrat Hossain",
+   "messages": [
+    {
+     "text": "আচ্ছা প্রোডাক্ট ফেরত দিতে চাই",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Rakib Rahman",
+   "messages": [
+    {
+     "text": "আচ্ছা খুব ভালো ব্যবহার পেলাম ধন্যবাদ",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Jannat Hossain",
+   "messages": [
+    {
+     "text": "tutal cost all in",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Shakib Hossain",
+   "messages": [
+    {
+     "text": "koto taka porbe mot??",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Habib Chowdhury",
+   "messages": [
+    {
+     "text": "Headphone kinte chai",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Nayeem Sarker",
+   "messages": [
+    {
+     "text": "টাকাটা ফেরত পাওয়া যাবে তো",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Arif Sarker",
+   "messages": [
+    {
+     "text": "Error detected in Sonali Bank account. Click here for details: https://wa.me/8801815566778",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Sumaiya Rahman",
+   "messages": [
+    {
+     "text": "i did not understand anythng you said",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Mehedi Hossain",
+   "messages": [
+    {
+     "text": "আপনাদের service valo laglo",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Arif Rahman",
+   "messages": [
+    {
+     "text": "nobody replies to anything",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Arif Begum",
+   "messages": [
+    {
+     "text": "payment hocche না",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Habib Chowdhury",
+   "messages": [
+    {
+     "text": "curier",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Shakib Sarker",
+   "messages": [
+    {
+     "text": "bot na মানুষ chai",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Rakib Rahman",
+   "messages": [
+    {
+     "text": "চাই na",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Rakib Sarker",
+   "messages": [
+    {
+     "text": "courier e diyechen ki",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Habib Chowdhury",
+   "messages": [
+    {
+     "text": "শাকিবের সাথে ফ্রি ম্যাচ টিকিট জিততে ক্রিকেটে বাজি ধরুন! শুরু করুন: promusic.co/components/interbank.com/",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Sadia Rahman",
+   "messages": [
+    {
+     "text": "কোথায়??",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Rasel Rahman",
+   "messages": [
+    {
+     "text": "ভালো মোবাইল সাজেস্ট করুন ভাই",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Rumana Mia",
+   "messages": [
+    {
+     "text": "কোথায়",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Nayeem Islam",
+   "messages": [
+    {
+     "text": "vai headphone kinte chai ektu",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Mehedi Islam",
+   "messages": [
+    {
+     "text": "প্রিয় গ্রাহক, কলকাতা TS ATM.Txn# S32131611-20191005-এ 31-12-2019 তারিখে A/cXXXXX থেকে 25000 টাকা তোলা হয়েছে৷ আপনার দ্বারা না করা হলে, আপনার কার্ড ব্লক করতে নিবন্ধিত মোবাইল নম্বর থেকে এই এসএমএসটি 7679786941 এ ফরোয়ার্ড করুন বা অবিলম্বে 7029892098 -স্টেট ব্যাঙ্ক অফ ইন্ডিয়াতে কল করুন",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Shakib Chowdhury",
+   "messages": [
+    {
+     "text": "koto taka prbe mot",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Tania Mia",
+   "messages": [
+    {
+     "text": "cancel kora shomvob ki ekhon",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Sumaiya Rahman",
+   "messages": [
+    {
+     "text": "আপনার card ending in 9876 temporarily block করা হয়েছে due to unusual activity। Unblock করতে, please visit this link: http://card-unblock-bd.com",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Farhana Begum",
+   "messages": [
+    {
+     "text": "আজ পাবো ki",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Sadia Akter",
+   "messages": [
+    {
+     "text": "থ্যাংকস একটু",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Imran Islam",
+   "messages": [
+    {
+     "text": "Will you restock this",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Arif Mia",
+   "messages": [
+    {
+     "text": "bkash e payment fail krche",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Sadia Mia",
+   "messages": [
+    {
+     "text": "will yesterdays order arrive today",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Habib Begum",
+   "messages": [
+    {
+     "text": "ভাই কার্ড দিয়ে পেমেন্ট করতে পারছি না দয়া করে",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Mehedi Akter",
+   "messages": [
+    {
+     "text": "ok do you ship to sylhet thanks",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Imran Chowdhury",
+   "messages": [
+    {
+     "text": "english shekhau amake",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Rasel Hossain",
+   "messages": [
+    {
+     "text": "আপনার DBBL account থেকে ৳35,000 withdrawal detect করা হয়েছে। This is a fraudulent transaction. To cancel, dial 16216 immediately।",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Jannat Mia",
+   "messages": [
+    {
+     "text": "অনেকদিন অপেক্ষা করছি, ভালো ঘড়ি সাজেস্ট করুন",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Arif Begum",
+   "messages": [
+    {
+     "text": "withdraw my order",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Tanjila Chowdhury",
+   "messages": [
+    {
+     "text": "koto টাকা porbe mot",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Arif Hossain",
+   "messages": [
+    {
+     "text": "offer cholche ki এখন",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Jannat Rahman",
+   "messages": [
+    {
+     "text": "apnader service valo laglu",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Farhana Sarker",
+   "messages": [
+    {
+     "text": "thik আছে rakhi",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Arif Akter",
+   "messages": [
+    {
+     "text": "সব color ki ekhono ache",
+     "script": "mx",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Rasel Begum",
+   "messages": [
+    {
+     "text": "খুব ভালো ব্যবহার পেলাম ধন্যবাদ",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Tanjila Hossain",
+   "messages": [
+    {
+     "text": "আমি এখানে নতুন তাই একটু সাহায্য করুন, অর্ডারটা বাদ দিন",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Sumaiya Chowdhury",
+   "messages": [
+    {
+     "text": "Vaiya achen",
+     "script": "bl",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Shakib Akter",
+   "messages": [
+    {
+     "text": "my friend suggested your page, i want to talk to an agent",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Shakib Hossain",
+   "messages": [
+    {
+     "text": "Call to recharge your mobile: +8801815455567",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Sadia Begum",
+   "messages": [
+    {
+     "text": "ভাই সব মিলিয়ে কত হবে",
+     "script": "bn",
+     "source": "seed"
+    }
+   ]
+  },
+  {
+   "customer_name": "Sadia Islam",
+   "messages": [
+    {
+     "text": "will yesterdays order arrive today thank you",
+     "script": "en",
+     "source": "seed"
+    }
+   ]
+  }
+ ]
+}

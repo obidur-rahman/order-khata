@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...except the dev API origin: no secret, and `next dev` needs it to find
+# the backend (README "Frontend development").
+!.env.development
 
 # vercel
 .vercel

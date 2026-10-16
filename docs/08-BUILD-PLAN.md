@@ -21,7 +21,7 @@ generated from it if one is ever needed, never hand-written.
 - `engines/decision.py`, `engines/scam.py`, `engines/llm.py` (cache, timeout, fallback), `calibrate.py`.
 - `router.py` + fixture-based unit tests.
 - `db.py`, seed loader, `/api/*` endpoints, simulator.
-- `03_calibrate.py`, `04_train_scam_head.py`.
+- `03_calibrate.py`, `04_train_scam_head.py` — **superseded**: calibration (notebook §7) and the scam head (§6) are cells in `ml/notebooks/order_khata_lab.ipynb`, which is the single source of truth for the pipeline.
 - **Milestone M1:** `curl POST /api/messages` returns a full `MessageRecord` locally.
 
 ## Phase 2 — Hour 10–18: frontend + first deploy
@@ -37,7 +37,7 @@ generated from it if one is ever needed, never hand-written.
 - **Milestone M3:** all five screens live.
 
 ## Phase 4 — Hour 30–38: evaluation and rigor
-- `05_evaluate.py` → real `eval.json`; wire the Evaluation page.
+- `05_evaluate.py` → real `eval.json` — **superseded**: section 8 of the notebook writes `eval.json`; `ml/pipeline.py` is generated from the notebook by `nbconvert` as the receipt, never hand-edited.
 - OOD run on BanglaTOD (timeboxed 1 h).
 - Latency measured on the deployed Space.
 - **Milestone M4:** real numbers on the page.

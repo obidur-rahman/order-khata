@@ -38,8 +38,8 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   "hero.t2a": S("Keep the", "বিক্রি"),
   "hero.t2b": S("sale.", "রাখুন।"),
   "hero.lede": S(
-    "Every customer message — Bangla, Banglish or English — read, sorted and labelled. You only see the ones that need you.",
-    "বাংলা, বাংলিশ বা ইংরেজি — প্রতিটি মেসেজ পড়া হয়, সাজানো হয়, চিহ্নিত হয়। শুধু যেগুলোতে আপনার দরকার, সেগুলোই দেখুন।",
+    "Every customer message, read, sorted and labelled for you, so you only see the ones that need you.",
+    "প্রতিটি কাস্টমার মেসেজ আপনার জন্য পড়া, সাজানো ও লেবেল দেওয়া হয়, তাই দেখতে হয় শুধু যেগুলোতে আপনার দরকার।",
   ),
   "hero.ctaInbox": S("Open the live inbox", "লাইভ ইনবক্স খুলুন"),
   "hero.ctaEval": S("See the evaluation", "মূল্যায়ন দেখুন"),
@@ -56,20 +56,18 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
     "Wrong but confident is the real risk. So the system asks for a person instead of guessing.",
     "ভুল হয়েও নিশ্চিত — এটাই আসল ঝুঁকি। তাই সিস্টেম অনুমান না করে একজন মানুষকে জিজ্ঞেস করে।",
   ),
-  "fact.scripts": S("scripts", "ভাষা"),
-  "fact.scripts.body": S("Bangla, Banglish, English", "বাংলা, বাংলিশ, ইংরেজি"),
+  "fact.scripts": S("languages", "ভাষা"),
+  "fact.scripts.body": S(
+    "All sorts of languages: be it Bangla, English or Banglish.",
+    "যেকোনো ভাষা: বাংলা হোক, ইংরেজি বা বাংলিশ।",
+  ),
   "fact.classes": S("classes", "ধরন"),
   "fact.classes.body": S(
-    "Order · Price · Delivery · Complaint · Scam · Other",
-    "Order · Price · Delivery · Complaint · Scam · Other",
-  ),
-  "fact.signals": S("signals", "সংকেত"),
-  "fact.signals.body": S(
-    "decision model + an independent second opinion",
-    "ডিসিশন মডেল + একটি স্বতন্ত্র দ্বিতীয় মত",
+    "Every message is classified and labelled into 6 groups: Order · Price · Delivery · Complaint · Scam · Other",
+    "প্রতিটি মেসেজ ৬টি গ্রুপে ভাগ ও লেবেল করা হয়: Order · Price · Delivery · Complaint · Scam · Other",
   ),
   "fact.rule": S("hard rule", "কঠিন নিয়ম"),
-  "fact.rule.body": S("a scam is never handled automatically", "স্ক্যাম কখনও নিজে থেকে সামলানো হয় না"),
+  "fact.rule.body": S("We never handle scams automatically.", "স্ক্যাম কখনও নিজে থেকে সামলানো হয় না।"),
 
   /* ── how it works ─────────────────────────────────────────────────── */
   "how.t1": S("A pipeline that never", "যে পাইপলাইন কখনও"),
@@ -90,7 +88,7 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   ),
   "how.3.title": S("Run the scam guard", "স্ক্যাম গার্ড চালান"),
   "how.3.body": S(
-    "A separate binary head. Above 0.50 a message can never be handled automatically. It runs before routing, and it has a test.",
+    "A separate binary head. Above 0.70 a message can never be handled automatically. It runs before routing, and it has a test.",
     "আলাদা একটি বাইনারি হেড। ০.৫০-এর উপরে গেলে মেসেজ কখনও নিজে থেকে সামলানো হয় না। রাউটিংয়ের আগেই চলে, আর এর একটি টেস্ট আছে।",
   ),
   "how.4.title": S("Ask for a second opinion", "দ্বিতীয় মত নিন"),
@@ -160,8 +158,8 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   ),
   "rigor.pending": S("Not yet evaluated", "এখনও মূল্যায়ন হয়নি"),
   "rigor.pendingBody": S(
-    "The evaluation has not run, so there are no numbers to show. That is on purpose: a placeholder passed off as a result would be a lie. They appear the moment ml/05_evaluate.py writes the file.",
-    "মূল্যায়ন এখনও চলে নি, তাই দেখানোর মতো সংখ্যা নেই। এটা ইচ্ছাকৃত — ভান করা সংখ্যা একটা মিথ্যা। ml/05_evaluate.py ফাইল লেখার সাথে সাথেই এগুলো আসবে।",
+    "The evaluation has not run, so there are no numbers to show. That is on purpose: a placeholder passed off as a result would be a lie. They appear the moment the notebook writes the file.",
+    "মূল্যায়ন এখনও চলে নি, তাই দেখানোর মতো সংখ্যা নেই। এটা ইচ্ছাকৃত — ভান করা সংখ্যা একটা মিথ্যা। নোটবুক ফাইল লেখার সাথে সাথেই এগুলো আসবে।",
   ),
   "rigor.openEval": S("open evaluation", "মূল্যায়ন খুলুন"),
   "rigor.systems": S("systems compared", "তুলনা করা সিস্টেম"),
@@ -206,6 +204,10 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   ),
   "footer.product": S("product", "প্রোডাক্ট"),
   "footer.proof": S("proof", "প্রমাণ"),
+  "footer.credits": S(
+    "Datasets: public Bangla e-commerce customer-message corpus (CC BY-NC-SA 4.0) · Bengali SMS smishing corpus (MIT)",
+    "ডেটাসেট: পাবলিক বাংলা ই-কমার্স কাস্টমার-মেসেজ কর্পাস (CC BY-NC-SA 4.0) · বাংলা SMS স্মিশিং কর্পাস (MIT)",
+  ),
   "footer.note": S("demo uses a simulated Page feed", "ডেমোতে সিমুলেটেড পেজ ফিড"),
   "footer.legal": S(
     "Order Khata · 2026 · not real seller messages",

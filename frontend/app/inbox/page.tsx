@@ -164,7 +164,7 @@ export default function InboxPage() {
               {visible.length === 0 ? (
                 <EmptyState
                   title="Nothing in this lane"
-                  hint="Messages appear here as they are classified — or paste one in Try It."
+                  hint="Messages appear here as they are classified, or paste one in Try It."
                   icon={<InboxIcon size={20} />}
                 />
               ) : (
@@ -198,7 +198,7 @@ export default function InboxPage() {
             ) : (
               <EmptyState
                 title="Pick a conversation"
-                hint="Or open Try It and paste your own message — it lands right here."
+                hint="Or open Try It and paste your own message. It lands right here."
                 icon={<EyeIcon size={20} />}
               />
             )}

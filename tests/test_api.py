@@ -2,11 +2,24 @@
 400/404/429/503 error contract."""
 from __future__ import annotations
 
+from pathlib import Path
+
+import pytest
+
 from app import config
+from app.router import required_threshold
 
 BANGLISH = "ei saree ta ki stock e ache?"      # script bl, class order
 BANGLA = "সারির দাম কত?"                        # script bn, class price
 ENGLISH = "Where is my order? It has not been delivered yet."  # script en
+
+ARTIFACTS = Path(__file__).resolve().parents[1] / "backend" / "artifacts"
+TRAINED = ("decision_tfidf.joblib", "escalate_tfidf.joblib", "scam_head.joblib")
+
+
+def artifacts_built() -> bool:
+    """The .joblib files are gitignored: a fresh clone legitimately has none."""
+    return all((ARTIFACTS / name).exists() for name in TRAINED)
 
 
 def test_health_schema(client):
@@ -15,7 +28,9 @@ def test_health_schema(client):
     body = r.json()
     assert set(body) == {"status", "model_loaded", "llm_provider", "llm_status", "version"}
     assert body["status"] == "ok"
-    assert body["model_loaded"] is True
+    # Honesty: `model_loaded` reports the artifacts, not the uptime. The app boots
+    # and serves without them (degraded), so the flag must not be a constant.
+    assert body["model_loaded"] is artifacts_built()
     assert body["llm_status"] in ("ok", "unavailable")
     assert body["version"] == config.VERSION
 
@@ -26,7 +41,11 @@ def test_config_schema(client):
     assert body["tau_min"] == 0.50
     assert body["tau_max"] == 0.99
     assert body["tau_other_offset"] == 0.20
-    assert body["scam_t"] == 0.50
+    # These three are the values the router actually enforces, and the frontend's
+    # lib/route.ts mirrors them (tests/test_parity.py keeps the pair honest).
+    assert body["scam_t"] == config.SCAM_T == 0.70
+    assert body["escalate_t"] == config.ESCALATE_T == 0.20
+    assert body["decisive_t"] == config.DECISIVE_T == 0.90
     assert body["classes"] == list(config.CLASSES)
     assert set(body["class_meta"]) == set(config.CLASSES)
     for meta in body["class_meta"].values():
@@ -154,27 +173,113 @@ def test_stats_schema(client):
     assert body["time_saved_s"] == body["auto_count"] * 20
 
 
-def test_eval_returns_honest_placeholder(client):
+def test_eval_serves_the_real_artifact_or_404(client, monkeypatch, tmp_path):
+    """docs/07 §5: every displayed number comes from backend/artifacts/eval.json.
+
+    Two honest states only — the measured artifact, or a 404. Never fabricated
+    zeros (AGENTS.md honesty rules).
+    """
     r = client.get("/api/eval")
-    assert r.status_code == 200
-    body = r.json()
-    assert body["generated_at"] is None
-    assert any("NOT YET EVALUATED" in lim for lim in body["limitations"])
-    assert body["systems"] == {}  # no fabricated numbers (AGENTS.md honesty rules)
+    if artifacts_built():
+        assert r.status_code == 200
+        body = r.json()
+        assert body["generated_at"], "eval.json must carry the run timestamp"
+        assert {"B1", "E1", "E3"} <= set(body["systems"])
+        assert body["limitations"], "limitations are required, not optional"
+    else:
+        assert r.status_code == 404
+
+    # With no artifact directory at all the endpoint must refuse, not invent.
+    monkeypatch.setattr(config, "artifacts_dir", lambda: tmp_path)
+    r = client.get("/api/eval")
+    assert r.status_code == 404
+    assert r.json()["detail"] == "eval_not_available"
 
 
-def test_simulator_start_stop_without_seed(client):
+def test_simulator_start_stop(client):
+    """The simulator must actually start when a seed pool exists.
+
+    It used to raise "no running event loop": `Simulator.start()` calls
+    `asyncio.create_task`, and a *sync* FastAPI endpoint runs in a worker thread,
+    which has no loop. It only bit when a pool existed, because an empty pool
+    returns before touching asyncio.
+    """
+    sim = client.app.state.simulator
+    if not sim.pool:
+        pytest.skip("no seed pool in this checkout")
     r = client.post("/api/simulator", json={"running": True, "interval_s": 6})
+    assert r.status_code == 200, r.text
+    assert r.json() == {"running": True, "interval_s": 6.0}
+    r = client.post("/api/simulator", json={"running": False})
     assert r.status_code == 200
-    assert r.json()["running"] is False  # no seed pool -> gracefully inert
-    assert client.post("/api/simulator", json={"running": False}).status_code == 200
+    assert r.json()["running"] is False
 
 
+def test_simulator_inert_without_pool(client, monkeypatch):
+    monkeypatch.setattr(client.app.state.simulator, "pool", [])
+    r = client.post("/api/simulator", json={"running": True})
+    assert r.status_code == 200
+    assert r.json()["running"] is False  # nothing to replay -> gracefully inert
+
+
+@pytest.mark.skipif(not artifacts_built(), reason="trained artifacts not built (run the notebook)")
 def test_predict_classifies_order_message(client):
     pred = client.post("/api/messages", json={"text": BANGLISH}).json()["prediction"]
+    assert pred["engine"] == "tfidf-lr"
     assert pred["top_class"] == "order"
-    # No provider keys configured in tests -> degraded mode (docs/04 §4):
-    # second signal unavailable, stricter threshold applies.
+    assert 0.0 < pred["top_prob"] <= 1.0
+
+    # In tests the provider keys are cleared, so the LLM is unavailable, rule 4 is
+    # skipped and the stricter degraded bar applies (docs/04 §4).
     assert pred["llm_status"] == "unavailable"
-    assert pred["lane"] == "review"
-    assert pred["route_reason"].startswith("Low confidence")
+    assert pred["lane"] != "scam" and pred["scam_prob"] < config.SCAM_T
+
+
+def test_predict_lane_matches_its_own_thresholds(client):
+    """No artifact, no key, no matter: the stored lane must be exactly what the
+    stored signals imply. This is the contract the frontend re-derives when the
+    slider moves, so a disagreement here would be a real bug."""
+    pred = client.post("/api/messages", json={"text": BANGLISH}).json()["prediction"]
+    assert pred["lane"] in ("auto", "review", "scam")
+
+    always_blocks = (pred["scam_prob"] >= config.SCAM_T
+                     or pred["escalate_prob"] >= config.ESCALATE_T)
+    bar = required_threshold(pred["top_class"], config.TAU_DEFAULT,
+                             pred["llm_status"] == "unavailable")
+    vetoed = (pred["llm_status"] == "ok" and pred["llm_class"] is not None
+              and pred["llm_class"] != pred["top_class"]
+              and pred["top_prob"] < config.DECISIVE_T)
+    could_be_auto = pred["top_prob"] >= bar and not always_blocks and not vetoed
+    assert (pred["lane"] == "auto") is bool(could_be_auto)
+
+
+def test_prediction_field_set_is_the_documented_contract():
+    """docs/05: the Prediction field set is a contract with the frontend."""
+    from app.schemas import Prediction
+
+    model = Prediction(
+        class_probs={c: (1.0 if c == "order" else 0.0) for c in config.CLASSES},
+        top_class="order", top_prob=0.93, scam_prob=0.02, escalate_prob=0.0,
+        llm_class="order", llm_reason="all engines agree", llm_status="ok",
+        engine="tfidf-lr", latency_ms=12, lane="auto",
+        route_reason="Confident and second opinion agrees",
+    )
+    assert set(Prediction.model_fields) == {
+        "class_probs", "top_class", "top_prob", "scam_prob", "escalate_prob",
+        "llm_class", "llm_reason", "llm_status", "engine", "latency_ms",
+        "lane", "route_reason",
+    }
+    assert model.top_class == "order" and model.lane == "auto"
+
+
+def test_response_models_accept_the_artifact_shapes():
+    """The eval payload the notebook writes must validate against EvalResponse."""
+    import json as _json
+    from app.schemas import EvalResponse
+
+    path = ARTIFACTS / "eval.json"
+    if not path.exists():
+        pytest.skip("no eval.json yet")
+    payload = _json.loads(path.read_text(encoding="utf-8"))
+    model = EvalResponse(**payload)
+    assert model.systems and model.limitations

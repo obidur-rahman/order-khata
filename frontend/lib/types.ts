@@ -81,6 +81,7 @@ export interface ConfigResponse {
   tau_other_offset: number;
   scam_t: number;
   escalate_t: number;
+  decisive_t: number;
   classes: ClassKey[];
   class_meta: Record<ClassKey, ClassMeta>;
 }
@@ -107,7 +108,7 @@ export interface CoveragePoint {
   auto_accuracy: number;
 }
 
-/** Loose shape: produced by ml/05_evaluate.py (docs/07 §6). */
+/** Loose shape: written by ml/notebooks/order_khata_lab.ipynb §8 (docs/07 §6). */
 export interface EvalResponse {
   generated_at: string | null;
   data: Record<string, number>;

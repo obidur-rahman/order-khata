@@ -26,8 +26,10 @@ class Pipeline:
         temperature: float | None = None,
         ready: bool = True,
     ) -> None:
-        self.decision = decision or DecisionEngine()
-        self.scam_head = scam_head or ScamHead()
+        # `or` is not used for the engines: an engine that loaded nothing is still
+        # an engine, and swapping it for a second guess would hide the failure.
+        self.decision = DecisionEngine.load() if decision is None else decision
+        self.scam_head = ScamHead.load() if scam_head is None else scam_head
         self.llm = llm or LLMClient()
         self.temperature = load_temperature() if temperature is None else temperature
         self.ready = ready
@@ -37,8 +39,17 @@ class Pipeline:
         return cls()
 
     @property
+    def model_loaded(self) -> bool:
+        """True only when both trained artifacts are actually in memory."""
+        return self.decision.loaded and self.scam_head.loaded
+
+    @property
     def engine_name(self) -> str:
-        return self.decision.name
+        if self.model_loaded:
+            return self.decision.name
+        missing = [n for n, ok in (("decision", self.decision.loaded),
+                                   ("scam", self.scam_head.loaded)) if not ok]
+        return f"unavailable (no artifact: {', '.join(missing)})"
 
     @property
     def llm_status(self) -> str:

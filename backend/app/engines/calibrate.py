@@ -1,8 +1,8 @@
 """Temperature scaling (docs/04 §3).
 
-Fits offline (ml/03_calibrate.py); here we only load the fitted scalar and
-apply it to probability vectors in log space. Without an artifact, T = 1.0
-(identity) so the app works before calibration exists.
+Fitted in notebook section 7 (`ml/notebooks/order_khata_lab.ipynb`); here we only
+load the fitted scalar and apply it to probability vectors in log space. Without
+an artifact, T = 1.0 (identity) so the app works before calibration exists.
 """
 from __future__ import annotations
 

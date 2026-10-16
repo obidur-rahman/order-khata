@@ -50,6 +50,7 @@ Do **not** use BanglaPhish-2026 (explicitly synthetic).
 
 ## 6. Preparation outputs (notebook sections 1–2)
 - `backend/data/d1_{train,val,test}.jsonl` with fields: `id, text, script, intent, cls, escalate, alt_intent`.
-- `backend/data/d2_{train,val,test}.jsonl` with: `id, text, script, is_scam`.
-- `backend/data/seed_inbox.json`.
+- `backend/data/seed_inbox.json` (and the simulator's prediction cache, `seed_predictions.json`).
+- `backend/artifacts/`: `decision_tfidf.joblib`, `escalate_tfidf.joblib`, `scam_head.joblib`, `calibration.json`, `eval.json` — all written by the notebook, all tracked on purpose (see `.gitignore`: a clone without the engines boots degraded and the engine-parity test cannot run).
+- The D2 splits are built in memory from the Hub inside notebook §6.2 and are deliberately **not** written to `backend/data/`: only their measured metrics survive, in `eval.json`. Writing them out would invite tuning against them.
 - A `data_card.md` generated with counts per class × script.

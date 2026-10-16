@@ -7,6 +7,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { ArrowUpRightIcon, ArrowRightIcon } from "@/components/icons";
+import { Reveal } from "../Reveal";
 
 /** Padded landing section. `wash` adds the warm colour field. */
 export function Section({
@@ -38,7 +39,7 @@ export function SectionHead({
 }) {
   const onContrast = tone === "contrast";
   return (
-    <div className="max-w-4xl">
+    <Reveal className="max-w-4xl">
       <h2
         className={`font-display font-extrabold ${onContrast ? "text-oncontrast" : "text-ink"}`}
         style={{ fontSize: "clamp(32px, 4.2vw, 56px)", lineHeight: 1.04, letterSpacing: "-0.035em" }}
@@ -54,7 +55,7 @@ export function SectionHead({
           {lede}
         </p>
       )}
-    </div>
+    </Reveal>
   );
 }
 

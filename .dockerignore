@@ -1,0 +1,30 @@
+# Build context hygiene (docs/02 §1). Keep the image small and the build
+# reproducible: everything here is either regenerated inside the image or is
+# local-only tooling.
+
+**/node_modules
+**/.next
+**/out
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+**/.mypy_cache
+.venv/
+venv/
+.git/
+.github/
+.gitignore
+
+# Secrets never enter the image.
+.env
+.env.*
+
+# The notebook and its caches are the lab, not the product (they are not needed
+# to run the app; ml/pipeline.py is the generated receipt).
+ml/artifacts/
+ml/notebooks/.ipynb_checkpoints/
+*.ipynb
+
+# NOT ignored, on purpose: backend/artifacts/*.joblib and backend/artifacts/*.json.
+# The container loads the decision/escalate/scam engines from those pickles and
+# serves the Evaluation page from eval.json. A Space deploy must ship them.

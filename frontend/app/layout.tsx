@@ -32,7 +32,7 @@ const bengali = Noto_Sans_Bengali({
 });
 
 export const metadata: Metadata = {
-  title: "Order Khata — Your shop's inbox, sorted.",
+  title: "Order Khata: Your shop's inbox, sorted.",
   description:
     "Reads every customer message in Bangla, Banglish or English, sorts it into six classes with a calibrated confidence, auto-handles the clear ones, and keeps the risky decisions with you.",
 };

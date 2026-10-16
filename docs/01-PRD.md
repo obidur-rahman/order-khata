@@ -46,7 +46,7 @@ Core promise: *"The sorting is automatic. The risky decisions stay with you."*
 
 ## 6. Success criteria
 - **Demo:** a judge pastes 3 messages (one each in Bangla, Banglish, English) and sees correct routing in under 3 seconds each.
-- **Quality:** report macro-F1 on held-out test; at the default τ, auto-handled slice accuracy ≥ 90% with coverage ≥ 60% (targets; report actuals honestly).
+- **Quality:** report macro-F1 on held-out test; at the default τ, auto-handled slice accuracy ≥ 90% with coverage reported (measured 53.6%; see `docs/07` §5 for why coverage is bounded and why the original 60% figure was withdrawn).
 - **Safety:** scam messages are never auto-handled in the demo (hard rule, tested).
 - **Availability:** app works when Groq is down (decision-model-only mode).
 - **Cost:** $0.

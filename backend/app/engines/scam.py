@@ -1,35 +1,54 @@
 """Scam head — S3 (docs/04 §1).
 
-Production: TF-IDF char n-grams + logistic regression trained on D2 with
-Platt scaling (ml/04_train_scam_head.py). Until that artifact exists, a
-keyword stub implements the same `predict -> probability` interface. Binary
-by design: it flags fraud, it does not predict the other five classes.
+Production engine: TF-IDF char n-grams + logistic regression trained on D2 with
+Platt scaling (notebook section 6.2/6.3), stored as `scam_head.joblib`. Binary by
+design: it flags fraud, it does not predict the other five classes.
+
+With no artifact it returns 0.0 — "I have no evidence of fraud", not "I checked
+and it is clean". The message is still routed by the rules that do work, and the
+health endpoint reports `model_loaded: false` so nobody mistakes the absence of a
+model for a clean bill of health.
 """
 from __future__ import annotations
 
-import re
+import logging
+from typing import Any, Optional
 
-_SCAM_KEYWORDS: tuple[str, ...] = (
-    "otp", "password", "পাসওয়ার্ড", "prize", "প্রাইজ",
-    "জিতেছেন", "জেতেছেন", "লিংক", "ভুয়া",
-    "advance payment", "prepaid", "আগে টাকা", "send money",
-    "secret code", "গোপন কোড", "verify your account", "account suspend",
-    "click", "expires today", "শুধুমাত্র আজ",
-)
+from ..config import artifacts_dir
 
-_NO_HIT = 0.05      # baseline: normal shop chat is not suspicious
-_PER_HIT = 0.15
-_CAP = 0.95
+log = logging.getLogger("order_khata.engines.scam")
 
 
 class ScamHead:
     """Interface: predict(normalized_text) -> scam_prob in [0, 1]."""
 
-    name = "stub-keywords"
+    def __init__(self, head: Any = None, meta: Optional[dict] = None) -> None:
+        self._head = head
+        self.meta = meta or {}
+
+    @property
+    def loaded(self) -> bool:
+        return self._head is not None
+
+    @property
+    def name(self) -> str:
+        return "tfidf-lr-platt" if self.loaded else "unavailable"
+
+    @classmethod
+    def load(cls) -> "ScamHead":
+        try:
+            import joblib
+
+            blob = joblib.load(artifacts_dir() / "scam_head.joblib")
+            return cls(head=blob["scam_head"],
+                       meta={"kind": blob.get("kind"), "trained_on": blob.get("trained_on")})
+        except Exception as exc:  # noqa: BLE001 — degraded mode is a supported state
+            log.warning("scam artifact not loaded (%s): %s", type(exc).__name__, exc)
+            return cls()
 
     def predict(self, text: str) -> float:
-        lower = text.lower()
-        hits = sum(1 for tok in _SCAM_KEYWORDS if re.search(r"(?<![A-Za-z])" + re.escape(tok) + r"(?![A-Za-z])", lower))
-        if hits == 0:
-            return _NO_HIT
-        return min(_CAP, 0.55 + _PER_HIT * hits)
+        if not self.loaded:
+            return 0.0
+        # The artifact is already Platt-calibrated (notebook 6.2), so this number
+        # is comparable with SCAM_T without a second mapping.
+        return float(self._head.predict_proba([text])[0, 1])

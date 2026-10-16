@@ -1,3 +1,10 @@
 fastapi>=0.115,<1.0
 uvicorn[standard]>=0.30,<1.0
 pydantic>=2.7,<3.0
+# The decision / escalate / scam artifacts are joblib pickles of scikit-learn
+# estimators. Pin the version the notebook builds them with: loading a pickle
+# across scikit-learn versions raises InconsistentVersionWarning, and if that
+# warning is ever escalated to an error the app silently degrades to
+# review-only. Version 1.8.0 is what `ml/notebooks/order_khata_lab.ipynb` uses.
+scikit-learn==1.8.0
+joblib>=1.3

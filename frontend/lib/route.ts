@@ -16,8 +16,9 @@ const LLM_OK = "ok";
 export const TAU_DEFAULT = 0.85;
 export const TAU_OTHER_MIN = 0.6;
 export const TAU_OTHER_OFFSET = 0.2;
-export const SCAM_T = 0.5;
-export const ESCALATE_T = 0.5;
+export const SCAM_T = 0.7;
+export const ESCALATE_T = 0.2;
+export const DECISIVE_T = 0.9;
 export const DEGRADED_MARGIN = 0.05;
 export const DEGRADED_MAX = 0.99;
 
@@ -104,8 +105,12 @@ export function route(signals: RouteSignals, tau: number = TAU_DEFAULT): [Lane, 
     return [LANE_REVIEW, `Low confidence (p = ${fmtProb(topProb)})`];
   }
 
-  // 4. Second opinion disagrees (skipped in degraded mode).
-  if (!degraded && String(llmClass) !== topClass) {
+  // 4. Second opinion disagrees (skipped in degraded mode). The LLM is a
+  // tie-breaker, not an oracle: it may only veto a call the model itself is
+  // unsure about. Measured on D1 test (notebook 8.4) — of the calls it
+  // disagreed with at top_prob >= 0.90 the model was right 96% of the time and
+  // the LLM 23% — so vetoing those cost coverage AND accuracy.
+  if (!degraded && String(llmClass) !== topClass && topProb < DECISIVE_T) {
     return [LANE_REVIEW, `Second opinion disagrees (LLM: ${llmClass})`];
   }
 

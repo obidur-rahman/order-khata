@@ -27,9 +27,12 @@ class SimulatorResponse(BaseModel):
 def health(request: Request) -> Any:
     pipeline = getattr(request.app.state, "pipeline", None)
     ready = bool(pipeline and pipeline.ready)
+    # `model_loaded` reports the artifacts, not the uptime: the app is usable with
+    # no model at all (everything goes to review), and saying so is the point.
+    loaded = bool(pipeline and pipeline.model_loaded)
     return {
         "status": "ok" if ready else "warming_up",
-        "model_loaded": ready,
+        "model_loaded": loaded,
         "llm_provider": pipeline.llm.provider if pipeline else None,
         "llm_status": pipeline.llm_status if pipeline else "unavailable",
         "version": config.VERSION,
@@ -45,6 +48,7 @@ def get_config() -> Any:
         "tau_other_offset": config.TAU_OTHER_OFFSET,
         "scam_t": config.SCAM_T,
         "escalate_t": config.ESCALATE_T,
+        "decisive_t": config.DECISIVE_T,
         "classes": list(config.CLASSES),
         "class_meta": config.CLASS_META,
     }
@@ -80,7 +84,12 @@ def evaluation() -> Any:
 
 
 @router.post("/simulator", response_model=SimulatorResponse)
-def simulator(body: SimulatorRequest, request: Request) -> Any:
+async def simulator(body: SimulatorRequest, request: Request) -> Any:
+    # `async def` is not decoration: `Simulator.start()` calls
+    # `asyncio.create_task`, which needs a running loop. A sync endpoint is run in
+    # a worker thread, where there is none, so starting the simulator used to fail
+    # with "no running event loop" — and only when a seed pool existed, because an
+    # empty pool returns early before touching asyncio.
     sim = getattr(request.app.state, "simulator", None)
     if sim is None:
         return {"running": False, "interval_s": body.interval_s}
