@@ -8,7 +8,8 @@ Browser (Next.js static export, Tailwind)
 FastAPI (one container, one free Hugging Face Space, port 7860)
    ├── serves /  → built frontend (out/ directory)
    ├── /api/*    → REST endpoints
-   ├── Engine A: decision model (Laya fine-tuned checkpoint), CPU, in-process
+   ├── Engine A: TF-IDF char n-grams + logistic regression, CPU, in-process
+   │              (joblib artifacts; Laya passed the gate but is not adopted — docs/04 §2.1)
    ├── Scam head: small TF-IDF + logistic regression (and/or decision-model noul question)
    ├── Engine B: Groq LLM (second signal) via HTTPS, key in Space secret
    ├── Router: applies policy (doc 04) → lane
@@ -23,7 +24,7 @@ Everything is one deployable. No separate frontend host, no external DB.
 | Frontend | Next.js (App Router) with `output: 'export'`, TypeScript, Tailwind CSS | Static export only: no SSR, no server actions, no `next/image` optimizer (`images.unoptimized: true`) |
 | Fonts | Bricolage Grotesque (display), Inter (body), IBM Plex Mono (labels), Noto Sans Bengali | Loaded via `next/font` at build time |
 | Backend | Python 3.11, FastAPI, Uvicorn | |
-| Model runtime | PyTorch CPU + `transformers` / the Laya package | Weights downloaded from HF Hub on first boot, cached |
+| Model runtime | **No torch in the served image.** Engine A and the scam/escalate heads are scikit-learn joblib artifacts (~5 MB, `backend/artifacts/`) loaded at boot; inference is CPU-only and in-process | The Laya candidate's PyTorch path was measured during the gate (docs/04 §2.1) and is deliberately not shipped: 1 GB of torch + 644 MB of weights re-downloaded on every ephemeral-Space restart |
 | Baselines | scikit-learn (TF-IDF char n-grams + logistic regression) | Also used as the scam head |
 | DB | SQLite via SQLModel (or plain `sqlite3`) | File at `/data/order_khata.db`; ephemeral on free Spaces, re-seeded at startup |
 | Second signal | Groq chat-completions API (JSON output) | Key `GROQ_API_KEY` as Space secret. Fallback: Gemini free tier (`GEMINI_API_KEY`) |
@@ -57,7 +58,7 @@ order_khata/
 │   ├── notebooks/
 │   │   └── order_khata_lab.ipynb   # THE pipeline: `Restart & Run All` re-derives every
 │   │                               # artifact under backend/ — load+map D1, baseline,
-│   │                               # Laya gate, escalate head, scam head, calibration,
+│   │                               # Laya gate (run 2026-10-17), escalate head, scam head, calibration,
 │   │                               # evaluation, export contract (see docs/03 §6)
 │   └── artifacts/             # gitignored: LLM answer cache, figures
 ├── frontend/
@@ -115,4 +116,4 @@ files as part of the port (notebook section 11).
 ## 7. Licensing and attribution
 - Intent data is CC BY-NC-SA 4.0 (derivative of BanglaEComIntent): non-commercial; credit both datasets in the app footer and README.
 - Smishing dataset: check license on the card (listed as MIT in search results; verify).
-- OpenJev weights, if used, are noncommercial; Laya/Kev/Von are listed as Apache-2.0 (verify on model card).
+- The fine-tuned Laya checkpoint (`nafiullah/laya-multilingual-bn-ecom-voice`) is **CC BY-NC-SA 4.0** — non-commercial, same family as D1. Verified on the card 2026-10-17; the earlier note that Laya was "listed as Apache-2.0" was true only of the *base* model (`convaiinnovations/laya-multilingual`), the Laya code and mmBERT (MIT) inside it. Not shipped, but any future adoption inherits the NC terms. (OpenJev weights, if ever used, are non-commercial too — none of these are in the shipped image.)

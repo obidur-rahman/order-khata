@@ -35,7 +35,7 @@ Response (`MessageRecord`):
     "llm_class": "order",
     "llm_reason": "Asks if an item is in stock.",
     "llm_status": "ok",
-    "engine": "laya-ft",
+    "engine": "tfidf-lr",
     "latency_ms": 412,
     "lane": "auto",
     "route_reason": "Confident and second opinion agrees"

@@ -11,8 +11,8 @@ generated from it if one is ever needed, never hand-written.
 |---|---|
 | Create HF account, Space (Docker), repo scaffold | Space builds "hello" |
 | Load D1, apply mapping, write `01_load_and_map.py` | jsonl splits + data card |
-| Run Laya fine-tuned checkpoint on D1 validation on CPU | Loads, latency measured, accuracy recorded |
-| Try Mercury Decide (OpenRouter free route), Span-01 Lite | Works or marked "unavailable"; limits noted |
+| ✅ Run Laya fine-tuned checkpoint on D1 validation on CPU — **done 2026-10-17**, late: the gate was skipped during Hour 0 and only run after the docs were audited. Loaded, measured: ~45 ms/message, macro-F1 0.9892 vs the baseline's 0.8870 on the same 100 rows (re-runnable: `ml/laya_gate.py`). Rule passes; not adopted (docs/04 §2.1) | Loads, latency measured, accuracy recorded |
+| ❌ Try Mercury Decide (OpenRouter free route), Span-01 Lite — not pursued, and recorded as not tried, once the self-hosted candidate passed | Works or marked "unavailable"; limits noted |
 | Groq key, JSON-mode test on 30 Banglish messages | ≥ 90% valid JSON, usable accuracy |
 | Inspect D2 labels | Scam mapping written down |
 **Gate:** if Laya cannot run on free CPU, fall back to TF-IDF/LR as engine A and report honestly; if Groq is unusable, try Gemini free; if both fail, ship decision-model-only mode.
@@ -65,7 +65,7 @@ Never cut: Try It, routing policy, scam rule, degraded mode, Evaluation page lim
 ## Risk register
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
-| Laya too slow/large for free CPU | Med | High | Hour-0 gate; TF-IDF fallback; smaller checkpoint |
+| Laya too slow/large for free CPU | Med | High | Measured 2026-10-17: **not too slow** (~45 ms, budget was 1500 ms) but too large for the image (torch + 644 MB weights re-fetched per ephemeral restart). The TF-IDF fallback is what shipped, and docs/04 §2.1 says why. |
 | Groq/Gemini rate limit during judging | Med | Med | Cache, seed predictions precomputed, degraded mode |
 | HF Space cold start / sleep | High | Med | Loading screen, keep-warm ping, open the Space before judging |
 | Bangla/Banglish accuracy lower than expected | Med | Med | Report honestly; show by-script table; threshold keeps risk in review |
