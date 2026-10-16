@@ -1,58 +1,291 @@
 @import "tailwindcss";
 
-/* docs/06 §2 color tokens — light mode only. Brand yellow is never status. */
+/* ─────────────────────────────────────────────────────────────────────────
+   Order Khata — "Editorial operations" (docs/06)
+
+   Ink on warm paper, soft hairlines, an editorial display face, a single
+   electric-blue accent that always marks what needs a human, and muted but
+   real hues for the six classes.
+
+   Softness is a system, not a decoration: nothing is pure black or pure
+   white, every surface carries a radius from one scale, and raised panels
+   lift with a soft shadow instead of a hard edge.
+
+   Light and dark share ONE token set. Every colour utility (`bg-paper`,
+   `text-ink`, …) resolves through a runtime variable, so `.dark` on <html>
+   swaps the whole palette without a single `dark:` class in the components.
+   The visitor owns the choice; it is remembered (lib/prefs.ts).
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* the theme switch is a class on <html>, not the OS setting */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  /* docs/06 §2 tokens mirror the design refs (grayscale paper world).
-   * refs: 0f0f0f / fbf8f1 / e8e2d4 / 6b665b / e0e0e0 / d0d0d0, 1px ink rules,
-   * sharp-corners — no curved surfaces, no saturated fills. */
-  --color-ink: #0f0f0f;
-  --color-paper: #fbf8f1;
-  --color-surface: #ffffff;
-  --color-line: #e8e2d4;
-  --color-muted: #6b665b;
-  --color-brand: #ffd60a;
-  --color-brand-deep: #e6be00;
+  /* utilities: Tailwind names these --color-*, and each one points at a
+     runtime variable so .dark can swap it (see the two blocks below). */
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
 
-  /* class chips (docs/06 §2): luminance mirrors the refs, every chip has a
-   * label + dot so color never carries meaning alone. */
-  --color-order: #9aa5b1;
-  --color-price: #9a7fb5;
-  --color-delivery: #5b9a8c;
-  --color-complaint: #a54a55;
-  --color-scam: #9a4444;
-  --color-other: #8a8a8a;
+  /* the one deliberately inverted surface (the safety dial, the closing
+     call to action). It stays dark in both themes so those blocks keep their
+     weight instead of turning into a white slab at night. */
+  --color-contrast: var(--contrast);
+  --color-oncontrast: var(--oncontrast);
 
-  /* lanes — always paired with icon + text, never color alone */
-  --color-laneauto: #17a34a;
-  --color-lanereview: #f59e0b;
-  --color-lanescam: #e5252a;
+  /* the accent. electric blue = "this needs your eyes / your action". */
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-tint: var(--accent-tint);
+
+  /* The class and lane hues have no Tailwind name on purpose. They are
+     always applied inline (`style={{ color: m.color }}`) from lib/brand.ts,
+     which holds the runtime variable itself — so there is one vocabulary:
+     --c-* and --lane-* below. Adding --color-* aliases here would only
+     create a second spelling of the same token. */
+
+  /* ── shape: one radius scale, used everywhere (docs/06 §2) ─────────────
+     Nothing is square and nothing is a lozenge: small controls take `lg`,
+     cards take `2xl`, chips and toggles take `full`. Overriding the Tailwind
+     defaults here means every screen rounds the same amounts. */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-3xl: 30px;
+
+  /* ── depth: a raised surface lifts with a soft shadow, not a hard edge.
+     The colour lives in --shadow-* below so dark mode can deepen it. */
+  --shadow-soft: 0 1px 2px var(--shadow-1), 0 14px 34px -18px var(--shadow-2);
+  --shadow-lift: 0 2px 4px var(--shadow-1), 0 26px 60px -26px var(--shadow-2);
 }
 
-/* fonts: next/font declares --font-* on <html> (layout.tsx). Theme values
-   inline the vars so each element resolves the real face; var() fallbacks
-   cover a failed load. NEVER redefine --font-* at :root: a same-element
-   default out-cascades next/font and the real faces never render (the
-   bug that shipped system-ui everywhere). docs/06 §3. */
+/* ── light (default) ──────────────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+
+  /* Nothing here is pure black or pure white — the ink is a warm charcoal
+     and the paper is a soft cream, so long reading never glares. */
+  --ink: #262520;
+  --paper: #f6f4ef;
+  --surface: #fffefb;
+  --line: #e9e4d8;
+  --muted: #6f6a5e;
+
+  /* a shadow is a token too: warm and shallow by day */
+  --shadow-1: rgba(38, 37, 32, 0.05);
+  --shadow-2: rgba(38, 37, 32, 0.14);
+
+  /* inverted surface + the lane hues tuned for it. These never flip: the
+     block they sit on is dark in both themes. */
+  --contrast: #262520;
+  --oncontrast: #f6f4ef;
+  --on-auto: #8fd6ab;
+  --on-review: #9db0ff;
+  --on-scam: #e2a09a;
+
+  --accent: #2b46e0;
+  --accent-deep: #1e33bd;
+  --accent-tint: #eaedfd;
+
+  /* class ramp: muted but real hues, distinguishable and never the only
+     signal (every chip carries a label). */
+  --c-order: #3b62d9;
+  --c-price: #6c53cc;
+  --c-delivery: #2f8f86;
+  --c-complaint: #b45c7e;
+  --c-scam: #c03b34;
+  --c-other: #8f8b83;
+
+  /* lanes: green = handled, accent = needs you, red = never auto */
+  --lane-auto: #2f7a4f;
+  --lane-auto-deep: #2a6b46;
+  --lane-review: #1a3aff;
+  --lane-review-deep: #1029c9;
+  --lane-scam: #c03b34;
+  --lane-scam-deep: #8f2c26;
+
+  /* a warning tint, derived from the scam hue so the dark theme gets it too */
+  --scam-tint: color-mix(in oklab, var(--lane-scam) 8%, transparent);
+}
+
+/* ── dark (visitor-chosen) ────────────────────────────────────────────── */
+.dark {
+  color-scheme: dark;
+
+  /* dark is lifted ink, not inverted neon: bright enough to read, never a
+     white glare on a black page. */
+  --ink: #e4e1d8;
+  --paper: #151412;
+  --surface: #1f1e1b;
+  --line: #2d2b26;
+  --muted: #a49e91;
+
+  /* the same shadows, deepened — a soft edge has to read against near-black */
+  --shadow-1: rgba(0, 0, 0, 0.5);
+  --shadow-2: rgba(0, 0, 0, 0.62);
+
+  /* still dark, just lifted off the page so it reads as a raised panel */
+  --contrast: #26241f;
+  --oncontrast: #f1efe8;
+
+  --accent: #8a9bff;
+  --accent-deep: #aab6ff;
+  --accent-tint: #232a4a;
+
+  --c-order: #8aa4ff;
+  --c-price: #b8a2ff;
+  --c-delivery: #6fd3c7;
+  --c-complaint: #f0a2c0;
+  --c-scam: #ff8f86;
+  --c-other: #b5afa4;
+
+  --lane-auto: #63c184;
+  --lane-auto-deep: #8edca7;
+  --lane-review: #8a9bff;
+  --lane-review-deep: #b3bdff;
+  --lane-scam: #ff8f86;
+  --lane-scam-deep: #ffb0a9;
+}
+
+/* fonts: next/font declares --font-* on <html> (layout.tsx). NEVER redefine
+   --font-* at :root — a same-element default out-cascades next/font and the
+   real faces never render. docs/06 §3. */
 @theme inline {
-  /* docs/06 §3: Bengali-capable fallback so Bangla never renders as boxes */
+  /* Bengali-capable fallback so Bangla never renders as boxes */
   --font-sans: var(--font-inter, system-ui), var(--font-bengali, "Noto Sans Bengali"), system-ui, sans-serif;
-  --font-display: var(--font-jakarta, system-ui), var(--font-inter, system-ui), system-ui, sans-serif;
+  --font-display: var(--font-bricolage, system-ui), var(--font-inter, system-ui), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono, ui-monospace), ui-monospace, "SFMono-Regular", monospace;
 }
 
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-inter, system-ui), var(--font-bengali, "Noto Sans Bengali"), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  caret-color: var(--color-ink);
+  caret-color: var(--ink);
 }
 
-/* apple-design §1 (Response): feedback on pointer-down, never on release */
+/* theme changes ease rather than snap (docs: no abrupt brightness jumps) */
+body {
+  transition: background-color 260ms ease, color 260ms ease;
+}
+
+/* ── editorial primitives ──────────────────────────────────────────────── */
+
+/* the mono micro-label: metadata, nav. Loose enough to read, tight enough
+   to stay quiet — wide tracking reads as technical, not friendly. */
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* numerals (times, counters): mono, tabular */
+.index {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* page title rule: a hairline, not a bar */
+.masthead {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* dot-grid field */
+.dotgrid {
+  background-image: radial-gradient(var(--line) 1px, transparent 1.4px);
+  background-size: 13px 13px;
+  background-position: 0 0;
+}
+
+/* numbers (docs/06 §3): display face, tabular for stats */
+.tnum {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+/* message text (docs/06 §3): 15px / 1.6, Bengali fallback first-class */
+.msg-text {
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* Soft multi-hue wash. The colour lives in the background, not in a loud
+   block, so the page stays colourful and the type stays legible. */
+.wash {
+  background-image:
+    radial-gradient(46rem 26rem at 14% 4%, color-mix(in oklab, var(--accent) 42%, transparent), transparent 70%),
+    radial-gradient(40rem 24rem at 86% -4%, color-mix(in oklab, var(--c-price) 34%, transparent), transparent 70%),
+    radial-gradient(30rem 20rem at 98% 56%, color-mix(in oklab, var(--c-complaint) 26%, transparent), transparent 72%),
+    radial-gradient(44rem 26rem at 40% 100%, color-mix(in oklab, var(--c-delivery) 30%, transparent), transparent 72%);
+}
+
+/* A second, warmer wash so the landing can alternate its sections. */
+.wash-warm {
+  background-image:
+    radial-gradient(44rem 24rem at 84% 8%, color-mix(in oklab, var(--c-complaint) 16%, transparent), transparent 70%),
+    radial-gradient(48rem 26rem at 6% 92%, color-mix(in oklab, var(--c-order) 16%, transparent), transparent 72%);
+}
+
+/* ── brand artwork (docs/06 §1) ──────────────────────────────────────────
+   The mark ships as a light/dark pair in `public/`, and only the one that
+   belongs to the current theme is displayed. The switch is CSS only, keyed off
+   the `.dark` class the pre-paint script sets on <html>, so it is correct on the
+   first frame — no JavaScript, no hydration mismatch, no flash. This is why no
+   component needs a `dark:` class.
+   The base rule below sets display:block, so the theme rules must out-specify it
+   (they carry one class more) — a plain `.logo-dark { display: none }` would lose. */
+.logo-swap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.logo-swap .logo-dark {
+  display: none;
+}
+.dark .logo-swap .logo-light {
+  display: none;
+}
+.dark .logo-swap .logo-dark {
+  display: block;
+}
+
+/* Translucent chrome (docs/06 §6): content scrolls under the bar and the
+   edge fades instead of a hard divider being drawn. */
+.material {
+  background: color-mix(in oklab, var(--paper) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+}
+
+/* ── interaction floor ─────────────────────────────────────────────────── */
 @layer base {
+  /* Every control is rounded by default, so a new button cannot arrive with
+     a square corner. Components may still override with `rounded-*`. */
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    border-radius: var(--radius-lg);
+  }
   button,
   [role="button"] {
     transition:
-      transform 100ms ease-out,
+      transform 120ms ease-out,
       background-color 150ms ease,
       border-color 150ms ease,
       color 150ms ease,
@@ -65,53 +298,37 @@ body {
   }
 }
 
-/* apple-design §15 (Typography): optical sizing + size-specific tracking —
-   display text tightens as it grows; body stays neutral */
 h1,
 h2,
 h3 {
   font-optical-sizing: auto;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
-/* message text (docs/06 §3): 15px / 1.6, Bengali fallback first-class;
-   anywhere-wrap so unbroken Banglish/URLs never widen the page (390px) */
-.msg-text {
-  font-size: 15px;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
-
-/* numbers (docs/06 §3): Plus Jakarta tabular for stats */
-.tnum {
-  font-family: var(--font-display);
-  font-variant-numeric: tabular-nums;
-  font-weight: 800;
-}
-
-/* focus ring: ink + yellow (docs/06 §7). No radius override — the outline
-   follows the element's own radius (a fixed 4px jump-cut pills on focus). */
+/* focus ring: accent instead of black — same visibility, less shout
+   (docs/06 §7) */
 *:focus-visible {
-  outline: 2px solid var(--color-ink);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px var(--color-brand);
+  box-shadow: 0 0 0 5px color-mix(in oklab, var(--accent) 20%, transparent);
 }
 
-/* ── browser surfaces carry the design too (craft floor) ─────────── */
 ::selection {
-  background: var(--color-brand);
-  color: var(--color-ink);
+  background: var(--accent);
+  color: var(--paper);
 }
+
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-line) transparent;
+  scrollbar-color: var(--line) transparent;
 }
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-line);
+  background: var(--line);
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: content-box;
@@ -120,19 +337,52 @@ h3 {
   background: transparent;
 }
 
-/* ── broadsheet masthead: 2px ink rule under page titles (world C) ─ */
-.masthead {
-  border-bottom: 2px solid var(--color-ink);
-  padding-bottom: 0.6rem;
-  margin-bottom: 0.6rem;
+/* ── segmented control: the nav and the preference toggles share it ─────
+   Inside @layer components so a utility (`hidden`, `lg:inline-flex`) can
+   still override it — unlayered rules beat every Tailwind utility. */
+@layer components {
+  .seg {
+    display: inline-flex;
+    align-items: stretch;
+    padding: 3px;
+    gap: 2px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--surface) 84%, transparent);
+  }
+  .seg > button,
+  .seg > a {
+    display: inline-flex;
+    min-height: 30px;
+    align-items: center;
+    padding: 0 12px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--muted);
+  }
+  .seg > button:hover,
+  .seg > a:hover {
+    color: var(--ink);
+    background: color-mix(in oklab, var(--ink) 6%, transparent);
+  }
+  .seg > [aria-current="page"],
+  .seg > [aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+    box-shadow: var(--shadow-soft);
+  }
+  .seg > [aria-pressed="true"]:hover {
+    color: var(--paper);
+    background: var(--ink);
+  }
 }
 
-/* yellow highlighter mark — emphasis, never status (docs/06 §2) ──── */
-.hl {
-  background: linear-gradient(transparent 62%, var(--color-brand) 62%, var(--color-brand) 92%, transparent 92%);
-}
-
-/* range slider: native 6px track, 44px hit area, ink thumb + brand ring */
+/* ── range slider: native 6px track, 44px hit area, ink thumb + accent ── */
 .tau {
   -webkit-appearance: none;
   appearance: none;
@@ -142,37 +392,40 @@ h3 {
 }
 .tau::-webkit-slider-runnable-track {
   height: 6px;
-  background: var(--color-line);
   border-radius: 999px;
+  background: var(--line);
 }
 .tau::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 18px;
   height: 18px;
   margin-top: -6px;
-  border-radius: 50%;
-  background: var(--color-ink);
-  border: 3px solid var(--color-brand);
-  box-shadow: 0 1px 3px rgba(15, 15, 15, 0.35);
+  border-radius: 999px;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  box-shadow: var(--shadow-soft);
 }
 .tau::-moz-range-track {
   height: 6px;
-  background: var(--color-line);
   border-radius: 999px;
+  background: var(--line);
 }
 .tau::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--color-ink);
-  border: 3px solid var(--color-brand);
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  box-shadow: var(--shadow-soft);
 }
 
-/* new messages: slide + highlight for 1.5s (docs/06 §4.2) */
+/* ── motion ────────────────────────────────────────────────────────────── */
+
+/* new messages: slide + accent flash for 1.5s (docs/06 §4.2) */
 @keyframes msg-in {
   0% {
     transform: translateY(-6px);
-    background-color: color-mix(in srgb, var(--color-brand) 35%, transparent);
+    background-color: var(--accent-tint);
   }
   100% {
     transform: translateY(0);
@@ -206,12 +459,9 @@ h3 {
   }
 }
 
-/* apple-design §14 (Reduced motion): gentler non-vestibular feedback —
-   slides and overshoot become short opacity fades; loops stop. */
+/* reduced motion: gentler, non-vestibular feedback; loops stop */
 @media (prefers-reduced-motion: reduce) {
-  .msg-new {
-    animation: fade-in 200ms ease-out;
-  }
+  .msg-new,
   .fade-up {
     animation: fade-in 200ms ease-out;
   }
@@ -225,10 +475,9 @@ h3 {
   }
 }
 
-/* apple-design §14 (Reduced transparency): frosted surfaces go solid. */
 @media (prefers-reduced-transparency: reduce) {
   .material {
-    background: #fbf8f1 !important;
+    background: var(--paper) !important;
     backdrop-filter: none !important;
   }
 }

@@ -1,5 +1,6 @@
 "use client";
-/** Confidence bar with the threshold tick (docs/06 §4.2 AI panel). */
+/** Confidence bar with the threshold tick (docs/06 §4.2 AI panel).
+ * A rounded pill track, ink fill; the accent tick is the value enforced. */
 export function ConfidenceBar({
   value,
   threshold,
@@ -14,21 +15,24 @@ export function ConfidenceBar({
   const meets = value >= threshold;
   return (
     <div className="w-full">
-      <div className="relative h-3 w-full  bg-line" role="img"
-        aria-label={`Confidence ${Math.round(pct)} percent, threshold ${Math.round(tick)} percent`}>
+      <div
+        className="relative h-2.5 w-full rounded-full bg-line"
+        role="img"
+        aria-label={`Confidence ${Math.round(pct)} percent, threshold ${Math.round(tick)} percent`}
+      >
         <div
-          className="h-3  transition-[width] duration-300"
-          style={{ width: `${pct}%`, background: meets ? "#17A34A" : "#F59E0B" }}
+          className="h-2.5 rounded-full transition-[width] duration-300"
+          style={{ width: `${pct}%`, background: meets ? "var(--color-ink)" : "var(--color-muted)" }}
         />
-        {/* threshold tick: ink line + brand halo so it reads on any fill */}
+        {/* threshold tick: ink line + accent cap */}
         <div
-          className="absolute top-[-3px] h-[18px] w-[3px]  bg-ink"
-          style={{ left: `calc(${tick}% - 1.5px)`, boxShadow: "0 0 0 1.5px #FFD60A" }}
+          className="absolute top-[-4px] h-[18px] w-[2px] rounded-full bg-accent"
+          style={{ left: `calc(${tick}% - 1px)` }}
           aria-hidden
         />
       </div>
       {showLabels && (
-        <div className="mt-1 flex justify-between text-[11px] text-muted">
+        <div className="mt-1.5 flex justify-between font-mono text-[10px] uppercase tracking-[0.1em] text-muted">
           <span>confidence {value.toFixed(2)}</span>
           <span>needs ≥ {threshold.toFixed(2)}</span>
         </div>

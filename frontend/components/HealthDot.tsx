@@ -2,34 +2,28 @@
 /** Health dot + degraded banner (docs/06 §4.2, F11): model state and second-
  * signal availability. Status always carries icon + text, not just color. */
 import type { HealthResponse } from "@/lib/types";
-import { AlertIcon, CheckIcon } from "./icons";
+import { AlertIcon } from "./icons";
 
-export function HealthDot({
-  health,
-  showText = false,
-}: {
-  health: HealthResponse | null;
-  showText?: boolean;
-}) {
+export function HealthDot({ health }: { health: HealthResponse | null }) {
   if (!health || !health.model_loaded) {
     return (
-      <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted" title="Warming up">
-        <span className="h-2.5 w-2.5 animate-pulse  bg-muted" aria-hidden />
+      <span className="label inline-flex items-center gap-1.5 text-muted" title="Warming up">
+        <span className="h-2 w-2 animate-pulse rounded-full bg-muted" aria-hidden />
         warming up
       </span>
     );
   }
   const degraded = health.llm_status !== "ok";
-  const color = degraded ? "#B45309" : "#15803D";
+  const color = degraded ? "var(--lane-scam)" : "var(--color-ink)";
   const text = degraded ? "second signal unavailable" : "all engines ready";
   return (
     <span
-      className="inline-flex items-center gap-1.5 text-xs font-semibold"
+      className="label inline-flex items-center gap-1.5"
       style={{ color }}
       title={`${health.version} · ${text}`}
     >
-      <span className="inline-flex h-2.5 w-2.5 items-center justify-center " style={{ background: color }} aria-hidden />
-      {showText ? text : degraded ? "degraded" : "ready"}
+      <span className="inline-block h-2 w-2 rounded-full" style={{ background: color }} aria-hidden />
+      {degraded ? "degraded" : "ready"}
     </span>
   );
 }
@@ -38,20 +32,11 @@ export function HealthDot({
 export function DegradedBanner() {
   return (
     <div
-      className="flex items-center gap-2  border px-3 py-2 text-[13px] font-medium"
-      style={{ borderColor: "#F59E0B", background: "rgba(245,158,11,0.10)", color: "#92400E" }}
+      className="flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.1em] text-ink shadow-soft"
       role="status"
     >
-      <AlertIcon size={14} />
-      Second opinion unavailable — using stricter threshold
+      <AlertIcon size={13} />
+      <span className="text-muted">Second opinion unavailable ·</span> stricter threshold in effect
     </div>
-  );
-}
-
-export function AllReadyChip() {
-  return (
-    <span className="inline-flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#15803D" }}>
-      <CheckIcon size={11} /> engines ready
-    </span>
   );
 }

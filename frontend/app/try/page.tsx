@@ -1,19 +1,20 @@
 "use client";
 /** Try It (docs/06 §4.3): paste a message, classify live, show the AI panel,
- * add to the inbox, and watch the lane move with the slider. */
+ * add it to the inbox, and watch the lane move with the slider. */
 import { useState } from "react";
 
 import { AIPanel } from "@/components/AIPanel";
 import { AppBar } from "@/components/AppBar";
 import { ClassChip } from "@/components/ClassChip";
 import { EmptyState } from "@/components/EmptyState";
+import { LaneChip } from "@/components/LaneChip";
 import { ThresholdSlider } from "@/components/ThresholdSlider";
-import { ArrowRightIcon, CheckIcon, EyeIcon, ShieldIcon } from "@/components/icons";
-import { LANE_META } from "@/lib/brand";
+import { ArrowRightIcon } from "@/components/icons";
 import { api, isWarming } from "@/lib/api";
 import { useConfig, useHealth } from "@/lib/hooks";
+import { usePrefs } from "@/lib/prefs";
 import { requiredThreshold, route } from "@/lib/route";
-import { broadcastTau, loadTau, saveTau } from "@/lib/store";
+import { loadTau, saveTau } from "@/lib/store";
 import type { Lane, MessageRecord } from "@/lib/types";
 
 const EXAMPLES: { label: string; script: string; text: string }[] = [
@@ -28,6 +29,7 @@ const EXAMPLES: { label: string; script: string; text: string }[] = [
 export default function TryPage() {
   const config = useConfig();
   const health = useHealth();
+  const { t: tr } = usePrefs();
   const [text, setText] = useState("");
   const [tau, setTau] = useState(() => loadTau(0.85));
   const [result, setResult] = useState<MessageRecord | null>(null);
@@ -39,7 +41,6 @@ export default function TryPage() {
   const onTau = (v: number) => {
     setTau(v);
     saveTau(v);
-    broadcastTau(v);
   };
 
   const classify = async () => {
@@ -50,7 +51,7 @@ export default function TryPage() {
       const rec = await api.classify({ text: text.trim(), sender_name: "You (demo)" });
       setResult(rec);
     } catch (e) {
-      if (isWarming(e)) setError("Backend is warming up — try again in a few seconds.");
+      if (isWarming(e)) setError("Backend is warming up. Try again in a few seconds.");
       else setError(e instanceof Error ? e.message : "classify failed");
     } finally {
       setBusy(false);
@@ -86,20 +87,23 @@ export default function TryPage() {
         />
       </AppBar>
 
-      <main className="mx-auto w-full max-w-3xl px-4 py-8">
-        <h1 className="masthead font-display text-3xl font-extrabold text-ink">Try It</h1>
-        <p className="mt-1 text-sm text-muted">
-          Paste any message in Bangla, Banglish or English. Classified live — then it
+      <main className="mx-auto w-full max-w-5xl px-4 py-10">
+        <p className="label text-muted">{tr("page.try.kicker")}</p>
+        <h1 className="masthead mt-3 font-display text-3xl font-extrabold text-ink">
+          {tr("page.try.title")}
+        </h1>
+        <p className="text-sm text-muted">
+          Paste any message in Bangla, Banglish or English. It is classified live, then it
           appears in the inbox.
         </p>
 
-        {/* example chips (two per script) */}
-        <div className="mt-4 flex flex-wrap gap-2" aria-label="Examples">
+        {/* example chips */}
+        <div className="mt-5 flex flex-wrap gap-2" aria-label="Examples">
           {EXAMPLES.map((ex) => (
             <button
               key={ex.label}
               onClick={() => setText(ex.text)}
-              className=" border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-muted transition hover:border-ink hover:text-ink"
+              className="rounded-full border border-line bg-surface px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-muted transition hover:border-ink hover:text-ink"
             >
               {ex.label}
             </button>
@@ -112,61 +116,60 @@ export default function TryPage() {
           rows={5}
           maxLength={1000}
           placeholder="এখানে মেসেজ পেস্ট করুন / paste a message…"
-          className="mt-4 w-full resize-y  border border-line bg-surface p-4 msg-text text-ink placeholder:text-muted"
+          className="msg-text mt-4 w-full resize-y rounded-2xl border border-line bg-surface px-5 py-4 text-ink shadow-soft placeholder:text-muted"
           aria-label="Message to classify"
         />
-        <div className="mt-3 flex items-center gap-3">
+        <div className="mt-3 flex items-center gap-4">
           <button
             onClick={classify}
             disabled={busy || !text.trim()}
-            className="inline-flex items-center gap-2  bg-ink px-6 py-3 text-[15px] font-bold text-paper transition hover:opacity-85 disabled:opacity-40"
+            className="inline-flex items-center gap-3 rounded-full bg-ink px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.1em] text-paper shadow-soft transition hover:bg-accent-deep disabled:opacity-40"
           >
-            {busy ? "Classifying…" : "Classify"} <ArrowRightIcon />
+            {busy ? "Classifying…" : "Classify"}
+            <ArrowRightIcon size={15} className="text-accent" />
           </button>
-          <span className="text-xs text-muted">{text.length}/1000</span>
+          <span className="index text-[11px] text-muted">{text.length}/1000</span>
         </div>
         {error && (
-          <p className="mt-3  border px-3 py-2 text-sm" style={{ borderColor: "#E5252A", color: "#E5252A" }} role="alert">
+          <p
+            className="mt-3 rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-ink"
+            style={{ borderLeft: "3px solid var(--lane-scam)" }}
+            role="alert"
+          >
             {error}
           </p>
         )}
 
         {/* result */}
         {result && lane && (
-          <div className="fade-up mt-8  border border-line bg-surface p-5">
+          <div className="fade-up mt-8 rounded-2xl border border-line bg-surface p-5 shadow-soft">
             <div className="flex flex-wrap items-center gap-3">
               <ClassChip classKey={result.prediction.top_class} large />
-              <span
-                className="inline-flex items-center gap-1.5  px-3 py-1 text-sm font-bold text-white"
-                style={{ background: LANE_META[lane].deep }}
-              >
-                {lane === "auto" ? <CheckIcon size={13} /> : lane === "review" ? <EyeIcon size={13} /> : <ShieldIcon size={13} />}
-                {LANE_META[lane].label}
-              </span>
-              <span className="tnum ml-auto text-sm text-muted">
+              <LaneChip lane={lane} filled />
+              <span className="index ml-auto text-[11px] text-muted">
                 needs ≥ {required.toFixed(2)} · p {result.prediction.top_prob.toFixed(2)}
               </span>
             </div>
 
-            <p className="mt-4  bg-paper p-3 msg-text text-ink">{result.text}</p>
+            <p className="msg-text mt-4 rounded-xl border border-line bg-paper p-3.5 text-ink">
+              {result.text}
+            </p>
 
-            <div className="mt-5 grid gap-5 md:grid-cols-2">
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
               <AIPanel pred={result.prediction} tau={tau} degraded={degraded} />
-              <div className="space-y-3 text-sm text-muted">
-                <p>
-                  The message is now in the inbox. Drag the threshold slider (top) and
-                  watch the lane above change — no network round-trip.
+              <div className="space-y-4 border-t border-line pt-3 md:border-t-0 md:pt-0">
+                <p className="text-[13px] leading-relaxed text-muted">
+                  The message is now in the inbox. Drag the threshold slider (top) and watch the
+                  lane above change. No network round-trip.
                 </p>
                 <a
                   href="/inbox/"
-                  className="inline-flex items-center gap-2  bg-brand px-4 py-2 text-sm font-bold text-ink transition hover:bg-brand-deep active:scale-[0.98]"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-accent px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.08em] text-paper shadow-soft transition hover:bg-accent-deep"
                 >
                   Open the inbox <ArrowRightIcon size={14} />
                 </a>
-                <p className="text-xs">
-                  script <span className="font-semibold text-ink">{result.script}</span> ·
-                  engine <span className="font-semibold text-ink">{result.prediction.engine}</span> ·
-                  {result.prediction.latency_ms} ms
+                <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted">
+                  script {result.script} · {result.prediction.engine} · {result.prediction.latency_ms} ms
                 </p>
               </div>
             </div>
@@ -174,10 +177,10 @@ export default function TryPage() {
         )}
 
         {!result && !error && (
-          <div className="mt-10  border border-dashed border-line">
+          <div className="mt-10 rounded-2xl border border-dashed border-line bg-surface">
             <EmptyState
               title="No result yet"
-              hint="Pick an example chip or write your own — the classifier runs on the server in one pass."
+              hint="Pick an example chip or write your own. The classifier runs on the server in one pass."
             />
           </div>
         )}

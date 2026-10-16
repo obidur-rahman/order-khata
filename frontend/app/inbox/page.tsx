@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { AppBar } from "@/components/AppBar";
 import { ConversationRow } from "@/components/ConversationRow";
 import { DegradedBanner } from "@/components/HealthDot";
+import { ErrorScreen } from "@/components/ErrorScreen";
 import { LaneTabs, type LaneTab } from "@/components/LaneTabs";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { ThresholdSlider } from "@/components/ThresholdSlider";
@@ -17,7 +18,7 @@ import { EyeIcon, InboxIcon } from "@/components/icons";
 import { api } from "@/lib/api";
 import { useConfig, useHealth, useInbox } from "@/lib/hooks";
 import { route } from "@/lib/route";
-import { broadcastTau, loadTau, saveTau } from "@/lib/store";
+import { loadTau, saveTau } from "@/lib/store";
 import type { ClassKey, ConversationRecord, Lane } from "@/lib/types";
 
 export default function InboxPage() {
@@ -34,8 +35,7 @@ export default function InboxPage() {
 
   const onTau = useCallback((v: number) => {
     setTau(v);
-    saveTau(v);
-    broadcastTau(v);
+    saveTau(v); // every screen reads the stored value on mount (lib/store.ts)
   }, []);
 
   const degraded = health !== null && health.llm_status !== "ok";
@@ -130,9 +130,8 @@ export default function InboxPage() {
     [activeId, refresh],
   );
 
-  if (warming && !error) return <LoadingScreen note={error ?? undefined} />;
-  if (error && rows.length === 0)
-    return <LoadingScreen note={`Cannot reach the backend: ${error}`} />;
+  if (warming && !error) return <LoadingScreen />;
+  if (error && rows.length === 0) return <ErrorScreen detail={error} onRetry={refresh} />;
 
   const selectedRow = activeId ? rows.find((r) => r.conv.id === activeId) : null;
 
@@ -160,7 +159,7 @@ export default function InboxPage() {
 
         <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch">
           {/* list */}
-          <aside className="w-full shrink-0 overflow-hidden  border border-line bg-surface lg:w-[320px]">
+          <aside className="w-full shrink-0 overflow-hidden rounded-2xl border border-line bg-surface shadow-soft lg:w-[320px]">
             <div className="max-h-[36vh] overflow-y-auto lg:max-h-[calc(100vh-220px)]">
               {visible.length === 0 ? (
                 <EmptyState
@@ -185,7 +184,7 @@ export default function InboxPage() {
           </aside>
 
           {/* thread */}
-          <section className="flex min-h-[420px] flex-1 flex-col overflow-hidden  border border-line bg-surface">
+          <section className="flex min-h-[420px] flex-1 flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-soft">
             {selectedConv && selectedConv.messages.length > 0 ? (
               <ThreadView
                 conv={selectedConv}
@@ -206,7 +205,7 @@ export default function InboxPage() {
           </section>
 
           {/* AI panel (desktop) */}
-          <aside className="hidden w-[340px] shrink-0  border border-line bg-surface p-4 lg:block">
+          <aside className="hidden w-[340px] shrink-0 rounded-2xl border border-line bg-surface p-4 shadow-soft lg:block">
             {selectedRow && selectedRow.msg ? (
               <AIPanel pred={selectedRow.msg.prediction} tau={tau} degraded={degraded} />
             ) : (

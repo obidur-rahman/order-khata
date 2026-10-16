@@ -1,25 +1,52 @@
-/** docs/06 §1: black  with yellow inbox-tray glyph;
- * wordmark in Plus Jakarta Sans ExtraBold, lowercase "dokanbox". */
+/* eslint-disable @next/next/no-img-element -- next.config.ts sets
+   output: "export", so there is no image optimizer for next/image to delegate
+   to; a plain `<img>` is the right element for this app. */
 
+/** docs/06 §1: the mark is artwork now, not drawn paths. The wordmark stays real
+ *  text in Bricolage Grotesque ExtraBold, title case "Order Khata": it keeps the
+ *  display metrics, scales with `size`, and is not baked into a bitmap. */
+
+/** One artwork of the light/dark pair (`public/logo_*.png`).
+ *
+ *  The 500×500 files are the masters and are never fetched; the derivatives are
+ *  what ships. `sizes` is the element's own box, so `srcSet` resolves to the
+ *  smallest file that still covers it: 96px covers every mark up to 2× (bar 24,
+ *  footer 26), and 192px is reached only by the 64px loading mark on a dense
+ *  screen. Without `sizes` the browser assumes 100vw and always takes the
+ *  largest file. */
+function MarkArtwork({ variant, size }: { variant: "light" | "dark"; size: number }) {
+  return (
+    <img
+      className={`logo-${variant}`}
+      src={`/logo_${variant}-96.png`}
+      srcSet={`/logo_${variant}-96.png 96w, /logo_${variant}-192.png 192w`}
+      sizes={`${size}px`}
+      alt=""
+      width={size}
+      height={size}
+    />
+  );
+}
+
+/** The square mark. Both artworks are rendered and the unused one is
+ *  `display: none` (`.logo-swap`, globals.css), which is what makes the theme
+ *  switch instant: the CSS is keyed off the `.dark` class the pre-paint script
+ *  puts on <html> (layout.tsx), so the right artwork is on screen from the first
+ *  frame — no JavaScript, no hydration mismatch, no flash, and no `dark:` class
+ *  in this component.
+ *
+ *  `alt=""` plus `aria-hidden` keeps the decorative mark out of the accessibility
+ *  tree: the wordmark beside it (or the caller's own label) already names the
+ *  product, so the name is never announced twice. */
 export function LogoMark({ size = 32 }: { size?: number }) {
   return (
     <span
-      className="inline-flex items-center justify-center bg-ink"
+      className="logo-swap inline-flex shrink-0"
       style={{ width: size, height: size }}
       aria-hidden
     >
-      <svg width={size * 0.62} height={size * 0.62} viewBox="0 0 24 24" fill="none">
-        <path
-          d="M4 14l2.4-7.2A2 2 0 018.3 5.5h7.4a2 2 0 011.9 1.3L20 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4z"
-          fill="#FFD60A"
-        />
-        <path
-          d="M4 14h4.5a1.5 1.5 0 001.4-1l.3-.7a1.5 1.5 0 011.4-1h.8a1.5 1.5 0 011.4 1l.3.7a1.5 1.5 0 001.4 1H20"
-          stroke="#0F0F0F"
-          strokeWidth="1.7"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <MarkArtwork variant="light" size={size} />
+      <MarkArtwork variant="dark" size={size} />
     </span>
   );
 }
@@ -29,10 +56,10 @@ export function Logo({ size = 32 }: { size?: number }) {
     <span className="inline-flex items-center gap-2">
       <LogoMark size={size} />
       <span
-        className="font-display font-extrabold lowercase tracking-tight text-ink"
-        style={{ fontSize: size * 0.62 }}
+        className="font-display font-extrabold text-ink"
+        style={{ fontSize: size * 0.62, letterSpacing: "-0.02em" }}
       >
-        dokanbox
+        Order Khata
       </span>
     </span>
   );

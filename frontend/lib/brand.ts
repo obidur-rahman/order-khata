@@ -1,45 +1,53 @@
-/** Brand constants (docs/06): class chips, lane colors/labels, tint helper.
- * Static mirror of /api/config class_meta so chips render before the first
- * fetch; the server values remain authoritative for the threshold rules. */
+/** Brand constants (docs/06 "Editorial operations"): class chips, lane
+ * labels, time formatters. Static mirror of /api/config class_meta so
+ * chips render before the first fetch; the server values remain authoritative
+ * for the threshold rules.
+ *
+ * The palette is an ink-neutral base, a single electric-blue accent, and a
+ * muted but real hue for each of the six classes so distributions read at a
+ * glance. The accent always means "this needs your eyes / your action".
+ * `scam` keeps a semantic red because it must read as a warning; every class
+ * and lane is always paired with a label (and an icon for lanes) so color
+ * never carries meaning alone (docs/06 §2, §7). */
 import type { ClassKey, ClassMeta, Lane } from "./types";
 
 export const CLASS_META: Record<ClassKey, ClassMeta> = {
-  order: { label: "Order", color: "#2F6BFF" },
-  price_question: { label: "Price", color: "#7A4DFF" },
-  delivery_problem: { label: "Delivery", color: "#0FA3A3" },
-  complaint: { label: "Complaint", color: "#FF4D8D" },
-  scam: { label: "Scam", color: "#E5252A" },
-  other: { label: "Other", color: "#8A8A8A" },
+  // values are runtime CSS variables (globals.css), so the ramp follows the
+  // light/dark switch without a second palette living in TypeScript.
+  order: { label: "Order", color: "var(--c-order)" },
+  price_question: { label: "Price", color: "var(--c-price)" },
+  delivery_problem: { label: "Delivery", color: "var(--c-delivery)" },
+  complaint: { label: "Complaint", color: "var(--c-complaint)" },
+  scam: { label: "Scam", color: "var(--c-scam)" },
+  other: { label: "Other", color: "var(--c-other)" },
 };
 
 export interface LaneMeta {
-  label: string; // docs/06 voice: plain, no AI jargon
-  short: string;
-  color: string; // docs/06 §2 token: borders, dots, graphic fills
-  deep: string; // darkened for >=4.5:1 text and white-on fills (docs/06 §2)
+  color: string; // token: borders, dots, graphic fills
+  deep: string; // for text and filled chips on paper/surface (docs/06 §2)
+  icon: "check" | "eye" | "shield";
 }
 
+/* Labels, short names and blurbs live in lib/i18n.ts — they are visitor
+   facing prose and have to switch language. Only the visual identity stays
+   here, so there is exactly one English string for each lane. */
 export const LANE_META: Record<Lane, LaneMeta> = {
-  auto: { label: "Handled for you", short: "Auto", color: "#17A34A", deep: "#15803D" },
-  review: { label: "Needs your eyes", short: "Review", color: "#F59E0B", deep: "#B45309" },
-  scam: { label: "Scam alerts", short: "Scam", color: "#E5252A", deep: "#C1121F" },
+  auto: {
+    color: "var(--lane-auto)",
+    deep: "var(--lane-auto-deep)",
+    icon: "check",
+  },
+  review: {
+    color: "var(--lane-review)",
+    deep: "var(--lane-review-deep)",
+    icon: "eye",
+  },
+  scam: {
+    color: "var(--lane-scam)",
+    deep: "var(--lane-scam-deep)",
+    icon: "shield",
+  },
 };
-
-export const AVATAR_FALLBACK = "#2F6BFF";
-
-/** 12% tint background for chips (docs/06 §2 rules). */
-export function tint(hex: string, alpha = 0.12): string {
-  const h = hex.replace("#", "");
-  const r = parseInt(h.slice(0, 2), 16);
-  const g = parseInt(h.slice(2, 4), 16);
-  const b = parseInt(h.slice(4, 6), 16);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
-
-/** Darken text on tint for >= 4.5:1 contrast where the full color is too light. */
-export function chipTextColor(hex: string): string {
-  return hex;
-}
 
 export function classMeta(key: string): ClassMeta {
   return CLASS_META[key as ClassKey] ?? CLASS_META.other;

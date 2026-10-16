@@ -1,5 +1,5 @@
 "use client";
-/** Designed empty state (docs/06 §6: never blank). */
+/** Designed empty state (docs/06 §6: never blank). Editorial framed panel. */
 import type { ReactNode } from "react";
 
 export function EmptyState({
@@ -13,7 +13,7 @@ export function EmptyState({
 }) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 py-12 text-center">
-      <span className="flex h-12 w-12 items-center justify-center  bg-brand/40 text-ink" aria-hidden>
+      <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-line bg-surface text-accent shadow-soft" aria-hidden>
         {icon ?? "◎"}
       </span>
       <p className="font-display text-lg font-bold text-ink">{title}</p>

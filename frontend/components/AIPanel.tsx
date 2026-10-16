@@ -20,6 +20,21 @@ export function signalsOf(pred: Prediction): RouteSignals {
   };
 }
 
+function Field({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="border-t border-line pt-3">
+      <div className="label mb-2 text-muted">{label}</div>
+      {children}
+    </div>
+  );
+}
+
 export function AIPanel({
   pred,
   tau,
@@ -34,66 +49,64 @@ export function AIPanel({
   const isScam = pred.scam_prob >= 0.5;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3.5">
       <div className="flex items-center justify-between">
         <ClassChip classKey={pred.top_class} large />
-        <span className="tnum text-sm text-muted">p {pred.top_prob.toFixed(2)}</span>
+        <span className="tnum text-sm text-ink">p {pred.top_prob.toFixed(2)}</span>
       </div>
 
-      <div>
-        <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted">
-          Confidence
-        </div>
+      <Field label="Confidence">
         <ConfidenceBar value={pred.top_prob} threshold={required} />
-      </div>
+      </Field>
 
-      <div>
-        <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted">
-          Classes
-        </div>
+      <Field label="Class scores">
         <ProbBars probs={pred.class_probs} highlight={pred.top_class} />
-      </div>
+      </Field>
 
-      <div className=" border border-line bg-paper p-3">
+      <Field label="Second opinion">
         <div className="flex items-center justify-between">
-          <span className="text-[11px] font-semibold uppercase tracking-wide text-muted">
-            Second opinion
+          <span className="font-mono text-[11px] text-ink">
+            {pred.llm_class ?? "—"}
           </span>
           {pred.llm_status === "ok" ? (
-            <span className="inline-flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#15803D" }}>
-              <CheckIcon size={11} /> {pred.llm_class ?? "—"}
+            <span className="label inline-flex items-center gap-1 text-ink">
+              <CheckIcon size={11} /> ok
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 text-[11px] font-semibold" style={{ color: "#92400E" }}>
+            <span
+              className="label inline-flex items-center gap-1"
+              style={{ color: "var(--lane-scam)" }}
+            >
               <AlertIcon size={11} /> unavailable
             </span>
           )}
         </div>
-        <p className="mt-1 text-[13px] leading-snug text-muted">
-          {pred.llm_reason ?? (pred.llm_status === "ok" ? "—" : "Stricter threshold in effect.")}
+        <p className="mt-1 text-[12.5px] leading-snug text-muted">
+          {pred.llm_reason ??
+            (pred.llm_status === "ok" ? "—" : "Stricter threshold in effect.")}
         </p>
-      </div>
+      </Field>
 
-      <div className=" border border-line bg-surface p-3">
-        <span className="text-[11px] font-semibold uppercase tracking-wide text-muted">
-          Why this lane
-        </span>
-        <p className="mt-1 text-[13px] font-medium leading-snug text-ink">{reason}</p>
-        <p className="mt-2 text-[11px] text-muted">
-          engine {pred.engine} · {pred.latency_ms} ms
+      <Field label="Why this lane">
+        <p className="text-[13px] font-medium leading-snug text-ink">{reason}</p>
+        <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-muted">
+          {pred.engine} · {pred.latency_ms} ms
         </p>
-      </div>
+      </Field>
 
       {isScam && (
         <div
-          className=" border-2 p-3 text-[13px]"
-          style={{ borderColor: "#E5252A", background: "rgba(229,37,42,0.06)" }}
+          className="rounded-xl border-2 p-3 text-[12.5px]"
+          style={{ borderColor: "var(--lane-scam)", background: "var(--scam-tint)" }}
           role="alert"
         >
-          <div className="flex items-center gap-1.5 font-bold" style={{ color: "#E5252A" }}>
-            <AlertIcon size={13} /> Scam-like message
+          <div
+            className="label flex items-center gap-1.5"
+            style={{ color: "var(--lane-scam)" }}
+          >
+            <AlertIcon size={12} /> Scam-like message
           </div>
-          <p className="mt-1 text-ink">
+          <p className="mt-1.5 text-ink">
             Do not send items or advance payments. This message is never auto-handled.
           </p>
         </div>
