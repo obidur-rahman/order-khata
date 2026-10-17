@@ -1,0 +1,436 @@
+% Research proposal — Order Khata follow-on paper.
+%
+% This is a PROPOSAL, not a submission: it states what exists, what is missing,
+% and what would be measured. Every number below comes from
+% backend/artifacts/eval.json (generated 2026-10-16) or docs/04 §2.1; nothing is
+% invented here. Bibliography metadata is provisional (assembled from memory) and
+% must be verified against the sources before any submission — see references.bib.
+%
+% Compile (from this folder):  uv run python -B <latex-paper-en>/scripts/compile.py main.tex
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\title{Research Proposal:\\Calibrated Selective Automation for\\Code-Switched Bangla E-Commerce Messaging on a Zero Budget}
+\author{Author name to be filled \\ \small Order Khata project; prepared with an AI coding harness (disclosure to follow venue policy)}
+\date{17 October 2026 --- draft 1}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Small online shops in Bangladesh receive customer messages in Bangla, romanised
+Bangla (``Banglish'') and English, and must decide which messages a system may
+answer alone and which require a person. Order Khata is a 48-hour build of such a
+triage system under a strict zero-cost constraint: one free container, CPU only,
+no paid API. This proposal argues that the build contains the skeleton of a
+publishable applied study, but not yet the study itself. The material supports
+three candidate contributions: (i)~a full selective-automation analysis of a
+shipped policy --- 53.6\% coverage at 94.2\% auto-slice accuracy at
+$\tau=0.85$, with a measured structural ceiling of 56.2\%; (ii)~an empirical
+result on bounded LLM deferral --- when the local model and the LLM disagree at
+confidence $\geq 0.90$, the local model is right 96\% of the time against the
+LLM's 23\%, which justifies a tie-breaker-only-when-uncertain design; and
+(iii)~a cost--quality comparison of a 12\,ms linear model, a 322M-parameter
+checkpoint, and an LLM API as first-class systems. The proposal lists the six
+experiments, the statistics, and the human verification that separate the
+current artifact from a Q1 submission, with an eight-week plan and a venue
+ladder.
+\end{abstract}
+
+\section{Context and motivation}
+Order Khata reads customer messages, classifies them into six classes
+(order, price question, delivery problem, complaint, scam, other), and routes
+each message to
+one of three lanes: auto-handled, human review, or scam. The routing decision
+is a five-rule policy over calibrated signals; it is implemented twice, in
+Python and TypeScript, and parity-tested. The engineering budget is zero:
+everything runs in one free container with a 512\,MiB RAM ceiling on one
+deployment target, which excludes large local models and paid APIs alike.
+
+The evaluation was disciplined for a hackathon: decision rules were fixed
+before results were seen, thresholds were chosen on validation only, a coverage
+target was corrected once measurement proved it unreachable rather than the
+system being bent toward it, and every displayed number is read from a single
+artifact (\texttt{backend/artifacts/eval.json}). The headline measurements are:
+
+\begin{itemize}[leftmargin=*,itemsep=1pt,topsep=3pt]
+      \item the shipped linear engine reaches 0.820 accuracy and 0.816 macro-F1
+      on 806 held-out test messages;
+      \item at the default threshold $\tau=0.85$ the policy auto-handles 53.6\%
+      of messages at 94.2\% accuracy on that slice;
+      \item temperature scaling cuts expected calibration error from 0.200 to
+      0.049 (15 bins);
+      \item the scam head attains 96.9\% recall at a 0.25\% false-alarm rate on
+      ordinary shop messages, with the threshold fixed on validation beforehand;
+      \item the full signal path runs at p50 3.6\,ms / p95 4.6\,ms on CPU.
+\end{itemize}
+
+Applied papers in this space usually report a single accuracy figure for a
+fine-tuned transformer. We believe (and the literature review in
+Section~\ref{sec:related} will verify) three angles are under-explored for this
+setting: cost as a first-class evaluation axis, the conditions under which an
+LLM ``second opinion'' helps rather than harms, and the decomposition of
+coverage ceilings in deferral policies. The domain itself --- code-switched
+Bangla commerce messaging --- is under-served relative to English support
+traffic.
+
+\section{Working title and venue ladder}
+The main working title is \emph{``Cheap and Honest: Cost--Quality Trade-offs
+for Calibrated Selective Automation of Code-Switched Bangla E-Commerce
+Messages.''} Two alternatives are held for sharper framings:
+(i)~\emph{``Handling Half the Inbox at p95 $<$ 5\,ms: Selective Prediction and
+Bounded LLM Deferral for Bangla Commerce Messaging''} (systems angle), and
+(ii)~\emph{``When Not to Trust the Judge: Confidence-Bounded LLM Second
+Opinions for Low-Resource Triage''} (analysis angle).
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{@{}p{2.2cm}p{4.5cm}p{4.9cm}p{2.5cm}@{}}
+\toprule
+Tier & Example targets & Added work required & Horizon \\
+\midrule
+Workshop & ACL/EMNLP-affiliated workshop on code-switching
+          or low-resource NLP & Re-run notebook; related work; figures
+          & 1--2 weeks \\
+Q2/Q3 journal & \emph{Natural Language Engineering};
+          \emph{Computer Speech \& Language} & Multilingual baselines; seeds,
+          CIs, AURC; frozen LLM cache & 4--6 weeks \\
+Q1 journal & \emph{Expert Systems with Applications};
+          \emph{Eng.\ Applications of AI};
+          \emph{Information Processing \& Management}
+          & Human annotation with agreement statistics; OOD $n \geq 500$;
+          full ablations; 20--30 citations & 2--3 months \\
+\bottomrule
+\end{tabular}
+\caption{Venue ladder. Quartiles change over time; rankings must be re-checked
+at submission time. The tiers differ mainly in data verification and baseline
+depth, not in framing.}
+\label{tab:ladder}
+\end{table}
+
+\section{Research questions}
+\begin{enumerate}[label=RQ\arabic*,leftmargin=*]
+      \item \textbf{Cost--quality frontier.} Under a free-tier deployment
+      budget, where do a character n-gram linear model, multilingual encoders,
+      and LLM APIs sit on the accuracy--latency--memory Pareto frontier for
+      six-class triage of code-switched messages?
+      \item \textbf{Bounded LLM deferral.} Does an independent LLM second
+      signal improve selective accuracy at fixed coverage, and does that
+      improvement survive once the local model is well calibrated? When the two
+      disagree, which one should be trusted as a function of local confidence?
+      \item \textbf{Coverage ceiling.} How much of the non-automatable share of
+      an inbox is structural (messages that ask for a person, messages the
+      model is genuinely unsure about) versus improvable by a better model?
+      \item \textbf{Confidence under shift.} How does per-script performance
+      (Bangla, Banglish, English, mixed) and out-of-distribution behaviour
+      interact with calibration, i.e.~is the confidence score still trustworthy
+      where the model is weakest?
+\end{enumerate}
+
+\section{Contributions claimed}
+\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=3pt]
+      \item \textbf{C1 --- Selective-automation analysis of a shipped policy.}
+      A complete coverage--accuracy curve over $\tau \in [0.50, 0.99]$ computed
+      with the real routing function, plus a ceiling decomposition showing that
+      a \emph{perfect} escalate oracle still caps coverage at 56.2\% because
+      26\% of messages are not classified confidently and 13\% explicitly ask
+      for a person. The ceiling argument turns a product limitation into an
+      analytical result.
+      \item \textbf{C2 --- Bounded LLM deferral, measured.} On the test split,
+      cases where the LLM and the local model disagree at top probability
+      $\geq 0.90$ favour the local model 96\% to 23\%. We use this to justify
+      and formalise a veto design in which the LLM may only send a message to
+      review, never decide alone, and only when the local model is uncertain;
+      an unconditional veto is measured as the contrast condition and costs
+      both coverage and accuracy.
+      \item \textbf{C3 --- Cost as an evaluation axis.} The same task measured
+      across a 12\,ms linear model, a 322M-parameter checkpoint (45.6\,ms,
+      $\geq$3\,GiB host requirement with an observed out-of-memory failure below
+      that), and a rate-limited free-tier LLM API --- including the refusal
+      threshold that keeps a 512\,MiB host alive.
+      \item \textbf{C4 (conditional) --- Verified evaluation slice.} A
+      human-re-annotated subsample with inter-annotator agreement, if the
+      annotation plan in Section~\ref{sec:data} is executed. Without it, C4 is
+      dropped and the paper does not claim label quality beyond the source
+      datasets.
+\end{itemize}
+
+\section{State of the material}
+\subsection{Data}
+\label{sec:data}
+\begin{itemize}[leftmargin=*,itemsep=1pt,topsep=3pt]
+      \item \textbf{D1} --- \texttt{nafiullah/bangla-ecom-voice-decisions}~\cite{d1},
+      7{,}032 rows mapped from 15 fine-grained intents to the six product
+      classes; split 794 validation / 806 test after near-duplicate removal
+      against test. Licenced non-commercial; the corpus is \emph{largely
+      machine-generated}, which is limitation~1 of the artifact's own
+      limitations list and the main threat this proposal must answer.
+      \item \textbf{D2} --- \texttt{Piash2026/bengali-sms-smishing-dataset}~\cite{d2},
+      7{,}005 SMS, of which the fraud classes are kept and marketing/propaganda
+      labels excluded by a documented decision. SMS-style, not shop-chat ---
+      limitation~3.
+      \item \textbf{D3} --- BanglaTOD e-commerce subset~\cite{banglatod}, 105 customer turns,
+      mapped from 10 intents to 6 classes with the mapping written out as
+      explicit lines so a reader can disagree with a specific decision.
+      Single-source, small, and judgement-dependent --- limitation~4.
+\end{itemize}
+
+\subsection{Measured results to date}
+All values from \texttt{eval.json} (2026-10-16); Engine A in that run was the
+character n-gram linear model.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+System & Accuracy & macro-F1 & Scoring subset \\
+\midrule
+B1 linear engine, calibrated (E1) & 0.820 & 0.816 & all 806 test messages \\
+B2 LLM alone (zero-shot)         & 0.616 & 0.520 & LLM-answered subset$^{a}$ \\
+E2 decision + LLM agreement rule & 0.953 & 0.945 & decided subset$^{a}$ \\
+E3 full policy, $\tau=0.85$      & 0.942 & 0.938 & auto slice, cov.\ 53.6\% \\
+\midrule
+Calibration (ECE, 15 bins)       & 0.200 $\rightarrow$ 0.049 & --- & before/after \\
+Scam head                        & P 0.963 / R 0.969 & F1 0.966 & FAR 0.25\% on D1 \\
+OOD (BanglaTOD)                  & 0.362 & --- & $n=105$ \\
+\bottomrule
+\end{tabular}
+\caption{Existing evidence. $^{a}$E2 and B2 accuracy is computed on the
+messages each system chose to answer; the notebook records this caveat, and a
+paper must present these rows as risk--coverage pairs, never as directly
+comparable accuracies. Per-script accuracy: Banglish 0.881, Bangla 0.754,
+English 0.811, mixed 0.943 ($n=35$).}
+\label{tab:evidence}
+\end{table}
+
+Two attribution notes that any paper must keep: the 0.989 macro-F1 of the
+322M-parameter checkpoint is an \emph{in-distribution} number measured on the
+corpus the checkpoint was fine-tuned on (100 validation rows, gate rule fixed
+in advance), so it may headline a table but never a claim of generalisation;
+and the notebook currently stores no executed outputs --- it is a narrated
+protocol, so the first week of any plan is a clean re-run that regenerates
+every number from pinned code.
+
+\subsection{What is missing for a journal-grade study}
+\begin{enumerate}[label=\arabic*.,leftmargin=*]
+      \item Baseline depth: no fine-tuned mBERT/XLM-R/Bangla-specific encoder
+      rows, and only one hosted LLM for the zero-shot row.
+      \item Statistics: one split, no seeds, no confidence intervals, no
+      significance tests; abstaining systems are compared on different subsets.
+      \item Label verification: no inter-annotator agreement anywhere; the
+      escalate flag is a policy annotation, not ground truth.
+      \item OOD scale: $n=105$ with a judgement-call mapping is a caveat, not
+      a result.
+      \item LLM reproducibility: rows measured against a live API whose models
+      rotate; the cache and model ids must be frozen before submission.
+      \item Related work: the project currently contains no citations at all.
+\end{enumerate}
+
+\section{Related work (to be written)}
+\label{sec:related}
+The final paper will organise prior work by approach, not chronology; the four
+strands below are the planned structure, each with the gap it must establish.
+\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=3pt]
+      \item \textbf{Calibration and selective prediction.} Platt scaling~\cite{platt1999}
+      provides the sigmoid correction lineage used for the binary heads, and
+      Chow's reject-option work~\cite{chow1970} is the origin of trading errors against
+      abstention. Temperature scaling~\cite{guo2017} established that modern networks need
+      post-hoc scalar calibration, and selective-classification work~\cite{geifman2017} formalises
+      accuracy-under-abstention, which is exactly the quantity our coverage
+      curve reports; out-of-distribution behaviour is judged against detection baselines~\cite{hendrycks2017}. Our use is applied rather than methodological: the
+      contribution is the measured behaviour of these tools on this task, not
+      a new estimator.
+      \item \textbf{LLM routing and cascades.} Judge-style evaluation~\cite{zheng2023} assumes
+      the judge is reliable; routing and frugality work~\cite{chen2023,ong2024} reduces cost by
+      sending easy cases to small models and hard cases to large ones, usually
+      with preference data or a learned router. Our setting has neither budget
+      for preference collection nor labels for a router: the design under test
+      is a \emph{rule-based bounded veto} --- the LLM may only disagree the
+      system into review, only below a decisive-confidence gate --- and we
+      measure the contrast conditions (no veto, unconditional veto).
+      \item \textbf{Multilingual and code-switched encoders.} Bidirectional
+      pretraining~\cite{devlin2019} and its large-scale multilingual extension~\cite{conneau2020} underpin every
+      candidate encoder row; Bangla-specific variants will be surveyed at
+      execution time. The gap we test is per-script behaviour under a single
+      deployed policy --- one operating point, four script modes --- rather
+      than another pooled F1 score.
+      \item \textbf{Bangla resources and fraud detection.} D1~\cite{d1} and D2~\cite{d2} are the
+      task sources, and BanglaTOD~\cite{banglatod} supplies the only out-of-source check
+      available today; SMS-phishing literature will be surveyed for metric
+      conventions. The established gap is domain mismatch (SMS versus shop
+      chat) plus corpus provenance (machine-generated text), which Section 7
+      addresses by verification rather than by claim.
+\end{itemize}
+The gap paragraph will argue, subject to the review's outcome, that existing
+evaluations report pooled accuracy on pooled test sets, while the operational
+question --- \emph{what can be automated, at what confidence, at what cost,
+under a free-tier budget} --- requires selective metrics, cost axes, and
+per-script slices reported together.
+
+\section{Proposed methodology}
+\subsection{Data and verification plan}
+First, re-run the existing pipeline end to end from pinned code and regenerate
+\texttt{eval.json} with seeds recorded. Second, the annotation pilot: two
+annotators independently label a stratified subsample of at least 300 messages
+across class $\times$ script cells (including all low-confidence errors and a
+matched high-confidence sample), Cohen's $\kappa$ is reported, disagreements
+are adjudicated, and the adjudicated slice becomes the \emph{verified} test
+subset on which headline numbers are repeated. If $\kappa$ is poor, that
+result is itself a finding about the source labels and is reported as such.
+Third, OOD expansion: at least 500 customer messages from at least two
+sources outside D1 with a mapping validated by the same two annotators; if the
+mapping proves unreliable, OOD stays qualitative, consistent with the existing
+evaluation plan. Datasets with non-commercial licences are used for
+non-commercial research only, and the licensing of any released subset is
+checked before publication.
+
+\subsection{Systems under comparison}
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Id & System & Status \\
+\midrule
+A1 & char n-gram TF-IDF + logistic regression (shipped) & exists \\
+A2 & mBERT-base fine-tune & to train, 5 seeds \\
+A3 & XLM-R-base fine-tune & to train, 5 seeds \\
+A4 & Bangla-specific encoder (survey) & to select \\
+Z1 & open instruct LLM, zero-shot, quantised locally & to run \\
+Z2 & hosted free-tier LLM, zero-shot (frozen ids + cache) & to freeze \\
+L1 & 322M multilingual checkpoint (in-distribution caveat) & gate pass \\
+E3 & full policy: A1/L1 + escalate + scam + bounded LLM veto & exists \\
+\bottomrule
+\end{tabular}
+\caption{Planned comparison. Every trainable row runs with five seeds; every
+row reports accuracy, macro-F1, latency, and peak RSS on the same machine.}
+\label{tab:systems}
+\end{table}
+
+\subsection{Metrics and statistics}
+Classification: accuracy, macro-F1, per-class and per-script values, each with
+bootstrap 95\% confidence intervals (10{,}000 resamples). Pairwise system
+comparisons use McNemar's test on identical subsets; seed-trained systems are
+reported as mean $\pm$ std. Selective prediction: coverage, auto-slice
+accuracy, and area under the risk--coverage curve, with all abstaining systems
+compared at matched coverage rather than at their own operating points.
+Calibration: ECE (15 bins), adaptive ECE, Brier score, and classwise ECE
+before and after temperature scaling, with intervals. Fraud detection:
+precision, recall, F1 on D2 positives against D1 shop-chat negatives, plus
+false-alarm rate with an interval and recall at a fixed 1\% false-alarm rate.
+Latency and peak memory: p50/p95 on the deployment host, not the workstation.
+Ablations: veto off / bounded / unconditional $\times$ a sweep of the
+decisive-confidence gate; escalate rule on/off; oracle-ceiling decomposition
+of coverage; the scam invariant (nothing at or above the scam threshold may
+enter the auto lane) tested as an assertion, not reported as a number.
+
+\subsection{Reproducibility package}
+An executed notebook with stored outputs, pinned environment files, the frozen
+LLM response cache with model ids and dates, seeds, figures regenerated from
+the notebook, and the evaluation script that produces \texttt{eval.json} from
+raw data in one command.
+
+\section{Experimental plan and timeline}
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{@{}lp{7.2cm}p{6.3cm}@{}}
+\toprule
+Week & Work & Exit criterion \\
+\midrule
+W1 & Re-run pipeline + gate script; regenerate artifact; export figures
+   & all numbers reproduce or differences are explained \\
+W2 & Statistical machinery: bootstrap CIs, McNemar, AURC, risk--coverage pairs
+   & one table/format reused everywhere \\
+W3--W4 & Train A2--A4 (5 seeds each); select A4
+   & baseline table complete \\
+W5 & Freeze Z2 (model ids, cache); run veto ablation grid
+   & LLM rows reproducible offline \\
+W6 & Annotation pilot (300 msgs, $\kappa$); start OOD expansion
+   & verified slice exists or $\kappa$ finding reported \\
+W7 & OOD completion; analysis and error sections
+   & RQ1--RQ4 each answered with a table \\
+W8 & Related work, figures, internal review; submit workshop version
+   & submission-ready PDF \\
+\bottomrule
+\end{tabular}
+\caption{Eight weeks to a workshop submission; the Q1 extension (full OOD,
+deeper ablations, expanded related work) continues through month~3 on the same
+skeleton.}
+\label{tab:timeline}
+\end{table}
+
+\section{Risks and mitigations}
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{@{}p{4.9cm}p{4.6cm}p{4.6cm}@{}}
+\toprule
+Risk & Consequence & Mitigation \\
+\midrule
+Corpus is machine-generated & Reviewer rejects label validity & Annotation
+pilot with $\kappa$; verified subset carries headline numbers; limitation
+stated first, not last \\
+No novelty beyond application & Desk rejection at Q1 & Anchor the paper on
+C1--C3 (ceiling analysis, bounded-veto result, cost frontier); if the review
+shows the angle is taken, retarget to a workshop \\
+LLM rows drift or become paid & Central table not reproducible & Freeze model
+ids, ship response cache, re-measure dates; degraded rows allowed \\
+Single-author capacity & Eight-week plan slips & Workshop tier is the fixed
+commitment; journal tiers are stretch goals \\
+Non-commercial licences & Cannot release or reuse some rows & Use for
+research only; release only cleared subsets \\
+The 0.989 checkpoint number leaks into claims & Overclaim; violates the
+project's honesty rules & It is reported as in-distribution evidence with its
+fine-tune provenance attached, never as a headline \\
+\bottomrule
+\end{tabular}
+\caption{Top risks. The last row is a content risk, not a statistical one, and
+is governed by the project's honesty rules.}
+\label{tab:risks}
+\end{table}
+
+\section{Honest limitations and compliance}
+The paper inherits the artifact's thirteen-item limitations list verbatim in
+substance: machine-generated intent corpus; machine-assisted gold labels;
+SMS-style fraud data; single-source in-distribution test with a small OOD
+check; simulated inbox with no live platform integration; class-granularity
+decisions; engine attribution for every reported number. Framing rules also
+carry over: the corpus is a \emph{public Bangla e-commerce customer-message
+corpus}, never ``real seller messages''; no accuracy figure is hardcoded
+anywhere in the product; and the bibliography in this proposal is provisional
+and will be verified field by field before submission. Authorship practice
+follows the project's rule that an AI coding harness did substantial work: the
+venue's AI-disclosure policy will be checked and complied with, and the
+contribution claims here are proposals for measurement, not measurements, until
+the re-run in W1 produces them.
+
+\section{Deliverables}
+(1)~Workshop paper, weeks 1--8, on C1--C3 with the re-run evidence;
+(2)~reproducibility package (executed notebook, cache, seeds, one-command
+artifact regeneration); (3)~journal extension with the verified slice and
+expanded OOD, targeted at the Q2/Q3 or Q1 tier depending on what the data
+supports; (4)~if and only if C4 survives annotation, release of the verified
+subset under cleared licences.
+
+\section{Conclusion}
+The proposal does not claim that the existing artifact is a paper; it claims
+that the artifact already contains three measurable contributions and an
+unusually honest evaluation protocol, and that six specific experiments plus
+statistical and human verification convert it into one. The gate for
+continuing is cheap: W1's re-run either reproduces the numbers or ends the
+project early.
+
+% Citations: BibTeX, entries in references.bib (all metadata provisional --
+% verify every field before submission).
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
