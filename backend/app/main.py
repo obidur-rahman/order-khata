@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import logging
+import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -21,17 +22,34 @@ from .simulator import Simulator
 
 log = logging.getLogger("order_khata")
 
+# How long boot seeding may spend on the LLM second signal before the remaining
+# seeds classify locally (docs/04 §3.1). The chain is bounded per message but
+# not per batch, and Render's disk is ephemeral: a cold start whose egress to
+# the providers is dead re-walked all ~60 seeds at ~12 s each and uvicorn never
+# bound its port ("Port scan timeout reached", 2026-10-17). 30 s keeps the
+# worst-case boot well inside any deploy window while still letting a healthy
+# provider answer most of the pool.
+SEED_LLM_DEADLINE_S = 30.0
+
 
 def _seed_predictions(pipeline: Pipeline, pending: list[dict]) -> None:
     """Classify seed messages once and cache results so cold start never
-    calls the LLM 60+ times (docs/05 boot sequence)."""
+    calls the LLM 60+ times (docs/05 boot sequence).
+
+    Past the wall-clock budget the rest classify with `use_llm=False`: no
+    network, and an honest `unavailable` second signal, exactly what a
+    missing key produces.
+    """
     if not pending:
         return
     cache = load_seed_prediction_cache()
     missing = [p for p in pending if p["message_id"] not in cache]
+    deadline = time.monotonic() + SEED_LLM_DEADLINE_S
     for p in missing:
         try:
-            cache[p["message_id"]] = pipeline.classify(p["text"], source="seed")
+            cache[p["message_id"]] = pipeline.classify(
+                p["text"], source="seed", use_llm=time.monotonic() < deadline
+            )
         except Exception:
             log.exception("seed classify failed for %s", p["message_id"])
     for p in pending:
@@ -47,6 +65,10 @@ async def lifespan(app: FastAPI):
     db.init_db()
     pipeline = Pipeline.create()
     app.state.pipeline = pipeline
+    if not pipeline.laya.loaded:
+        # The one line that settles "will this deployment run the checkpoint?"
+        # at a glance: the refusal reason, before seeding can obscure it.
+        log.info("S1 checkpoint not loaded: %s", pipeline.laya.error or "unknown reason")
     sim = Simulator(pipeline)
     app.state.simulator = sim
 

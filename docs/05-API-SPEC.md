@@ -107,7 +107,7 @@ CREATE TABLE resolutions (
 CREATE INDEX idx_messages_conv ON messages(conversation_id, received_at);
 CREATE INDEX idx_pred_lane ON predictions(lane);
 ```
-Boot sequence: create tables → if `messages` empty, load `data/seed_inbox.json` and classify each seed once (cache results into `data/seed_predictions.json` so cold start does not call the LLM 60+ times).
+Boot sequence: create tables → if `messages` empty, load `data/seed_inbox.json` and classify each seed once (cache results into `data/seed_predictions.json` so cold start does not call the LLM 60+ times; seeding stops asking the LLM after a 30 s wall-clock budget and the rest classify locally — docs/04 §3.1, so an unreachable provider can never hold the port bind).
 
 ## Frontend contract
 - `lib/api.ts` is the only module that calls fetch.

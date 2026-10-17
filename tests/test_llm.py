@@ -221,3 +221,83 @@ def test_prompt_contract(monkeypatch):
     # the user turn must carry the ACTUAL message (regression: an unfilled
     # placeholder made the LLM answer "No message content provided")
     assert captured["json"]["messages"][1] == {"role": "user", "content": "hi there"}
+
+
+# ---------------------------------------------------------------------------
+# The cooldown: a dead chain must not be paid for once per message
+# ---------------------------------------------------------------------------
+def test_three_consecutive_dead_messages_trip_a_cooldown(monkeypatch):
+    """Render free, 2026-10-17: boot re-walked ~60 seed messages x ~12 s of
+    timeouts each and uvicorn never bound its port. After a few consecutive
+    dead messages the chain is presumed broken and later ones must answer
+    instantly in degraded mode instead of paying the walk again."""
+    calls = {"n": 0}
+
+    def post(*a, **k):
+        calls["n"] += 1
+        raise httpx.ConnectError("dead")
+
+    monkeypatch.setenv("GROQ_API_KEYS", "k1")
+    monkeypatch.setenv("GROQ_MODELS", "m1")
+    monkeypatch.setattr(llm_mod.httpx, "post", post)
+    client = llm_mod.LLMClient()
+
+    for _ in range(llm_mod.BREAKER_AFTER_MESSAGES):
+        assert client.call("x") == (None, None, "unavailable")
+    walked = calls["n"]
+    assert walked == llm_mod.BREAKER_AFTER_MESSAGES * 2  # one retry per message
+
+    assert client.call("y") == (None, None, "unavailable")
+    assert calls["n"] == walked, "cooldown must short-circuit the chain"
+
+
+def test_one_usable_answer_resets_the_streak(monkeypatch):
+    """A merely-unlucky message (two dead attempts, then a good provider) must
+    not count towards the cooldown: the streak is about a broken chain."""
+    calls = {"n": 0}
+
+    def post(url, **kwargs):
+        calls["n"] += 1
+        if calls["n"] <= 4:  # two dead messages (two attempts each), then alive
+            raise httpx.ConnectError("dead")
+        return FakeResp(200, _groq_payload('{"class": "other", "reason": "Greeting."}'))
+
+    monkeypatch.setenv("GROQ_API_KEYS", "k1")
+    monkeypatch.setenv("GROQ_MODELS", "m1")
+    monkeypatch.setattr(llm_mod.httpx, "post", post)
+    client = llm_mod.LLMClient()
+
+    client.call("a")
+    client.call("b")  # streak = 2
+    assert client.call("c") == ("other", "Greeting.", "ok")  # resets the streak
+    before = calls["n"]
+    assert client.call("d") == ("other", "Greeting.", "ok")
+    assert calls["n"] > before, "no cooldown after a success: the chain is live"
+
+
+def test_the_cooldown_expires_and_the_chain_is_probed_again(monkeypatch):
+    now = {"t": 0.0}
+    monkeypatch.setattr(llm_mod, "_now", lambda: now["t"])
+
+    def post(*a, **k):
+        raise httpx.ConnectError("dead")
+
+    monkeypatch.setenv("GROQ_API_KEYS", "k1")
+    monkeypatch.setenv("GROQ_MODELS", "m1")
+    monkeypatch.setattr(llm_mod.httpx, "post", post)
+    client = llm_mod.LLMClient()
+
+    for _ in range(llm_mod.BREAKER_AFTER_MESSAGES):
+        client.call("x")
+    assert client._cooldown_until == llm_mod.BREAKER_COOLDOWN_S  # armed at t=0
+
+    now["t"] = llm_mod.BREAKER_COOLDOWN_S + 1
+    probed = {"n": 0}
+
+    def counting(*a, **k):
+        probed["n"] += 1
+        raise httpx.ConnectError("still dead")
+
+    monkeypatch.setattr(llm_mod.httpx, "post", counting)
+    assert client.call("probed") == (None, None, "unavailable")
+    assert probed["n"] == 2, "expired cooldown must walk the chain again"

@@ -140,8 +140,15 @@ class Pipeline:
             return (scaled_probs(self.decision.predict_base5(text), self.temperature),
                     ENGINE_TFIDF)
 
-    def classify(self, text: str, source: str = "user") -> dict:
-        """Returns the Prediction dict (docs/05), lane at TAU_DEFAULT."""
+    def classify(self, text: str, source: str = "user", use_llm: bool = True) -> dict:
+        """Returns the Prediction dict (docs/05), lane at TAU_DEFAULT.
+
+        `use_llm=False` is the degraded-mode prediction: the second signal is
+        never asked and reports `unavailable`. Boot seeding uses it when its
+        wall-clock budget is spent (docs/04 §3.1); every other field is
+        answered normally either way, so a seed without the LLM is an ordinary
+        review, not a special case.
+        """
         t0 = time.perf_counter()
         normalized = normalize(text)
         script = detect_script(text)
@@ -156,7 +163,10 @@ class Pipeline:
         top_class = max(class_probs, key=class_probs.get)
         top_prob = class_probs[top_class]
 
-        llm_class, llm_reason, llm_status = self.llm.call(normalized)
+        if use_llm:
+            llm_class, llm_reason, llm_status = self.llm.call(normalized)
+        else:
+            llm_class, llm_reason, llm_status = None, None, "unavailable"
         lane, reason = route(
             {
                 "top_class": top_class,

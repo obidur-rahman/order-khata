@@ -363,6 +363,38 @@ def test_degraded_mode_still_boots_and_reviews_everything():
     assert pred["top_prob"] == pytest.approx(0.2)
 
 
+def test_use_llm_false_is_exactly_the_degraded_prediction():
+    """Seeding runs under a wall-clock budget (docs/04 §3.1). Skipping the
+    second signal must produce the degraded-mode shape — status
+    `unavailable`, no class — while every local signal is answered, and the
+    LLM must not be touched at all."""
+
+    class RecordingLLM:
+        provider = "stub"
+        status = "ok"
+
+        def __init__(self):
+            self.seen = []
+
+        def call(self, text):
+            self.seen.append(text)
+            return "order", "restock", "ok"
+
+    p = make_pipeline()
+    llm = RecordingLLM()
+    p.llm = llm
+
+    skipped = p.classify("ei saree ta ki stock e ache?", use_llm=False)
+    assert llm.seen == []
+    assert skipped["llm_status"] == "unavailable"
+    assert skipped["llm_class"] is None and skipped["llm_reason"] is None
+    assert skipped["top_class"] and skipped["lane"]  # local signals still answered
+
+    asked = p.classify("restock korte chai")
+    assert len(llm.seen) == 1  # the default still asks, exactly once
+    assert asked["llm_status"] == "ok" and asked["llm_class"] == "order"
+
+
 # ---------------------------------------------------------------------------
 # The two engine-dependent rules docs/04 §2.1 pins down
 # ---------------------------------------------------------------------------

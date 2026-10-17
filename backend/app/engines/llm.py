@@ -9,6 +9,10 @@ immediately "unavailable", which is exactly the degraded mode.
 Key rotation: GROQ_API_KEYS may hold several comma-separated keys. Each key
 becomes one entry in the provider chain, so an HTTP 429/5xx on one key falls
 through to the next key automatically, then to Gemini, then to degraded mode.
+A chain that answers nothing for BREAKER_AFTER_MESSAGES consecutive messages
+is presumed broken for BREAKER_COOLDOWN_S: calls in that window return
+"unavailable" at once instead of every message paying the full timeout walk
+(the Render boot hang, 2026-10-17).
 """
 from __future__ import annotations
 
@@ -16,6 +20,7 @@ import hashlib
 import json
 import os
 import re
+import time
 from collections import OrderedDict
 from typing import Any, Optional
 
@@ -40,6 +45,18 @@ _SYSTEM_PROMPT = (
 )
 
 _FENCE_RE = re.compile(r"```(?:json)?\s*(.*?)\s*```", re.S)
+
+# A dead chain (hostile egress, dead DNS, revoked keys) costs every message the
+# full walk: 3 s x one retry x every model/key entry. After a few consecutive
+# messages with no usable answer the chain is presumed broken, and the walk is
+# paid once per cooldown window instead of once per message.
+BREAKER_AFTER_MESSAGES = 3
+BREAKER_COOLDOWN_S = 60.0
+
+
+def _now() -> float:
+    """Indirection so tests can move time without patching the stdlib."""
+    return time.monotonic()
 
 
 def _extract_json(text: str) -> Optional[dict[str, Any]]:
@@ -66,6 +83,8 @@ class LLMClient:
     def __init__(self) -> None:
         self._cache: OrderedDict[str, dict[str, Any]] = OrderedDict()
         self.last_provider: Optional[str] = None
+        self._fail_streak = 0
+        self._cooldown_until = 0.0
 
     # -- providers ---------------------------------------------------------
     def _providers(self) -> list[tuple[str, str, dict[str, Any]]]:
@@ -147,6 +166,10 @@ class LLMClient:
         providers = self._providers()
         if not providers:
             return None, None, "unavailable"
+        if _now() < self._cooldown_until:
+            # Chain presumed broken; the next message after the window probes
+            # it again. Cache hits above still answer.
+            return None, None, "unavailable"
 
         for name, url, cfg in providers:
             for _attempt in range(2):  # one retry (docs/04 §3.1)
@@ -163,6 +186,7 @@ class LLMClient:
                     parsed = _extract_json(self._extract_text(name, resp.json()))
                     if parsed:
                         self.last_provider = name
+                        self._fail_streak = 0
                         self._cache[key] = parsed
                         while len(self._cache) > LLM_CACHE_SIZE:
                             self._cache.popitem(last=False)
@@ -170,4 +194,7 @@ class LLMClient:
                     break  # invalid JSON -> do not retry same provider
                 except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError):
                     continue  # retry once, then next provider
+        self._fail_streak += 1
+        if self._fail_streak >= BREAKER_AFTER_MESSAGES:
+            self._cooldown_until = _now() + BREAKER_COOLDOWN_S
         return None, None, "unavailable"
