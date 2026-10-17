@@ -66,6 +66,12 @@ ENV HF_HOME=/opt/hf-cache \
     HF_HUB_DISABLE_TELEMETRY=1
 RUN python -c "from huggingface_hub import snapshot_download; \
     snapshot_download('nafiullah/laya-multilingual-bn-ecom-voice')"
+# Once the weights are baked in, boot must never depend on huggingface.co
+# again: a failed Hub revision check at startup is exactly how a local server
+# ended up reporting the engine as "not available in this deployment" while
+# the 644 MB checkpoint sat in the cache untouched. With the snapshot present,
+# offline mode degrades honestly (load error -> tfidf-lr) instead of flaking.
+ENV HF_HUB_OFFLINE=1
 
 COPY backend/ ./backend/
 COPY --from=frontend /build/frontend/out ./frontend/out
