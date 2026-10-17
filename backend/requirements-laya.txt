@@ -13,4 +13,15 @@
 #
 # laya requires: torch>=2.0.0, transformers>=4.48.0, safetensors>=0.4.0,
 # huggingface_hub>=0.20.0, numpy>=1.20.0 — all satisfied by what is installed.
+#
+# The stack below is pinned to the environment the gate measurement and the
+# real-checkpoint tests ran on (ml/laya_gate.py, tests/test_engine.py). Left
+# unpinned, the first Render build pulled transformers 5.20.1 with
+# huggingface_hub 2.2.0 — a major version the custom `laya` loader has never
+# run against. The one number this image exists to reproduce must not drift
+# with PyPI.
 laya==0.4.8
+transformers==4.57.6
+huggingface_hub==0.36.0
+tokenizers==0.22.2
+safetensors==0.7.0
