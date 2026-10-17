@@ -224,6 +224,35 @@ def test_engine_is_loaded_at_boot_not_on_the_first_message(monkeypatch):
     assert p.s1_name == ENGINE_TFIDF  # fell back, because the checkpoint did not load
 
 
+def test_a_host_too_small_to_hold_the_checkpoint_is_refused_not_attempted(monkeypatch):
+    """A 512 MiB instance (Render's free tier) must be refused, never attempted.
+
+    Loading there does not fail — it OOM-kills the process inside lifespan, so no
+    port ever opens and the deploy crash-loops instead of degrading. The refusal
+    must name the real cause and stop *before* touching the torch/laya import.
+    """
+    import app.engines.laya as laya_mod
+
+    monkeypatch.setattr(laya_mod, "total_ram_bytes", lambda: 512 * 1024**2)
+    monkeypatch.setitem(sys.modules, "laya", None)  # an import attempt would raise
+    engine = LayaEngine.load()
+    assert engine.loaded is False
+    assert engine.error and "GiB" in engine.error  # says why
+    assert "Error" not in engine.error  # proves it never got as far as importing
+
+
+def test_unknown_host_memory_keeps_the_old_try_and_degrade_behaviour(monkeypatch):
+    """A platform that will not answer the probe changes nothing: try to load,
+    degrade honestly if the stack or the weights are missing."""
+    import app.engines.laya as laya_mod
+
+    monkeypatch.setattr(laya_mod, "total_ram_bytes", lambda: None)
+    monkeypatch.setitem(sys.modules, "laya", None)
+    engine = LayaEngine.load()
+    assert engine.loaded is False
+    assert engine.error and "Error" in engine.error
+
+
 # ---------------------------------------------------------------------------
 # Selection, switching, and the honest fallback
 # ---------------------------------------------------------------------------

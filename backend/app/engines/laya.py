@@ -10,20 +10,69 @@ mistake docs/04 §2.1 records. S2 therefore stays on the TF-IDF head whichever e
 uses.
 
 Deliberately optional, in the strongest sense: torch and the `laya` package are **not**
-in `requirements.txt`. If they are missing, if the weights cannot be fetched, if the
-custom runtime fails — `load()` returns an engine that reports `loaded = False` and the
-pipeline falls back to `tfidf-lr` and says so through `/api/health`. Boot never depends
-on this file working.
+in `requirements.txt`. If they are missing, if the host cannot hold the checkpoint, if
+the weights cannot be fetched, if the custom runtime fails — `load()` returns an
+engine that reports `loaded = False` and the pipeline falls back to `tfidf-lr` and says
+so through `/api/health`. Boot never depends on this file working.
 """
 from __future__ import annotations
 
 import logging
+import os
 from typing import Any, Optional
 
 from ..config import LAYA_REPO
 from .decision import aggregate_intents
 
 log = logging.getLogger("order_khata.engines.laya")
+
+GIB = 1024 ** 3
+# 322M parameters in fp32 ≈ 1.29 GB of weights, plus the torch runtime, Python
+# and headroom for activations and allocator fragmentation. Below this, loading
+# the checkpoint does not fail — it takes the whole instance down: a Render free
+# service (512 MiB) was OOM-killed inside lifespan, so no port ever opened and the
+# process crash-looped instead of degrading. Refusing up front is the difference
+# between "not available in this deployment" and a dead deploy.
+MIN_TOTAL_RAM = 3 * GIB
+
+
+def total_ram_bytes() -> Optional[int]:
+    """Total physical RAM, or None when this platform will not say.
+
+    Probed before the import so an undersized host never starts loading the
+    model. Linux via sysconf, Windows via GlobalMemoryStatusEx; anything else
+    falls through to None and the old behaviour (try to load, degrade on error).
+    """
+    try:
+        pages = int(os.sysconf("SC_PHYS_PAGES"))
+        page_size = int(os.sysconf("SC_PAGE_SIZE"))
+        if pages > 0 and page_size > 0:
+            return pages * page_size
+    except (ValueError, OSError, AttributeError):
+        pass
+    try:
+        import ctypes
+
+        class _MemoryStatusEx(ctypes.Structure):
+            _fields_ = [
+                ("dwLength", ctypes.c_ulong),
+                ("dwMemoryLoad", ctypes.c_ulong),
+                ("ullTotalPhys", ctypes.c_ulonglong),
+                ("ullAvailPhys", ctypes.c_ulonglong),
+                ("ullTotalPageFile", ctypes.c_ulonglong),
+                ("ullAvailPageFile", ctypes.c_ulonglong),
+                ("ullTotalVirtual", ctypes.c_ulonglong),
+                ("ullAvailVirtual", ctypes.c_ulonglong),
+                ("ullAvailExtendedVirtual", ctypes.c_ulonglong),
+            ]
+
+        status = _MemoryStatusEx()
+        status.dwLength = ctypes.sizeof(_MemoryStatusEx)
+        if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status)):
+            return int(status.ullTotalPhys)
+    except Exception:  # noqa: BLE001 — probing must never break loading
+        return None
+    return None
 
 # The checkpoint's questions.yaml, `instructions[0]` — the canonical wording used at
 # training and evaluation. A paraphrased question is a way to "discover" that a good
@@ -114,9 +163,16 @@ class LayaEngine:
         """Load the checkpoint, or return an engine that honestly knows nothing.
 
         Any failure lands here: no torch, no package, no weights, no network on a
-        cold ephemeral disk, a custom runtime that changed under us. This is the
-        normal path on a machine that only installed `requirements.txt`.
+        cold ephemeral disk, a custom runtime that changed under us, an instance
+        too small to hold 322M parameters. This is the normal path on a machine
+        that only installed `requirements.txt`.
         """
+        ram = total_ram_bytes()
+        if ram is not None and ram < MIN_TOTAL_RAM:
+            return cls(error=(
+                f"host has {ram / GIB:.1f} GiB RAM, the checkpoint needs "
+                f">= {MIN_TOTAL_RAM / GIB:.0f} GiB — not attempted on this deployment"
+            ))
         try:
             import laya  # noqa: PLC0415 — optional dependency, imported on purpose late
 
