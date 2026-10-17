@@ -254,6 +254,52 @@ def test_unknown_host_memory_keeps_the_old_try_and_degrade_behaviour(monkeypatch
 
 
 # ---------------------------------------------------------------------------
+# The probe itself: a container's cap, not the host board's memory
+# ---------------------------------------------------------------------------
+def test_cgroup_limit_parsing_takes_a_cap_and_rejects_both_unlimited_sentinels():
+    """v2 writes `max` when uncapped; v1 writes ~2**63-1 page-rounded. Neither
+    is a RAM size — v1's number in particular would sail through any
+    `>= 3 GiB` check if read at face value."""
+    from app.engines.laya import parse_cgroup_limit
+
+    assert parse_cgroup_limit("536870912\n") == 536870912      # 512 MiB: Render free
+    assert parse_cgroup_limit("max") is None                   # v2, uncapped
+    assert parse_cgroup_limit("9223372036854771712") is None   # v1, uncapped
+    assert parse_cgroup_limit("0") is None
+    assert parse_cgroup_limit("") is None
+    assert parse_cgroup_limit("not a number") is None
+
+
+def test_the_probe_returns_the_cgroup_cap_rather_than_the_board_memory(tmp_path, monkeypatch):
+    """The Render failure: sysconf reads the machine the cgroup sits on (many
+    GiB) while the container may use 512 MiB. `load()` compares this number
+    against 3 GiB, so returning the board's figure here is what handed the
+    deploy its OOM kill inside lifespan."""
+    import app.engines.laya as laya_mod
+
+    cap = tmp_path / "memory.max"
+    cap.write_text("536870912", encoding="ascii")
+    monkeypatch.setattr(laya_mod, "CGROUP_LIMIT_FILES", (str(cap),))
+    ram = laya_mod.total_ram_bytes()
+    assert ram is not None and ram <= 512 * 1024**2
+
+
+def test_a_512_mib_cgroup_alone_refuses_the_checkpoint_end_to_end(tmp_path, monkeypatch):
+    """Through the real `load()`: cap seen -> refusal written before `import
+    laya` — the exact boot path a Render free instance walks."""
+    import app.engines.laya as laya_mod
+
+    cap = tmp_path / "memory.max"
+    cap.write_text("536870912", encoding="ascii")
+    monkeypatch.setattr(laya_mod, "CGROUP_LIMIT_FILES", (str(cap),))
+    monkeypatch.setitem(sys.modules, "laya", None)  # an import attempt would raise
+    engine = LayaEngine.load()
+    assert engine.loaded is False
+    assert engine.error and "GiB" in engine.error  # says why
+    assert "Error" not in engine.error  # never got as far as importing
+
+
+# ---------------------------------------------------------------------------
 # Selection, switching, and the honest fallback
 # ---------------------------------------------------------------------------
 def test_default_runs_laya_and_the_switch_reaches_the_backup():

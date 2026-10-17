@@ -37,42 +37,95 @@ MIN_TOTAL_RAM = 3 * GIB
 
 
 def total_ram_bytes() -> Optional[int]:
-    """Total physical RAM, or None when this platform will not say.
+    """The smallest RAM limit this process may actually use, or None.
 
-    Probed before the import so an undersized host never starts loading the
-    model. Linux via sysconf, Windows via GlobalMemoryStatusEx; anything else
-    falls through to None and the old behaviour (try to load, degrade on error).
+    Probed before the import so an undersized instance never starts loading the
+    model — and the probe must ask two questions, because they disagree where it
+    hurts: sysconf / GlobalMemoryStatusEx report the *board's* physical memory,
+    while a capped container may only use its cgroup limit (Render free: a
+    512 MiB cgroup sitting on a much larger machine). Trusting the board alone
+    waved the checkpoint through and the deploy died OOM inside lifespan —
+    the same crash-loop this refusal exists to prevent (docs/04 §2.2) — so the
+    smaller of the two numbers is what counts. Nothing found at all -> None ->
+    the old behaviour: try to load, degrade honestly on error.
     """
+    candidates: list[int] = []
     try:
         pages = int(os.sysconf("SC_PHYS_PAGES"))
         page_size = int(os.sysconf("SC_PAGE_SIZE"))
         if pages > 0 and page_size > 0:
-            return pages * page_size
+            candidates.append(pages * page_size)
     except (ValueError, OSError, AttributeError):
         pass
-    try:
-        import ctypes
+    if not candidates:
+        try:
+            import ctypes
 
-        class _MemoryStatusEx(ctypes.Structure):
-            _fields_ = [
-                ("dwLength", ctypes.c_ulong),
-                ("dwMemoryLoad", ctypes.c_ulong),
-                ("ullTotalPhys", ctypes.c_ulonglong),
-                ("ullAvailPhys", ctypes.c_ulonglong),
-                ("ullTotalPageFile", ctypes.c_ulonglong),
-                ("ullAvailPageFile", ctypes.c_ulonglong),
-                ("ullTotalVirtual", ctypes.c_ulonglong),
-                ("ullAvailVirtual", ctypes.c_ulonglong),
-                ("ullAvailExtendedVirtual", ctypes.c_ulonglong),
-            ]
+            class _MemoryStatusEx(ctypes.Structure):
+                _fields_ = [
+                    ("dwLength", ctypes.c_ulong),
+                    ("dwMemoryLoad", ctypes.c_ulong),
+                    ("ullTotalPhys", ctypes.c_ulonglong),
+                    ("ullAvailPhys", ctypes.c_ulonglong),
+                    ("ullTotalPageFile", ctypes.c_ulonglong),
+                    ("ullAvailPageFile", ctypes.c_ulonglong),
+                    ("ullTotalVirtual", ctypes.c_ulonglong),
+                    ("ullAvailVirtual", ctypes.c_ulonglong),
+                    ("ullAvailExtendedVirtual", ctypes.c_ulonglong),
+                ]
 
-        status = _MemoryStatusEx()
-        status.dwLength = ctypes.sizeof(_MemoryStatusEx)
-        if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status)):
-            return int(status.ullTotalPhys)
-    except Exception:  # noqa: BLE001 — probing must never break loading
+            status = _MemoryStatusEx()
+            status.dwLength = ctypes.sizeof(_MemoryStatusEx)
+            if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status)):
+                candidates.append(int(status.ullTotalPhys))
+        except Exception:  # noqa: BLE001 — probing must never break loading
+            pass
+    cap = cgroup_memory_limit()
+    if cap is not None:
+        candidates.append(cap)
+    return min(candidates) if candidates else None
+
+
+# The container's cap, which is the number a containerised deployment lives by.
+# Both files are read because hosts differ: v2 is the usual path on current
+# systemd/Docker, v1 still appears on older clusters. Absent files are fine.
+CGROUP_LIMIT_FILES = (
+    "/sys/fs/cgroup/memory.max",                   # cgroup v2
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes",  # cgroup v1
+)
+
+
+def parse_cgroup_limit(raw: str) -> Optional[int]:
+    """A cgroup memory cap in bytes, or None for unlimited / absent / garbage.
+
+    v2 writes `max` when uncapped; v1 writes ~2**63-1, page-rounded, when
+    uncapped. Both must read as "no limit" — v1's number in particular is large
+    enough to sail through any `>= 3 GiB` check if taken at face value.
+    """
+    text = (raw or "").strip()
+    if not text or text == "max":
         return None
-    return None
+    try:
+        value = int(text)
+    except ValueError:
+        return None
+    if value <= 0 or value >= 2**62:
+        return None
+    return value
+
+
+def cgroup_memory_limit() -> Optional[int]:
+    """Smallest cap among the cgroup files that exist here, or None if uncapped."""
+    limits = []
+    for path in CGROUP_LIMIT_FILES:
+        try:
+            with open(path, encoding="ascii", errors="ignore") as handle:
+                limit = parse_cgroup_limit(handle.read())
+        except OSError:
+            continue
+        if limit is not None:
+            limits.append(limit)
+    return min(limits) if limits else None
 
 # The checkpoint's questions.yaml, `instructions[0]` — the canonical wording used at
 # training and evaluation. A paraphrased question is a way to "discover" that a good
@@ -170,7 +223,7 @@ class LayaEngine:
         ram = total_ram_bytes()
         if ram is not None and ram < MIN_TOTAL_RAM:
             return cls(error=(
-                f"host has {ram / GIB:.1f} GiB RAM, the checkpoint needs "
+                f"instance has {ram / GIB:.1f} GiB RAM, the checkpoint needs "
                 f">= {MIN_TOTAL_RAM / GIB:.0f} GiB — not attempted on this deployment"
             ))
         try:
