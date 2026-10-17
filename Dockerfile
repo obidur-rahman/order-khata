@@ -36,8 +36,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Dependencies first: the layer survives every source edit.
-COPY backend/requirements.txt ./backend/requirements.txt
+# Dependencies first: the layer survives every source edit. Both requirement
+# files go in together — the LayA install below reads its own file, and the full
+# `COPY backend/ ./backend/` only happens near the end (a build failed with
+# "No such file or directory: backend/requirements-laya.txt" when this copied
+# only requirements.txt).
+COPY backend/requirements.txt backend/requirements-laya.txt ./backend/
 RUN pip install --no-cache-dir -r backend/requirements.txt
 
 # ---------------------------------------------------------------------------
