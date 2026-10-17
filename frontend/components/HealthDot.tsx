@@ -21,8 +21,10 @@ export function HealthDot({ health }: { health: HealthResponse | null }) {
     return (
       <span
         className="inline-flex items-center"
-        title={`${health.version} · all engines ready`}
-        aria-label="All engines ready"
+        // The engine that is really answering (docs/04 §2.1) — a deployment
+        // running the backup must not look identical to one running Laya.
+        title={`${health.version} · ${health.engine} · all engines ready`}
+        aria-label={`All engines ready · ${health.engine}`}
         role="status"
       >
         <span className="inline-block h-2 w-2 rounded-full" style={{ background: "var(--color-ink)" }} aria-hidden />
@@ -33,7 +35,7 @@ export function HealthDot({ health }: { health: HealthResponse | null }) {
     <span
       className="label inline-flex items-center gap-1.5"
       style={{ color: "var(--lane-scam)" }}
-      title={`${health.version} · second signal unavailable`}
+      title={`${health.version} · ${health.engine} · second signal unavailable`}
     >
       <span className="inline-block h-2 w-2 rounded-full" style={{ background: "var(--lane-scam)" }} aria-hidden />
       degraded

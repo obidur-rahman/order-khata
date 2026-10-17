@@ -24,6 +24,8 @@ Goal: one honest, defensible set of numbers, produced by section 8 of `ml/notebo
 | E1 | Decision model only (calibrated) |
 | E2 | Decision model + LLM agreement rule |
 | E3 | Full Order Khata policy (E2 + escalate + scam rule) |
+
+**Every row above was measured with Engine A = `tfidf-lr`.** The deployment now serves the Laya checkpoint instead (docs/04 §2.1), so the page must state both — which engine the numbers came from and which one is answering — rather than implying the tables describe the model that is running. The checkpoint's own comparison lives in docs/04 §2.1 and `ml/laya_gate.py`; it is deliberately not folded into this table, whose rows come from one artifact.
 | (optional) E4 | Hosted decision model (Mercury Decide / Span-01 Lite) |
 | (optional) F1 | LoRA fine-tuned small model (only if time remains) |
 
@@ -43,6 +45,7 @@ Goal: one honest, defensible set of numbers, produced by section 8 of `ml/notebo
 - **Scam recall ≥ 95% on D2 held-out.** Measured **96.9%**.
 - **ECE ≤ 0.05** after calibration.
 - **Measured, not promised:** every number above lives in `backend/artifacts/eval.json` and nowhere else. If a run disagrees with this list, the list is what is wrong.
+- **Engine attribution.** Where the serving engine differs from the engine a number was measured on, both are shown and neither is adjusted. Today that means: E1/E2/E3 and B1 describe `tfidf-lr`, while the Space serves `laya-ft`, whose measurement is in docs/04 §2.1. The `eval.json` limitations list carries the same statement from the run that produced it.
 
 ## 6. Output schema (`eval.json`, abridged)
 ```json
@@ -68,3 +71,4 @@ Goal: one honest, defensible set of numbers, produced by section 8 of `ml/notebo
 4. The in-distribution test set shares a source with the training data; the OOD result is the more conservative number.
 5. The inbox is simulated; no live Facebook integration.
 6. Class "Delivery" includes pre-purchase delivery questions.
+7. Engine A in the recorded run was `tfidf-lr`; the deployed default is the Laya checkpoint, whose own comparison is reported in docs/04 §2.1 and is not one of the numbers above. The Evaluation page names the engine it is serving next to that statement.

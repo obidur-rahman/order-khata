@@ -204,8 +204,8 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   "footer.product": S("product", "প্রোডাক্ট"),
   "footer.proof": S("proof", "প্রমাণ"),
   "footer.credits": S(
-    "Datasets: public Bangla e-commerce customer-message corpus (CC BY-NC-SA 4.0) · Bengali SMS smishing corpus (MIT)",
-    "ডেটাসেট: পাবলিক বাংলা ই-কমার্স কাস্টমার-মেসেজ কর্পাস (CC BY-NC-SA 4.0) · বাংলা SMS স্মিশিং কর্পাস (MIT)",
+    "Datasets: public Bangla e-commerce customer-message corpus (CC BY-NC-SA 4.0) · Bengali SMS smishing corpus (MIT) · Engine A: Laya fine-tuned checkpoint (CC BY-NC-SA 4.0)",
+    "ডেটাসেট: পাবলিক বাংলা ই-কমার্স কাস্টমার-মেসেজ কর্পাস (CC BY-NC-SA 4.0) · বাংলা SMS স্মিশিং কর্পাস (MIT) · ইঞ্জিন A: লায়া ফাইন-টিউনড চেকপয়েন্ট (CC BY-NC-SA 4.0)",
   ),
   "footer.note": S("demo uses a simulated Page feed", "ডেমোতে সিমুলেটেড পেজ ফিড"),
   "footer.legal": S(
@@ -216,8 +216,8 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   /* ── preferences screen ───────────────────────────────────────────── */
   "pref.title": S("How should this read?", "কীভাবে পড়তে চান?"),
   "pref.lede": S(
-    "Two choices, saved on this device, applied everywhere.",
-    "দুটি পছন্দ। এই ডিভাইসে সেভ হয়, সব জায়গায় লাগে।",
+    "Language and appearance are yours and stay on this device. The engine is the server's.",
+    "ভাষা ও রূপ আপনার — এই ডিভাইসেই থাকে। ইঞ্জিনটা সার্ভারের।",
   ),
   "pref.language": S("Language", "ভাষা"),
   "pref.languageHint": S("How the app talks to you.", "অ্যাপ কীভাবে কথা বলবে।"),
@@ -229,6 +229,29 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   "pref.dark": S("Dark", "ডার্ক"),
   "pref.lightHint": S("Bright paper, dark ink.", "উজ্জ্বল কাগজ, গাঢ় কালি।"),
   "pref.darkHint": S("Dark paper, bright ink.", "গাঢ় কাগজ, উজ্জ্বল কালি।"),
+  "pref.engine": S("Classification engine", "ক্লাসিফিকেশন ইঞ্জিন"),
+  "pref.engineHint": S(
+    "Which model reads the messages. This one is the server's, not the device's: it applies to this whole deployment, and it is not saved here.",
+    "কোন মডেল মেসেজগুলো পড়বে। এটা এই ডিভাইসের নয়, সার্ভারের সেটিং — পুরো ডিপ্লয়মেন্টে লাগে, এখানে সেভ হয় না।",
+  ),
+  "pref.engineLaya": S("Laya checkpoint", "লায়া চেকপয়েন্ট"),
+  "pref.engineLayaHint": S(
+    "The adopted engine. Best macro-F1 on our own validation set — read the numbers on Evaluation.",
+    "যেটা বেছে নেওয়া হয়েছে। আমাদের ভ্যালিডেশন সেটে সবচেয়ে ভালো macro-F1 — সংখ্যাগুলো Evaluation পাতায় আছে।",
+  ),
+  "pref.engineTfidf": S("TF-IDF + logistic regression", "TF-IDF + লজিস্টিক রিগ্রেশন"),
+  "pref.engineTfidfHint": S(
+    "The backup. Thinner, but fast and dependency-free — and the automatic fallback whenever the checkpoint cannot load.",
+    "ব্যাকআপ। কিছুটা দুর্বল, তবে দ্রুত ও নির্ভরশীল — চেকপয়েন্ট লোড না হলে নিজে থেকেই এটাই চলে।",
+  ),
+  "pref.engineRunning": S("running now", "এখন চলছে"),
+  "pref.engineMissing": S("not available in this deployment", "এই ডিপ্লয়মেন্টে নেই"),
+  "pref.engineLoading": S("Checking engines…", "ইঞ্জিন দেখা হচ্ছে…"),
+  "pref.engineFallback": S(
+    "That engine is not available here, so the backup is still running.",
+    "সেই ইঞ্জিন এখানে নেই, তাই ব্যাকআপই চলছে।",
+  ),
+  "pref.engineFailed": S("Could not reach the server to switch engines.", "সার্ভারে পৌঁছে ইঞ্জিন বদলানো যায়নি।"),
   "pref.saved": S("Saved on this device.", "এই ডিভাইসে সেভ করা আছে।"),
   "pref.note": S(
     "This changes the interface only. The classifier reads Bangla, Banglish and English whichever you pick, and no message you paste is stored with your choice.",

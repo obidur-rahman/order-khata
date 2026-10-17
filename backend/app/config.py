@@ -97,6 +97,27 @@ DEGRADED_MAX = 0.99
 # 23%, so vetoing those cost coverage and accuracy both (notebook 8.4).
 
 # ---------------------------------------------------------------------------
+# Engine A — S1, the intent/class signal (docs/04 §2.1)
+# ---------------------------------------------------------------------------
+# Laya is the adopted Engine A: the 322M typed-decision checkpoint measured at
+# 0.9892 macro-F1 against the baseline's 0.8870 on the same validation rows.
+# `tfidf-lr` stays shipped and switchable at runtime, and it is also the
+# automatic fallback: if torch/laya/weights are missing, boot must still work
+# and the API must say which engine actually answered.
+ENGINE_LAYA = "laya-ft"
+ENGINE_TFIDF = "tfidf-lr"
+ENGINE_CHOICES: tuple[str, ...] = (ENGINE_LAYA, ENGINE_TFIDF)
+# ENGINE_A can only select a shipped engine: a typo in a Space secret would
+# otherwise advertise an id no client can send back, and silently run the backup
+# as if it were the adopted engine.
+_engine_a = os.environ.get("ENGINE_A", "").strip()
+ENGINE_DEFAULT = _engine_a if _engine_a in ENGINE_CHOICES else ENGINE_LAYA
+
+# The checkpoint's own questions.yaml wording lives in engines/laya.py; only the
+# repo id is configuration (it moved once already — docs/04 §2.1 licence note).
+LAYA_REPO = os.environ.get("LAYA_REPO", "nafiullah/laya-multilingual-bn-ecom-voice")
+
+# ---------------------------------------------------------------------------
 # LLM second signal (docs/04 §3.1)
 # ---------------------------------------------------------------------------
 LLM_TIMEOUT_S = 3.0

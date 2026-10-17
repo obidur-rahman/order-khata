@@ -9,3 +9,8 @@ pydantic>=2.7,<3.0
 scikit-learn==1.8.0
 joblib>=1.3
 httpx
+
+# NOT here, on purpose: torch and laya (Engine A, the adopted checkpoint —
+# docs/04 §2.1). This file must install on a machine with no torch, where the
+# backup engine serves and /api/health reports it. The Docker image installs
+# backend/requirements-laya.txt on top of this; see the Dockerfile.

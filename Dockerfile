@@ -6,8 +6,12 @@
 #   stage 1  build the Next.js static export  (needs Node)
 #   stage 2  FastAPI + uvicorn, serving frontend/out at "/"  (no Node in the image)
 #
-# NOTE: not verified with a local Docker build — Docker is unavailable on the dev
-# machine this was written on. Review before the first Space deploy.
+# NOTE: still not verified with a local Docker build — Docker is unavailable on
+# the dev machine this was written on. The Laya stage's pieces were each checked
+# without one: `torch-2.14.0+cpu-cp311-cp311-manylinux_2_28_x86_64.whl` is on the
+# CPU index, `laya-0.4.8-py3-none-any.whl` requires >=3.10, so the pins resolve on
+# python:3.11-slim. The first person with Docker should build it and watch for a
+# missing shared library rather than trusting this note.
 
 # ---------------------------------------------------------------------------
 # stage 1 — static frontend
@@ -35,6 +39,33 @@ WORKDIR /app
 # Dependencies first: the layer survives every source edit.
 COPY backend/requirements.txt ./backend/requirements.txt
 RUN pip install --no-cache-dir -r backend/requirements.txt
+
+# ---------------------------------------------------------------------------
+# Engine A — the adopted Laya checkpoint (docs/04 §2.1)
+# ---------------------------------------------------------------------------
+# Kept out of requirements.txt on purpose: this image runs the checkpoint, a
+# bare `pip install -r backend/requirements.txt` runs the backup, and both are
+# supported states that /api/health reports.
+#
+# torch comes from the CPU wheel index. The Space has no GPU, and the PyPI build
+# is ~2.5 GB of CUDA libraries that could never be used. It goes in on its own
+# line, before laya, so laya sees torch already satisfied and does not pull it.
+# libgomp1 is torch's OpenMP runtime; python:slim does not always carry it.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgomp1 \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu torch==2.14.0 \
+    && pip install --no-cache-dir -r backend/requirements-laya.txt
+
+# The weights (644 MB) are fetched at build time, not on the first request of
+# every restart: a Free Space is ephemeral, and a cold start that races a
+# customer message for a network download is not a demo. HF_HOME is set first so
+# the cache lands in a layer that survives. If the checkpoint is ever gated, pass
+# a token as a BuildKit secret — an ARG would leave it in the image history.
+ENV HF_HOME=/opt/hf-cache \
+    HF_HUB_DISABLE_TELEMETRY=1
+RUN python -c "from huggingface_hub import snapshot_download; \
+    snapshot_download('nafiullah/laya-multilingual-bn-ecom-voice')"
 
 COPY backend/ ./backend/
 COPY --from=frontend /build/frontend/out ./frontend/out

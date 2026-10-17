@@ -25,7 +25,7 @@
 |---|---|---|
 | Time / team | 48 h, solo, with AI coding harness | User |
 | Budget | $0, no paid API | User |
-| Engine | Plan was the typed-decision model (Laya fine-tuned checkpoint) as primary, chosen by an Hour-0 bake-off; the gate was run 2026-10-17 and Laya **passed** (macro-F1 0.9892 vs 0.8870 on the same rows, ~45 ms CPU) but is **not adopted** in this build — the reasons are measured, in `04-MODEL-ROUTING-SPEC.md` §2.1 | User + Claude |
+| Engine | Typed-decision model (Laya fine-tuned checkpoint) as primary, chosen by the Hour-0 bake-off; the gate was run 2026-10-17 and Laya **passed** (macro-F1 0.9892 vs 0.8870 on the same rows, ~45 ms CPU) and is **adopted as Engine A** (`laya-ft`). `tfidf-lr` stays shipped as a runtime-switchable backup and the automatic fallback — `04-MODEL-ROUTING-SPEC.md` §2.1 (numbers, costs) and §2.2 (switch, fallback) | User + Claude |
 | Second signal | Groq free tier; fallback other free LLM (e.g. Gemini free tier) | User |
 | Stack | Next.js (static export) + Tailwind; FastAPI; SQLite | User (frontend/backend), Claude (SQLite) |
 | Hosting | One free Hugging Face Space (Docker) | User |
@@ -40,7 +40,7 @@
 | Routing policy | See `04-MODEL-ROUTING-SPEC.md` | User approved |
 
 ## Items that MUST be verified in Hour 0 (status as of 2026-10-17)
-1. ✅ Laya fine-tuned checkpoint loads and answers on CPU: **~45 ms/message**, **macro-F1 0.9892** on 100 D1-validation rows against the baseline's 0.8870 (both reproduced by re-running `ml/laya_gate.py`) — the gate's rule passes, and it is still not adopted (cost, plus every published number would be invalidated). See `04-MODEL-ROUTING-SPEC.md` §2.1.
+1. ✅ Laya fine-tuned checkpoint loads and answers on CPU: **~45 ms/message**, **macro-F1 0.9892** on 100 D1-validation rows against the baseline's 0.8870 (both reproduced by re-running `ml/laya_gate.py`) — the gate's rule passes, the checkpoint is **Engine A**, and the backup is what makes its cost survivable. See `04-MODEL-ROUTING-SPEC.md` §2.1–2.2.
 2. ❌ Not pursued: once the self-hosted candidate passed, no hosted comparison row (Mercury Decide / Span-01 Lite) was needed. Recorded as not tried rather than as a result.
 3. Groq free-tier model choice, rate limit, Bangla quality, JSON-mode reliability.
 4. Exact label values of the smishing dataset (classes, and what "promo" means).

@@ -3,6 +3,7 @@ import type {
   ClassKey,
   ConfigResponse,
   ConversationRecord,
+  EngineSwitchResponse,
   EvalResponse,
   HealthResponse,
   MessageRecord,
@@ -77,6 +78,13 @@ export const api = {
     req<MessageRecord>(`/messages/${encodeURIComponent(messageId)}/resolve`, {
       method: "POST",
       body: JSON.stringify({ label }),
+    }),
+  /** Switch Engine A (docs/04 §2.1). The backup stays reachable at runtime; the
+   * response says which engine is actually serving, so the UI never assumes. */
+  engine: (id: string) =>
+    req<EngineSwitchResponse>("/engine", {
+      method: "POST",
+      body: JSON.stringify({ engine: id }),
     }),
   stats: () => req<StatsResponse>("/stats"),
   evaluation: () => req<EvalResponse>("/eval"),

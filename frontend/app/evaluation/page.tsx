@@ -12,6 +12,7 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { AlertIcon } from "@/components/icons";
 import { CLASS_META } from "@/lib/brand";
 import { api, ApiError } from "@/lib/api";
+import { useHealth } from "@/lib/hooks";
 import { usePrefs } from "@/lib/prefs";
 import { loadTau } from "@/lib/store";
 import { CLASSES, type EvalResponse } from "@/lib/types";
@@ -30,6 +31,34 @@ const SYSTEM_ROWS: { id: string; label: string }[] = [
   { id: "E2", label: "E2 · + LLM agreement rule" },
   { id: "E3", label: "E3 · Full Order Khata policy" },
 ];
+
+/** Which engine the numbers below describe, against which one is serving.
+ *
+ * The artifact records the engine of the run that produced it; the deployment's
+ * Engine A is switchable (docs/04 §2.1). Mixing the two silently would make a
+ * measured number look like it describes a system it was never measured on, so
+ * the difference is stated here, from the live `/api/health`. */
+function EngineProvenance({ serving }: { serving: string | null }) {
+  if (!serving) return null;
+  const matches = serving === "tfidf-lr";
+  return (
+    <div
+      className="mt-4 rounded-2xl border border-line bg-surface px-4 py-3 text-sm shadow-soft"
+      style={{ borderLeft: "3px solid var(--color-accent)" }}
+      role="status"
+    >
+      <span className="text-ink">
+        <strong className="font-semibold">Engine A now serving: </strong>
+        <code className="rounded-md border border-line px-1.5 font-mono text-[12px]">{serving}</code>
+      </span>{" "}
+      <span className="text-muted">
+        {matches
+          ? "— the same model these numbers were measured on."
+          : "— these numbers were measured with Engine A = tfidf-lr, before the Laya checkpoint was adopted. Its own measurement is in docs/04 §2.1 and ml/laya_gate.py; it is not below, because it is not in eval.json."}
+      </span>
+    </div>
+  );
+}
 
 function Headline({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
@@ -64,6 +93,7 @@ export default function EvaluationPage() {
   }, [nonce]);
 
   const { t: tr } = usePrefs();
+  const health = useHealth();
 
   if (error && !evalData)
     return (
@@ -96,6 +126,8 @@ export default function EvaluationPage() {
           and is served from{" "}
           <code className="rounded-md border border-line bg-surface px-1.5 font-mono text-[12px]">artifacts/eval.json</code>.
         </p>
+
+        <EngineProvenance serving={health?.engine ?? null} />
 
         {missing && (
           <div className="mt-6 rounded-2xl border border-dashed border-line bg-surface p-6 text-sm text-muted">

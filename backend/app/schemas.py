@@ -95,11 +95,44 @@ class HealthResponse(BaseModel):
     model_loaded: bool
     llm_provider: Optional[str]
     llm_status: str  # ok | unavailable
+    # Which engine actually answers S1 right now (docs/04 §2.1). Shown, not implied:
+    # the deployment may be running the backup because the checkpoint could not load.
+    engine: str
     version: str
+
+
+class EngineRequest(BaseModel):
+    """POST /api/engine body: the engine to make active for S1."""
+
+    engine: str
+
+
+class EngineOption(BaseModel):
+    id: str
+    available: bool
+    active: bool
+
+
+class EngineResponse(BaseModel):
+    """What S1 is running after the call, and whether the request was honoured.
+
+    A request for an engine that cannot load is answered with 200 and
+    `fallback = true` rather than a failure: the switch is understood, and the
+    honest outcome is that the backup is serving.
+    """
+
+    engine: str                  # the engine now active
+    requested: str
+    fallback: bool               # requested != engine
+    engines: list[EngineOption]
+    reason: Optional[str] = None  # why the request could not be honoured
 
 
 __all__ = [
     "ClassifyRequest",
+    "EngineRequest",
+    "EngineOption",
+    "EngineResponse",
     "Prediction",
     "MessageRecord",
     "ConversationRecord",

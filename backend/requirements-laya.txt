@@ -1,0 +1,16 @@
+# Engine A — the adopted Laya checkpoint (docs/04 §2.1).
+#
+# Deliberately separate from requirements.txt. That file must keep working on a
+# machine with no torch at all: the backup engine serves there, boot still
+# succeeds, and tests/test_engine.py proves the fallback rather than skipping it.
+# The Dockerfile installs this on top, and that image is the only deployment that
+# is meant to run the checkpoint.
+#
+# torch is installed from the CPU wheel index by the Dockerfile *before* this
+# file, so the PyPI CUDA build (~2.5 GB of libraries a free Space can never use)
+# is never a candidate here. Versions are the pair the gate measurement was taken
+# on: laya 0.4.8 with torch 2.14.0, transformers 4.57.6 (ml/laya_gate.py).
+#
+# laya requires: torch>=2.0.0, transformers>=4.48.0, safetensors>=0.4.0,
+# huggingface_hub>=0.20.0, numpy>=1.20.0 — all satisfied by what is installed.
+laya==0.4.8

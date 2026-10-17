@@ -104,11 +104,37 @@ win; on the Space they come from Space secrets):
 | `GROQ_MODELS` | optional | Model candidates in preference order (default: `qwen/qwen3.8-27b,openai/gpt-oss-20b`). A removed model falls through to the next. |
 | `GEMINI_API_KEY` | optional | Fallback second signal after all Groq entries fail. |
 | `HF_TOKEN` | optional | Hugging Face token for model downloads (server-side only). |
+| `ENGINE_A` | optional | Which Engine A the process starts on: `laya-ft` (default) or `tfidf-lr`. Anything else falls back to `laya-ft`; `POST /api/engine` switches at runtime. |
 | `ORDER_KHATA_DB` | optional | SQLite path (default `backend/data/order_khata.db`; ephemeral, re-seeded at boot). |
 
 With no keys configured the app runs in **degraded mode**: decision-model-only,
 stricter confidence threshold, visible banner. This is a supported mode, not a
 failure state.
+
+## Engine A (which model reads the messages)
+
+Engine A is the **Laya fine-tuned checkpoint**
+(`nafiullah/laya-multilingual-bn-ecom-voice`) — a 322M encoder that answers typed
+decisions rather than generating text. The TF-IDF + logistic-regression baseline
+(`tfidf-lr`) still ships and is **switchable at runtime**: `POST /api/engine`
+with `{"engine": "tfidf-lr"}`, or the control on the Preferences screen.
+
+| Where | Which engine answers |
+|---|---|
+| The Docker image (the Space) | `laya-ft` — CPU torch and the weights are installed and baked in at build time |
+| A plain `pip install -r requirements.txt` checkout | `tfidf-lr` — no torch here, so the backup serves |
+
+Missing torch/weights is a **supported state, not a crash**: the app boots on the
+backup and `/api/health` + `GET /api/config.engines` report which engine is
+answering and which can load. Asking for an engine this deployment cannot run
+returns `200` with `fallback: true`, never a silent no-op. To run the checkpoint
+locally: `pip install torch --index-url https://download.pytorch.org/whl/cpu &&
+pip install -r backend/requirements-laya.txt` (then `python -c "import laya;
+laya.load('nafiullah/laya-multilingual-bn-ecom-voice')"` once to fetch ~644 MB).
+
+Why it was adopted, what it costs, and what it does **not** fix are measured in
+`docs/04` §2.1; `ml/laya_gate.py` re-runs the comparison and refuses to print a
+candidate number until it has reproduced the baseline's.
 
 ## How a message is routed
 
@@ -132,7 +158,9 @@ a person, and messages the model is unsure about, are never auto-answered
 
 With no trained artifacts the engine returns a flat distribution and everything
 goes to review with `model_loaded: false` on `/api/health`. There is no keyword
-fallback: it looked like a second opinion without being one.
+fallback: it looked like a second opinion without being one. The backup engine is
+a real model, not a heuristic — which is what makes the Laya fallback honest
+rather than a euphemism for "no engine".
 
 ## Deploy (Hugging Face Space)
 
@@ -142,9 +170,15 @@ Python slim. Space secrets (`GROQ_API_KEYS`, etc.) go under *Settings → Secret
 
 The container needs two things the lab generates, both committed on purpose:
 `backend/artifacts/*.joblib` (the shipped engines; without them the Space boots
-degraded) and `backend/data/seed_inbox.json` (the demo inbox). `Dockerfile` itself
-has **not** been built locally (no Docker on the dev machine); treat the first
-Space build as the test.
+degraded) and `backend/data/seed_inbox.json` (the demo inbox).
+
+Engine A adds CPU torch + `laya` and downloads the 644 MB checkpoint **during the
+build** (`HF_HOME=/opt/hf-cache`), so a restart never re-fetches it. Expect a
+bigger image and a slower first build; the pins and the index URL are in
+`backend/requirements-laya.txt`. `Dockerfile` itself has **not** been built
+locally (no Docker on the dev machine); treat the first Space build as the test,
+and if the checkpoint cannot load there the app serves the backup and says so on
+`/api/health`.
 
 ## Data & honesty
 
@@ -153,14 +187,21 @@ Space build as the test.
 - Scam data: Bengali SMS smishing corpus (MIT).
 - The inbox in this demo is **simulated**; there is no live Facebook/Meta
   integration (that needs app review; it is the planned next step).
+- Engine A: `nafiullah/laya-multilingual-bn-ecom-voice` (CC BY-NC-SA 4.0,
+  non-commercial — the base model, the Laya code and mmBERT inside it are
+  Apache-2.0/MIT, the fine-tune is not). Adopted in this build; see `docs/04` §2.1.
 - The corpus is largely machine-generated; the Evaluation page states every
   limitation and shows real numbers only after the notebook's evaluation section runs.
+- `backend/artifacts/eval.json` was measured with Engine A = `tfidf-lr`. The
+  Evaluation page shows which engine is serving next to that, and the checkpoint's
+  own measurement lives in `docs/04` §2.1 / `ml/laya_gate.py` — the two are never
+  mixed into one table.
 - The data is **not** real Facebook seller messages.
 
 ## Repo layout
 
 ```
-backend/app/     FastAPI: engines (decision+escalate, scam, llm, calibrate), router, db, API
+backend/app/     FastAPI: engines (laya, decision+escalate, scam, llm, calibrate), router, db, API
 frontend/        Next.js static export: app/ screens, components/, lib/ (route.ts twin)
 tests/           pytest suite; fixtures/route_cases.json feeds BOTH router implementations
 ml/              the notebook that *is* the pipeline, plus its caches under ml/artifacts/

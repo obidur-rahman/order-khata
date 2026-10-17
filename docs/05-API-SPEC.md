@@ -5,12 +5,13 @@ Base path `/api`. JSON. No auth. Polling (2 s) instead of websockets.
 ## Endpoints
 | Method | Path | Purpose |
 |---|---|---|
-| GET | `/api/health` | `{status, model_loaded, llm_provider, llm_status, version}` |
+| GET | `/api/health` | `{status, model_loaded, llm_provider, llm_status, engine, version}` — `engine` is the Engine A that is actually answering (docs/04 §2.2) |
 | GET | `/api/inbox` | List conversations with last message + latest prediction. Query: `lane` (auto/review/scam/all), `limit`, `since_id` |
 | GET | `/api/conversations/{id}` | Conversation with all messages and predictions |
 | POST | `/api/messages` | Ingest + classify a message (Try It, simulator). Body below |
 | POST | `/api/messages/{id}/resolve` | Human resolves a review item: `{label}` |
-| GET | `/api/config` | `{tau_default, tau_other_offset, scam_t, classes, class_meta}` |
+| POST | `/api/engine` | Switch Engine A: `{engine: "laya-ft" \| "tfidf-lr"}` → `{engine, requested, fallback, engines, reason}` |
+| GET | `/api/config` | `{engine_default, engines: [{id, available, active}], tau_default, tau_min, tau_max, tau_other_offset, scam_t, escalate_t, decisive_t, classes, class_meta}` |
 | GET | `/api/stats` | Dashboard aggregates (counts per lane/class, histogram bins, time-saved estimate) computed at the current default τ |
 | GET | `/api/eval` | Static evaluation results from `artifacts/eval.json` |
 | POST | `/api/simulator` | `{running: bool, interval_s}` start/stop replay |
@@ -35,18 +36,37 @@ Response (`MessageRecord`):
     "llm_class": "order",
     "llm_reason": "Asks if an item is in stock.",
     "llm_status": "ok",
-    "engine": "tfidf-lr",
-    "latency_ms": 412,
+    "engine": "laya-ft",
+    "latency_ms": 640,
     "lane": "auto",
     "route_reason": "Confident and second opinion agrees"
   },
   "resolution": null
 }
 ```
-Errors: 400 empty/too long; 429 rate limit; 503 model not ready (`{"detail":"warming_up"}`; frontend shows loading screen and retries).
+Errors: 400 empty/too long; 429 rate limit; 503 model not ready (`{"detail":"warming_up"}`; frontend shows loading screen and retries). `engine` names the model that answered this message — always read it, since it is `tfidf-lr` when the checkpoint is absent or failed (docs/04 §2.2).
+
+## POST /api/engine — switch Engine A (docs/04 §2.2)
+Request: `{"engine": "laya-ft"}`. Response:
+```json
+{
+  "engine": "tfidf-lr",
+  "requested": "laya-ft",
+  "fallback": true,
+  "engines": [
+    {"id": "laya-ft", "available": false, "active": false},
+    {"id": "tfidf-lr", "available": true, "active": true}
+  ],
+  "reason": "engine_unavailable"
+}
+```
+- Unknown id → **400** `{"detail":"invalid_engine"}`, nothing switched.
+- Known id that cannot load in this deployment → **200** with `fallback: true`, `reason: "engine_unavailable"`, and `engine` = the one actually serving. A switch the server understands but cannot honour is not an error, and must not look like a success.
+- Pipeline not up yet → **503** `{"detail":"warming_up"}`.
+- The choice is process-wide (one demo deployment, no accounts) — the frontend says so on the Preferences screen.
 
 ## Pydantic schemas (names)
-`ClassifyRequest`, `Prediction`, `MessageRecord`, `ConversationRecord`, `ResolveRequest`, `StatsResponse`, `EvalResponse`, `HealthResponse`.
+`ClassifyRequest`, `Prediction`, `MessageRecord`, `ConversationRecord`, `ResolveRequest`, `StatsResponse`, `EvalResponse`, `HealthResponse`, `EngineRequest`, `EngineOption`, `EngineResponse`.
 
 ## SQLite schema
 ```sql

@@ -8,8 +8,9 @@ Browser (Next.js static export, Tailwind)
 FastAPI (one container, one free Hugging Face Space, port 7860)
    ├── serves /  → built frontend (out/ directory)
    ├── /api/*    → REST endpoints
-   ├── Engine A: TF-IDF char n-grams + logistic regression, CPU, in-process
-   │              (joblib artifacts; Laya passed the gate but is not adopted — docs/04 §2.1)
+   ├── Engine A: Laya fine-tuned checkpoint (322M mmBERT, torch CPU, in-process),
+   │              switchable at runtime back to the TF-IDF baseline, which is also
+   │              the automatic fallback (docs/04 §2.1, §2.2)
    ├── Scam head: small TF-IDF + logistic regression (and/or decision-model noul question)
    ├── Engine B: Groq LLM (second signal) via HTTPS, key in Space secret
    ├── Router: applies policy (doc 04) → lane
@@ -24,7 +25,7 @@ Everything is one deployable. No separate frontend host, no external DB.
 | Frontend | Next.js (App Router) with `output: 'export'`, TypeScript, Tailwind CSS | Static export only: no SSR, no server actions, no `next/image` optimizer (`images.unoptimized: true`) |
 | Fonts | Bricolage Grotesque (display), Inter (body), IBM Plex Mono (labels), Noto Sans Bengali | Loaded via `next/font` at build time |
 | Backend | Python 3.11, FastAPI, Uvicorn | |
-| Model runtime | **No torch in the served image.** Engine A and the scam/escalate heads are scikit-learn joblib artifacts (~5 MB, `backend/artifacts/`) loaded at boot; inference is CPU-only and in-process | The Laya candidate's PyTorch path was measured during the gate (docs/04 §2.1) and is deliberately not shipped: 1 GB of torch + 644 MB of weights re-downloaded on every ephemeral-Space restart |
+| Model runtime | **Engine A is the Laya checkpoint** (docs/04 §2.1): CPU-only torch + `laya`, weights baked into the image at build time, loaded at boot (12.6 s measured with the cache warm), inference in-process. S2/S3 and the backup engine A are scikit-learn joblib artifacts (~5 MB, `backend/artifacts/`). **Nothing here is required to boot:** without torch/laya/weights the app serves on `tfidf-lr` and `/api/health` says so | The PyTorch path has the cost the gate flagged (≈1 GB of packages, 644 MB of weights, ~1.3 GB serving RAM). The image pays it once at build time instead of per ephemeral restart; `backend/requirements-laya.txt` + the Dockerfile stage are where that is done, and the backup is what keeps the failure survivable |
 | Baselines | scikit-learn (TF-IDF char n-grams + logistic regression) | Also used as the scam head |
 | DB | SQLite via SQLModel (or plain `sqlite3`) | File at `/data/order_khata.db`; ephemeral on free Spaces, re-seeded at startup |
 | Second signal | Groq chat-completions API (JSON output) | Key `GROQ_API_KEY` as Space secret. Fallback: Gemini free tier (`GEMINI_API_KEY`) |
@@ -44,22 +45,28 @@ order_khata/
 │   │   ├── text.py            # normalization + script detection (bn/bl/en/mx)
 │   │   ├── pipeline.py        # classify orchestration: engines → calibration → router
 │   │   ├── engines/
+│   │   │   ├── laya.py        # Engine A (adopted): checkpoint → 5 base classes; optional import,
+│   │   │   │                  # missing torch/weights → loaded=False → backup serves
 │   │   │   ├── decision.py    # 15-intent probs → 5-class probs, + calibrated escalate head
+│   │   │   │                  # (Engine A when Laya is absent, S2 always)
 │   │   │   ├── scam.py        # scam probability (artifact-backed; no keyword fallback)
 │   │   │   ├── llm.py         # Groq/Gemini second signal + cache + fallback
-│   │   │   └── calibrate.py   # temperature scaling
+│   │   │   └── calibrate.py   # temperature scaling (fitted for tfidf-lr — never applied to Laya)
 │   │   ├── router.py          # routing policy
 │   │   ├── simulator.py       # background replay
 │   │   └── api/               # route modules (messages, inbox, misc)
 │   ├── data/                  # prepared splits (parquet/jsonl), seed inbox json
 │   ├── artifacts/             # calibration params, decision/escalate/scam joblib, eval results json
-│   └── requirements.txt
+│   ├── requirements.txt       # base image: no torch (the backup must install anywhere)
+│   └── requirements-laya.txt  # Engine A's optional half, installed by the Dockerfile
 ├── ml/                        # offline work (not shipped in the Space image)
 │   ├── notebooks/
 │   │   └── order_khata_lab.ipynb   # THE pipeline: `Restart & Run All` re-derives every
 │   │                               # artifact under backend/ — load+map D1, baseline,
-│   │                               # Laya gate (run 2026-10-17), escalate head, scam head, calibration,
-│   │                               # evaluation, export contract (see docs/03 §6)
+│   │                               # Laya gate (run 2026-10-17, then adopted), escalate head, scam head,
+│   │                               # calibration, evaluation, export contract (see docs/03 §6)
+│   ├── laya_gate.py           # §4.2's harness as a re-runnable script; refuses to print a
+│   │                          # candidate number until it reproduces the baseline's
 │   └── artifacts/             # gitignored: LLM answer cache, figures
 ├── frontend/
 │   ├── app/                   # routes: /, /inbox, /try, /dashboard, /evaluation,
@@ -90,8 +97,8 @@ files as part of the port (notebook section 11).
 ## 4. Request flow (classify)
 1. `POST /api/messages` with `{text, conversation_id?, sender_name?}`.
 2. Normalize text (strip, collapse whitespace; keep original). Detect script (bn / bl / en / mx) with a Unicode-range heuristic.
-3. Engine A returns 15 intent probabilities → aggregated into 6 class probabilities; also `escalate_prob`.
-4. Scam head returns `scam_prob`.
+3. Engine A (`laya-ft`, or `tfidf-lr` when the checkpoint cannot load) returns 15 intent probabilities → aggregated into 5 base classes; the calibrated S2 head returns `escalate_prob` (always `tfidf-lr`, docs/04 §2.2).
+4. Scam head returns `scam_prob`; the 6-class vector is the 5 base classes scaled by `(1 − scam_prob)` plus `scam`.
 5. Engine B (Groq) returns `{class, reason}`; 3 s timeout; cached by SHA-256 of normalized text. On failure, `llm_status = "unavailable"`.
 6. Router computes the lane from stored signals and τ (doc 04).
 7. Persist message + prediction; return the full record. Frontend recomputes lane locally when the slider moves.
@@ -104,16 +111,16 @@ files as part of the port (notebook section 11).
 | Cost | $0; no paid services |
 | Security | API keys only server-side; no keys in frontend or repo; CORS limited to same origin; rate-limit `/api/messages` per IP (e.g. 30/min, in-memory); input length cap 1,000 chars; HTML-escape all rendered text |
 | Privacy | No real personal data; seed data uses fictional customer names; pasted messages are stored only in the ephemeral DB |
-| Observability | Log per-request latency, engine statuses, lane; `/api/health` reports model loaded + LLM status |
+| Observability | Log per-request latency, engine statuses, lane; `/api/health` reports model loaded + LLM status + **which engine A engine is answering** (a backup deployment must not look like the adopted one) |
 | Cold start | Show an intentional loading screen; optional external keep-warm ping before judging |
 
 ## 6. Deployment
 - Multi-stage Dockerfile: (1) Node stage builds frontend → `out/`; (2) Python slim stage installs requirements, copies backend and `out/`, runs `uvicorn app.main:app --host 0.0.0.0 --port 7860`.
 - Space secrets: `GROQ_API_KEY`, optional `GEMINI_API_KEY`, optional `HF_TOKEN`.
-- Model weights fetched at boot into the HF cache; if the Space disk is ephemeral, accept re-download on restart (verify size/time in Hour 0). Prefer baking small artifacts (calibration params, scam model) into the image.
+- Engine A's weights are **baked at build time** (`HF_HOME=/opt/hf-cache` + one `snapshot_download` in the Dockerfile), because accepting a 644 MB re-download on every ephemeral restart while a customer message waits is not a demo. The small joblib artifacts (~5 MB) ship in the image as before.
 - README front matter: `sdk: docker`, `app_port: 7860`.
 
 ## 7. Licensing and attribution
 - Intent data is CC BY-NC-SA 4.0 (derivative of BanglaEComIntent): non-commercial; credit both datasets in the app footer and README.
 - Smishing dataset: check license on the card (listed as MIT in search results; verify).
-- The fine-tuned Laya checkpoint (`nafiullah/laya-multilingual-bn-ecom-voice`) is **CC BY-NC-SA 4.0** — non-commercial, same family as D1. Verified on the card 2026-10-17; the earlier note that Laya was "listed as Apache-2.0" was true only of the *base* model (`convaiinnovations/laya-multilingual`), the Laya code and mmBERT (MIT) inside it. Not shipped, but any future adoption inherits the NC terms. (OpenJev weights, if ever used, are non-commercial too — none of these are in the shipped image.)
+- The fine-tuned Laya checkpoint (`nafiullah/laya-multilingual-bn-ecom-voice`) is **CC BY-NC-SA 4.0** — non-commercial, same family as D1. Verified on the card 2026-10-17; the earlier note that Laya was "listed as Apache-2.0" was true only of the *base* model (`convaiinnovations/laya-multilingual`), the Laya code and mmBERT (MIT) inside it. **It is shipped now** (adopted as Engine A, docs/04 §2.1), so the non-commercial terms apply to this build, and the credit goes in the footer and README like D1's. (OpenJev weights, if ever used, are non-commercial too — none of these are in the image.)

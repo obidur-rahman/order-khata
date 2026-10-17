@@ -113,12 +113,15 @@ Four big stat cards (Messages today, Handled automatically %, Needs review, Scam
 Headline numbers (macro-F1, accuracy, ECE before/after), coverage-vs-accuracy curve with the current τ marked, per-class table, in-distribution vs out-of-distribution rows, baselines table, a "What this does not show" box (machine-generated corpus, SMS-style scam data, simulated inbox). Data from `/api/eval`.
 
 ### 4.6 Preferences `/preferences`
-The screen that asks how the app should read. Two choice groups, each a stack of large tappable rows with the current one marked:
+The screen that asks how the app should read. Three choice groups, each a stack of large tappable rows with the current one marked:
 
 - **Language:** English / বাংলা. Sets `lang` on `<html>` and switches the interface strings (`lib/i18n.ts`).
 - **Appearance:** Light / Dark. Sets the `.dark` class on `<html>` (§2) and `color-scheme` so native controls follow.
+- **Classification engine** (docs/04 §2.2, below the fold of the other two): the adopted Laya checkpoint, or the TF-IDF backup. Each row carries its raw engine id and whether it is the one running.
 
-Both apply instantly, are saved on the device in `localStorage` (`order_khata.lang`, `order_khata.theme`), and are mirrored by a compact toggle in the top bar so they are one tap away on every screen. Nothing is sent to the backend; there is no account. A live row at the bottom previews the three lane labels in the chosen language.
+The first two apply instantly, are saved on the device in `localStorage` (`order_khata.lang`, `order_khata.theme`), and are mirrored by a compact toggle in the top bar so they are one tap away on every screen. Nothing about them is sent to the backend; there is no account. A live row at the bottom previews the three lane labels in the chosen language.
+
+**The engine group is different in kind, and the screen says so** (`pref.engineHint`): it is the *server's* setting. `POST /api/engine` switches S1 for the whole deployment — every visitor gets the change — and it is deliberately not stored on the device. A row for an engine this deployment cannot load is rendered disabled with `not available in this deployment` rather than hidden, and a switch that the server understood but could not honour reports the fallback in plain words instead of silently doing nothing.
 
 **Language scope (deliberate):** the chrome and the narrative are translated: navigation, headings, buttons, the landing story, the footer, lane labels. Two things stay English: the six class names (they are the model's output labels and appear verbatim in the API contract, `docs/05`) and the detection internals (engine names, ECE, macro-F1, τ). Body copy inside Inbox / Dashboard / Evaluation is still English; add keys to `lib/i18n.ts` when that changes.
 

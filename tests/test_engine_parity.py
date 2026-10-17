@@ -85,9 +85,16 @@ def test_pipeline_boots_and_is_honest_without_artifacts(tmp_path, monkeypatch):
     No artifacts -> flat distribution at 1/5, escalate 0, scam 0. Nothing can
     clear a threshold, so every message goes to review and `model_loaded` is
     false. The app still boots and answers.
+
+    Engine A is forced to its absent state here: on a host that has torch and the
+    644 MB checkpoint, `Pipeline.create()` would otherwise start the real Laya
+    engine and answer with real probabilities, which is not what this test is
+    about (that shape is covered in `test_engine.py`). Booting with nothing is
+    the state this test pins down.
     """
     from app import config
     from app.engines import decision as decision_mod
+    from app.engines.laya import LayaEngine
     from app.engines import scam as scam_mod
     from app.pipeline import Pipeline
 
@@ -95,6 +102,9 @@ def test_pipeline_boots_and_is_honest_without_artifacts(tmp_path, monkeypatch):
     # that name has to point at the empty directory.
     for mod in (config, decision_mod, scam_mod):
         monkeypatch.setattr(mod, "artifacts_dir", lambda: tmp_path)
+    monkeypatch.setattr(LayaEngine, "load",
+                        classmethod(lambda cls, repo=config.LAYA_REPO:
+                                    LayaEngine(error="test: not loaded")))
     pipeline = Pipeline.create()
 
     assert pipeline.model_loaded is False

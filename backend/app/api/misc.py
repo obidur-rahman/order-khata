@@ -1,16 +1,25 @@
-"""Health, config, stats, eval and simulator endpoints (docs/05)."""
+"""Health, config, engine switch, stats, eval and simulator endpoints (docs/05)."""
 from __future__ import annotations
 
 import json
+import logging
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from .. import config, db
-from ..schemas import EvalResponse, HealthResponse, StatsResponse
+from ..schemas import (
+    EngineRequest,
+    EngineResponse,
+    EvalResponse,
+    HealthResponse,
+    StatsResponse,
+)
 
 router = APIRouter()
+
+log = logging.getLogger("order_khata.api.misc")
 
 
 class SimulatorRequest(BaseModel):
@@ -35,13 +44,19 @@ def health(request: Request) -> Any:
         "model_loaded": loaded,
         "llm_provider": pipeline.llm.provider if pipeline else None,
         "llm_status": pipeline.llm_status if pipeline else "unavailable",
+        "engine": pipeline.engine_name if pipeline else "unavailable",
         "version": config.VERSION,
     }
 
 
 @router.get("/config")
-def get_config() -> Any:
+def get_config(request: Request) -> Any:
+    pipeline = getattr(request.app.state, "pipeline", None)
     return {
+        "engine_default": config.ENGINE_DEFAULT,
+        # The engines S1 can run, and whether each one can load here. Read at mount;
+        # `POST /api/engine` reports the fresh state after every switch.
+        "engines": pipeline.engines() if pipeline else [],
         "tau_default": config.TAU_DEFAULT,
         "tau_min": config.TAU_MIN,
         "tau_max": config.TAU_MAX,
@@ -81,6 +96,38 @@ def evaluation() -> Any:
             return json.load(f)
     except (OSError, json.JSONDecodeError):
         raise HTTPException(status_code=404, detail="eval_not_available")
+
+
+@router.post("/engine", response_model=EngineResponse)
+def set_engine(body: EngineRequest, request: Request) -> Any:
+    """Switch Engine A (docs/04 §2.1). `tfidf-lr` is kept shippable as the backup.
+
+    Unknown ids are a 400 (nothing was switched). A known engine that cannot load
+    here is a 200 with `fallback = true`: the request was understood, S1 stays on the
+    engine that can actually run it, and the client is told which one that is.
+    """
+    pipeline = getattr(request.app.state, "pipeline", None)
+    if pipeline is None:
+        raise HTTPException(status_code=503, detail="warming_up")
+    if body.engine not in config.ENGINE_CHOICES:
+        raise HTTPException(status_code=400, detail="invalid_engine")
+
+    before = pipeline.s1_name
+    active = pipeline.set_engine(body.engine)
+    reason = None
+    if active != body.engine:
+        wanted = next((e for e in pipeline.engines() if e["id"] == body.engine), None)
+        reason = ("engine_unavailable" if not (wanted and wanted["available"])
+                  else "engine_not_selected")
+        log.info("engine switch %s -> %s not honoured (requested %s)",
+                 before, active, body.engine)
+    return {
+        "engine": active,
+        "requested": body.engine,
+        "fallback": active != body.engine,
+        "engines": pipeline.engines(),
+        "reason": reason,
+    }
 
 
 @router.post("/simulator", response_model=SimulatorResponse)

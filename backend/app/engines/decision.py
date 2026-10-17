@@ -1,4 +1,4 @@
-"""Decision engine — S1 (docs/04 §1).
+"""Decision engine — S1 when it is the active engine, and S2 always (docs/04 §1).
 
 The shipped engine is the artifact trained in `ml/notebooks/order_khata_lab.ipynb`:
 TF-IDF char n-grams + logistic regression over the 15 D1 intents (section 3.1),
@@ -94,17 +94,30 @@ class DecisionEngine:
                         "every message will go to review", type(exc).__name__, exc)
             return cls()
 
-    def predict(self, text: str) -> tuple[dict[str, float], float]:
+    def predict_base5(self, text: str) -> dict[str, float]:
+        """S1 — the 5 base classes for one message, or a flat 1/5 when nothing is
+        loaded (flat cannot clear a threshold, so every message goes to review)."""
         if not self.loaded:
             flat = 1.0 / len(BASE_CLASSES)
-            return {c: flat for c in BASE_CLASSES}, 0.0
+            return {c: flat for c in BASE_CLASSES}
 
         row = self._intent.predict_proba([text])[0]
         intents = self._intent.named_steps["lr"].classes_
-        base5 = aggregate_intents(dict(zip(intents, row)))
+        return aggregate_intents(dict(zip(intents, row)))
 
-        # Raw head, then calibration — both steps, always in this order, exactly
-        # as notebook section 5.1 defines them.
+    def predict_escalate(self, text: str) -> float:
+        """S2 — P(a person should take over). Raw head, then calibration: both
+        steps, always in this order, exactly as notebook section 5.1 defines them.
+
+        S2 stays on this engine whichever engine drives S1 (docs/04 §1, §2.1): the
+        published `ESCALATE_T = 0.20` was fitted for this calibrated head, and the
+        adopted checkpoint's own escalate answer is not calibrated to it.
+        """
+        if not self.loaded:
+            return 0.0
         raw = float(self._escalate.predict_proba([text])[0, 1])
-        escalate = float(self._cal.predict_proba([[_logit(raw)]])[0, 1])
-        return base5, escalate
+        return float(self._cal.predict_proba([[_logit(raw)]])[0, 1])
+
+    def predict(self, text: str) -> tuple[dict[str, float], float]:
+        """Both signals at once — this engine's whole job as Engine A."""
+        return self.predict_base5(text), self.predict_escalate(text)

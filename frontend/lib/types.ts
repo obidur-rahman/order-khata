@@ -71,10 +71,31 @@ export interface HealthResponse {
   model_loaded: boolean;
   llm_provider: string | null;
   llm_status: LlmStatus;
+  /** Which engine answers S1 right now (docs/04 §2.1) — reported, never assumed:
+   * a deployment without the checkpoint is running the backup. */
+  engine: string;
   version: string;
 }
 
+/** One selectable Engine A, with whether this deployment can actually run it. */
+export interface EngineOption {
+  id: string;
+  available: boolean;
+  active: boolean;
+}
+
+export interface EngineSwitchResponse {
+  engine: string;
+  requested: string;
+  /** The request was understood but could not be honoured; `engine` is serving. */
+  fallback: boolean;
+  engines: EngineOption[];
+  reason: string | null;
+}
+
 export interface ConfigResponse {
+  engine_default: string;
+  engines: EngineOption[];
   tau_default: number;
   tau_min: number;
   tau_max: number;

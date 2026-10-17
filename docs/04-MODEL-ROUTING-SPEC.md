@@ -5,7 +5,7 @@ For each message the system produces these signals:
 
 | Signal | Source | Output |
 |---|---|---|
-| S1 intent probs | Decision model: D1-trained TF-IDF char n-grams + logistic regression, shipped as `tfidf-lr`. The Laya candidate **passed** the Hour-0 gate and is deliberately not adopted — measured numbers and reasons in §2.1 | 15 intent probabilities → aggregated to 5 classes (`order, price_question, delivery_problem, complaint, other`) |
+| S1 intent probs | Laya fine-tuned checkpoint (`nafiullah/laya-multilingual-bn-ecom-voice`), shipped as `laya-ft` — the adopted engine, measured in §2.1. The D1-trained TF-IDF char n-grams + logistic regression (`tfidf-lr`) stays shipped as a runtime-switchable backup and the automatic fallback (§2.2) | 15 intent probabilities → aggregated to 5 classes (`order, price_question, delivery_problem, complaint, other`) |
 | S2 escalate prob | Escalate head over the same features, Platt-calibrated on D1 validation (notebook §5.1; artifact `escalate_tfidf.joblib`) | `escalate_prob` ∈ [0,1] |
 | S3 scam prob | Scam head (TF-IDF char n-grams + logistic regression trained on D2; optionally ensemble with decision-model `noul` scam question) | `scam_prob` ∈ [0,1] |
 | S4 LLM opinion | Groq (fallback Gemini) | `llm_class`, `llm_reason` (one short English sentence), `llm_status` ∈ {ok, unavailable} |
@@ -14,10 +14,10 @@ Final 6-class vector = the 5 aggregated classes scaled by `(1 − scam_prob)` pl
 
 ## 2. Engine selection (Hour-0 bake-off)
 Candidates for S1, evaluated on D1 validation (not test) for accuracy, macro-F1, ECE and latency on CPU:
-1. Laya fine-tuned checkpoint (`nafiullah/laya-multilingual-bn-ecom-voice`, 322M mmBERT encoder) — the plan's default. **Measured 2026-10-17, passed the gate, not adopted (§2.1).**
+1. Laya fine-tuned checkpoint (`nafiullah/laya-multilingual-bn-ecom-voice`, 322M mmBERT encoder) — the plan's default. **Measured 2026-10-17, passed the gate, adopted as Engine A (§2.1).**
 2. Mercury Decide via OpenRouter free route (hosted; check rate limits, Bangla quality). Not pursued — no hosted comparison row was needed once the self-hosted candidate passed.
 3. Span-01 Lite free tier (hosted; same checks). Not pursued, same reason.
-4. Baseline: TF-IDF char n-gram + logistic regression (CPU, trains in seconds). **Shipped as Engine A.**
+4. Baseline: TF-IDF char n-gram + logistic regression (CPU, trains in seconds). **Shipped as the backup engine and the automatic fallback (§2.2).**
 5. Zero-shot Groq (the LLM alone) for reference. Measured as B2 on the Evaluation page.
 
 **Decision rule:** pick the engine with the best macro-F1 among those that (a) run within the free budget, (b) hit latency target, (c) have a rate limit that survives judging. Prefer a self-hosted model over a hosted free route because it has no rate limit. Hosted routes may serve as an additional comparison row only.
@@ -43,14 +43,24 @@ The rule compares against the baseline on the **full validation split** (794 row
 
 **Gate: PASS** — 0.989 ≥ 0.8675 + 0.03, and ~45 ms < 1500 ms. On identical rows the candidate beats the baseline by 10.2 points. Both halves were run twice (`ml/laya_gate.py`); scores reproduced exactly, latency varied by under a millisecond.
 
-**Decision: Engine A in this build stays `tfidf-lr`.** The numbers are real; the switch is not a one-line change, and shipping it half-done would break rules this project puts above a score:
+**Decision: Engine A in this build is Laya — `laya-ft`** — with `tfidf-lr` shipped beside it as a runtime-switchable backup and the automatic fallback (§2.2). The four objections recorded below are real, and each is answered rather than dropped:
 
-- **Cost inside the free Space.** It adds the `laya` package + torch CPU to the image (~1 GB installed) and 643.8 MB of weights plus a 34.4 MB tokenizer that an ephemeral Space re-downloads on every restart (docs/02 §6). Serving RAM goes from the measured ~205 MB to roughly 1.3 GB for a 322M fp32 encoder. Loading it here took 25 s on the first run, which included the download, and 10 s once the weights sat in the local cache — on a Space the first figure is the one that repeats, because the disk does not survive a restart.
-- **Every published number would be invalidated.** `eval.json` — and therefore the whole Evaluation page — describes `tfidf-lr` (E1/E2/E3, coverage curve, calibration, scam head). Changing Engine A means re-running notebook §8 end to end, not editing a constant.
-- **The escalate head would need re-deriving.** Laya's own `escalate` question returns a mean P(true) of 0.250 on that sample, against the policy base rate the current Platt-calibrated head and `ESCALATE_T = 0.20` were chosen for. Routing rule 2 must not be pointed at an uncalibrated signal.
-- **The number is in-distribution.** The checkpoint was fine-tuned on exactly the corpus we evaluate on — its card lists `nafiullah/bangla-ecom-voice-decisions` and `Badhon/BanglaEComIntent` — so 0.989 means "it learned this corpus", not "it generalises". It has no OOD measurement at all; the conservative number we do have is ours (36.2% 6-class on n=105, docs/07). Putting 0.989 on a product screen would be precisely the overselling this project forbids.
+- **Cost inside the free Space.** It adds the `laya` package + CPU torch to the image (~1 GB installed) and 643.8 MB of weights plus a 34.4 MB tokenizer that an ephemeral Space would re-download on every restart (docs/02 §6). The image therefore bakes the weights in at build time and keeps the cache in `HF_HOME` (`backend/requirements-laya.txt`, Dockerfile), so a restart does not race a customer message for a download. Serving RAM goes from the measured ~205 MB to roughly 1.3 GB for a 322M fp32 encoder. Loading the checkpoint in-process takes 12.6 s with the weights cached, and it happens at boot rather than on the first message, so no request pays for it.
+- **Every published number would be invalidated — and is not being faked.** `eval.json` was measured with Engine A = `tfidf-lr` (E1/E2/E3, coverage curve, calibration, scam head) and its own limitations list says so. Rather than hand-edit a measurement, the Evaluation page reports the engine it is serving next to a line stating which engine the numbers below were measured on, and points here for the checkpoint's measurement (docs/07 §7). Re-measuring notebook §8 end to end with the checkpoint is the honest fix and is listed as outstanding in docs/08.
+- **The escalate head stays on TF-IDF.** Laya's own `escalate` question returns a mean P(true) of 0.250 on that sample, against the base rate the current Platt-calibrated head and `ESCALATE_T = 0.20` were chosen for. So S1 is the only thing that changed: S2 remains `DecisionEngine.predict_escalate`, whichever engine answers S1. Rule 2 is never pointed at an uncalibrated signal.
+- **The number is in-distribution.** The checkpoint was fine-tuned on exactly the corpus we evaluate on — its card lists `nafiullah/bangla-ecom-voice-decisions` and `Badhon/BanglaEComIntent` — so 0.989 means "it learned this corpus", not "it generalises". It has no OOD measurement at all; the conservative number we do have is ours (36.2% 6-class on n=105, docs/07), and it is the baseline's. Putting 0.989 on a product screen would be precisely the overselling this project forbids, so it is not on one.
 
-Laya's numbers therefore live **here and in notebook §4.3 only**. They must never appear on the Evaluation page.
+Laya's numbers therefore live **here, in `ml/laya_gate.py` and in notebook §4.3** — not mixed into the `eval.json` tables on the Evaluation page, which describe the baseline run. The page names the serving engine instead, so the two can never be confused for one another.
+
+### 2.2 Runtime switch, fallback, and what the API reports
+The adopted engine must be switchable and its absence must be survivable, because the backup is what any deployment without torch gets:
+
+- `ENGINE_A` (environment, default `laya-ft`) chooses the engine at boot. A value that is not one of the two shipped ids falls back to `laya-ft` rather than advertising an engine no client can send back.
+- `POST /api/engine {"engine": "laya-ft" | "tfidf-lr"}` switches S1 at runtime. An unknown id is a `400` with nothing switched; a known id that cannot load in this deployment is a `200` with `fallback: true` and the engine that is actually serving. Silent success was not an option: the switch is understood, the outcome is different, and the response says which.
+- A missing `laya`/torch/weights is a **supported state**, not a crash: `LayaEngine.load()` catches the failure, logs why, and S1 runs `tfidf-lr`. `/api/health.engine` and `GET /api/config.engines` report which engine answers and which can load here.
+- A checkpoint that raises mid-request degrades that one message to the backup and the prediction's `engine` field says `tfidf-lr`. No customer message is ever lost to a model error.
+- **Temperature scaling applies to `tfidf-lr` only.** The scalar in `calibration.json` was fitted on that model's validation rows; applying it to the checkpoint's probabilities would be a correction belonging to another model — a made-up number.
+- The switch is process-wide (one demo deployment, no accounts, no sessions), and the Preferences screen says so instead of implying the choice is per visitor (docs/06 §4.6).
 
 **Licensing correction.** The fine-tuned checkpoint is **CC BY-NC-SA 4.0**, not Apache-2.0: Apache-2.0/MIT cover the *base* Laya model, the Laya code and mmBERT inside it (docs/02 §7 previously assumed the fine-tune inherited those). Non-commercial, like D1 — any future adoption carries the same credit and the same NC terms.
 

@@ -26,12 +26,17 @@ def test_health_schema(client):
     r = client.get("/api/health")
     assert r.status_code == 200
     body = r.json()
-    assert set(body) == {"status", "model_loaded", "llm_provider", "llm_status", "version"}
+    assert set(body) == {
+        "status", "model_loaded", "llm_provider", "llm_status", "engine", "version",
+    }
     assert body["status"] == "ok"
     # Honesty: `model_loaded` reports the artifacts, not the uptime. The app boots
     # and serves without them (degraded), so the flag must not be a constant.
     assert body["model_loaded"] is artifacts_built()
     assert body["llm_status"] in ("ok", "unavailable")
+    # docs/04 §2.1: which engine answers S1 is *reported*, never implied. This
+    # deployment may be running the backup because the checkpoint could not load.
+    assert body["engine"] in config.ENGINE_CHOICES or body["engine"].startswith("unavailable")
     assert body["version"] == config.VERSION
 
 
@@ -50,6 +55,13 @@ def test_config_schema(client):
     assert set(body["class_meta"]) == set(config.CLASSES)
     for meta in body["class_meta"].values():
         assert meta["label"] and meta["color"].startswith("#")
+
+    # Engine A (docs/04 §2.1): both engines are advertised with availability, so
+    # the client can grey out the one this deployment cannot run instead of
+    # offering a switch that silently does nothing.
+    assert body["engine_default"] in config.ENGINE_CHOICES
+    assert [e["id"] for e in body["engines"]] == list(config.ENGINE_CHOICES)
+    assert sum(bool(e["active"]) for e in body["engines"]) == 1
 
 
 def test_post_message_full_record(client):
@@ -225,7 +237,12 @@ def test_simulator_inert_without_pool(client, monkeypatch):
 @pytest.mark.skipif(not artifacts_built(), reason="trained artifacts not built (run the notebook)")
 def test_predict_classifies_order_message(client):
     pred = client.post("/api/messages", json={"text": BANGLISH}).json()["prediction"]
-    assert pred["engine"] == "tfidf-lr"
+    # Which engine answers depends on the deployment (Laya where torch and the
+    # weights are baked in, the backup where they are not), so the assertion is
+    # that the reported engine is the one /api/config says is active — not a
+    # hardcoded name, which would fail on the adopted engine's own deployment.
+    active = next(e["id"] for e in client.get("/api/config").json()["engines"] if e["active"])
+    assert pred["engine"] == active
     assert pred["top_class"] == "order"
     assert 0.0 < pred["top_prob"] <= 1.0
 
@@ -270,6 +287,49 @@ def test_prediction_field_set_is_the_documented_contract():
         "lane", "route_reason",
     }
     assert model.top_class == "order" and model.lane == "auto"
+
+
+def test_engine_switch_endpoint(client):
+    """docs/05 POST /api/engine: the backup stays switchable at runtime."""
+    r = client.post("/api/engine", json={"engine": "nope"})
+    assert r.status_code == 400
+    assert r.json()["detail"] == "invalid_engine"
+
+    r = client.post("/api/engine", json={"engine": config.ENGINE_TFIDF})
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert set(body) == {"engine", "requested", "fallback", "engines", "reason"}
+    assert body["requested"] == config.ENGINE_TFIDF
+    assert body["engine"] in config.ENGINE_CHOICES
+    assert body["fallback"] is (body["engine"] != config.ENGINE_TFIDF)
+    # Whatever it answered, S1 must actually be on it now — and /api/health too.
+    assert client.get("/api/health").json()["engine"] == body["engine"]
+    active = [e["id"] for e in body["engines"] if e["active"]]
+    assert active == [body["engine"]]
+
+    # Restore the boot default so the switch cannot leak into other tests.
+    client.post("/api/engine", json={"engine": config.ENGINE_DEFAULT})
+
+
+def test_engine_switch_reports_fallback_when_the_engine_cannot_load(client, monkeypatch):
+    """A known-but-unloadable engine is a 200 with `fallback`, not an error and
+    not a silent no-op: the switch is understood, and the backup is serving."""
+    from app.engines.laya import LayaEngine
+
+    pipeline = client.app.state.pipeline
+    monkeypatch.setattr(pipeline, "laya", LayaEngine(error="test: forced unavailable"))
+    pipeline.set_engine(config.ENGINE_TFIDF)
+
+    r = client.post("/api/engine", json={"engine": config.ENGINE_LAYA})
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["engine"] == config.ENGINE_TFIDF
+    assert body["fallback"] is True
+    assert body["reason"] == "engine_unavailable"
+    assert next(e for e in body["engines"] if e["id"] == config.ENGINE_LAYA)["available"] is False
+
+    pred = client.post("/api/messages", json={"text": BANGLISH}).json()["prediction"]
+    assert pred["engine"] == config.ENGINE_TFIDF
 
 
 def test_response_models_accept_the_artifact_shapes():
