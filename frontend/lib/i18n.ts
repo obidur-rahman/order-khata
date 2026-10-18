@@ -32,8 +32,6 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   "nav.appearance": S("Appearance", "রূপ"),
 
   /* ── hero ─────────────────────────────────────────────────────────── */
-  "hero.tagline": S("Your shop's inbox, sorted", "আপনার দোকানের ইনবক্স, সাজানো"),
-  "hero.feed": S("simulated Page feed", "সিমুলেটেড পেজ ফিড"),
   "hero.t1a": S("Sort the", "গোলমাল"),
   "hero.t1b": S("noise.", "সরান।"),
   "hero.t2a": S("Keep the", "বিক্রি"),
@@ -204,8 +202,8 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   "footer.product": S("product", "প্রোডাক্ট"),
   "footer.proof": S("proof", "প্রমাণ"),
   "footer.credits": S(
-    "Datasets: public Bangla e-commerce customer-message corpus (CC BY-NC-SA 4.0) · Bengali SMS smishing corpus (MIT) · Engine A: Laya fine-tuned checkpoint (CC BY-NC-SA 4.0)",
-    "ডেটাসেট: পাবলিক বাংলা ই-কমার্স কাস্টমার-মেসেজ কর্পাস (CC BY-NC-SA 4.0) · বাংলা SMS স্মিশিং কর্পাস (MIT) · ইঞ্জিন A: লায়া ফাইন-টিউনড চেকপয়েন্ট (CC BY-NC-SA 4.0)",
+    "Datasets: public Bangla e-commerce customer-message corpus (CC BY-NC-SA 4.0) · Bengali SMS smishing corpus (MIT) · Engine A: TF-IDF + logistic regression, with the Laya fine-tuned checkpoint shipped as an option (CC BY-NC-SA 4.0)",
+    "ডেটাসেট: পাবলিক বাংলা ই-কমার্স কাস্টমার-মেসেজ কর্পাস (CC BY-NC-SA 4.0) · বাংলা SMS স্মিশিং কর্পাস (MIT) · ইঞ্জিন A: TF-IDF + লজিস্টিক রিগ্রেশন, সাথে অপশন হিসেবে লায়া ফাইন-টিউনড চেকপয়েন্ট (CC BY-NC-SA 4.0)",
   ),
   "footer.note": S("demo uses a simulated Page feed", "ডেমোতে সিমুলেটেড পেজ ফিড"),
   "footer.legal": S(
@@ -231,22 +229,27 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   "pref.darkHint": S("Dark paper, bright ink.", "গাঢ় কাগজ, উজ্জ্বল কালি।"),
   "pref.engine": S("Classification engine", "ক্লাসিফিকেশন ইঞ্জিন"),
   "pref.engineHint": S(
-    "Which model reads the messages. This one is the server's, not the device's: it applies to this whole deployment, and it is not saved here.",
-    "কোন মডেল মেসেজগুলো পড়বে। এটা এই ডিভাইসের নয়, সার্ভারের সেটিং — পুরো ডিপ্লয়মেন্টে লাগে, এখানে সেভ হয় না।",
+    "Which model reads the messages. This one is the server's, not the device's: it applies to this whole deployment, and it is not saved here. The backup is the default; the checkpoint is loaded only if someone picks it, because it needs far more memory.",
+    "কোন মডেল মেসেজগুলো পড়বে। এটা এই ডিভাইসের নয়, সার্ভারের সেটিং — পুরো ডিপ্লয়মেন্টে লাগে, এখানে সেভ হয় না। ডিফল্ট হলো ব্যাকআপ; কেউ বেছে নিলেই কেবল চেকপয়েন্ট লোড হয়, কারণ এতে অনেক বেশি মেমরি লাগে।",
   ),
   "pref.engineLaya": S("Laya checkpoint", "লায়া চেকপয়েন্ট"),
   "pref.engineLayaHint": S(
-    "The adopted engine. Best macro-F1 on our own validation set — read the numbers on Evaluation.",
-    "যেটা বেছে নেওয়া হয়েছে। আমাদের ভ্যালিডেশন সেটে সবচেয়ে ভালো macro-F1 — সংখ্যাগুলো Evaluation পাতায় আছে।",
+    "Optional, and off by default: the best macro-F1 we measured on our own validation set, but it needs about 1.3 GB of memory and is not loaded until you pick it. Its numbers are on Evaluation.",
+    "ঐচ্ছিক, আর ডিফল্টে বন্ধ: আমাদের ভ্যালিডেশন সেটে সবচেয়ে ভালো macro-F1, তবে এর প্রায় ১.৩ জিবি মেমরি লাগে — আপনি বেছে নেওয়ার আগে লোড হয় না। এর সংখ্যাগুলো Evaluation পাতায় আছে।",
   ),
   "pref.engineTfidf": S("TF-IDF + logistic regression", "TF-IDF + লজিস্টিক রিগ্রেশন"),
   "pref.engineTfidfHint": S(
-    "The backup. Thinner, but fast and dependency-free — and the automatic fallback whenever the checkpoint cannot load.",
-    "ব্যাকআপ। কিছুটা দুর্বল, তবে দ্রুত ও নির্ভরশীল — চেকপয়েন্ট লোড না হলে নিজে থেকেই এটাই চলে।",
+    "The default. Thinner than the checkpoint, but fast, small and dependency-free — and the automatic fallback whenever the checkpoint is not running.",
+    "ডিফল্ট। চেকপয়েন্টের চেয়ে কিছুটা দুর্বল, তবে দ্রুত, হালকা ও নির্ভরশীল — চেকপয়েন্ট না চললে নিজে থেকেই এটাই চলে।",
   ),
   "pref.engineRunning": S("running now", "এখন চলছে"),
-  "pref.engineMissing": S("not available in this deployment", "এই ডিপ্লয়মেন্টে নেই"),
+  "pref.engineStandby": S("standby", "অপেক্ষায়"),
+  "pref.engineMissing": S("not available here", "এখানে নেই"),
   "pref.engineLoading": S("Checking engines…", "ইঞ্জিন দেখা হচ্ছে…"),
+  "pref.engineLoadingLaya": S(
+    "Loading the checkpoint on the server — the first time can take a minute.",
+    "সার্ভারে চেকপয়েন্ট লোড হচ্ছে — প্রথমবার একটু সময় লাগতে পারে।",
+  ),
   "pref.engineFallback": S(
     "That engine is not available here, so the backup is still running.",
     "সেই ইঞ্জিন এখানে নেই, তাই ব্যাকআপই চলছে।",

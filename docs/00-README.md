@@ -25,7 +25,7 @@
 |---|---|---|
 | Time / team | 48 h, solo, with AI coding harness | User |
 | Budget | $0, no paid API | User |
-| Engine | Typed-decision model (Laya fine-tuned checkpoint) as primary, chosen by the Hour-0 bake-off; the gate was run 2026-10-17 and Laya **passed** (macro-F1 0.9892 vs 0.8870 on the same rows, ~45 ms CPU) and is **adopted as Engine A** (`laya-ft`). `tfidf-lr` stays shipped as a runtime-switchable backup and the automatic fallback — `04-MODEL-ROUTING-SPEC.md` §2.1 (numbers, costs) and §2.2 (switch, fallback) | User + Claude |
+| Engine | Typed-decision model (Laya fine-tuned checkpoint), chosen by the Hour-0 bake-off **on merit**: the gate was run 2026-10-17 and Laya **passed** (macro-F1 0.9892 vs 0.8870 on the same rows, ~45 ms CPU). It is **shipped as the opt-in engine** (`laya-ft`), **not the default**: the checkpoint needs ~1.3 GB of RAM and the target free instance has 512 MiB, so `tfidf-lr` — shipped, runtime-switchable, the automatic fallback — is the default, and the checkpoint is loaded only when someone selects it (Preferences, or `ENGINE_A=laya-ft`), with `LAYA_ENABLED=0` as the operator's switch to disable it outright in a deployment (§2.2). `04-MODEL-ROUTING-SPEC.md` §2.1 (numbers, costs) and §2.2 (switch, on-demand load, fallback) | User + Claude |
 | Second signal | Groq free tier; fallback other free LLM (e.g. Gemini free tier) | User |
 | Stack | Next.js (static export) + Tailwind; FastAPI; SQLite | User (frontend/backend), Claude (SQLite) |
 | Hosting | One free Hugging Face Space (Docker) | User |
@@ -40,7 +40,7 @@
 | Routing policy | See `04-MODEL-ROUTING-SPEC.md` | User approved |
 
 ## Items that MUST be verified in Hour 0 (status as of 2026-10-17)
-1. ✅ Laya fine-tuned checkpoint loads and answers on CPU: **~45 ms/message**, **macro-F1 0.9892** on 100 D1-validation rows against the baseline's 0.8870 (both reproduced by re-running `ml/laya_gate.py`) — the gate's rule passes, the checkpoint is **Engine A**, and the backup is what makes its cost survivable. See `04-MODEL-ROUTING-SPEC.md` §2.1–2.2.
+1. ✅ Laya fine-tuned checkpoint loads and answers on CPU: **~45 ms/message**, **macro-F1 0.9892** on 100 D1-validation rows against the baseline's 0.8870 (both reproduced by re-running `ml/laya_gate.py`) — the gate's rule passes, the checkpoint ships as the **opt-in Engine A**, and the backup is the default because the checkpoint's ~1.3 GB does not fit the 512 MiB free instance. See `04-MODEL-ROUTING-SPEC.md` §2.1–2.2.
 2. ❌ Not pursued: once the self-hosted candidate passed, no hosted comparison row (Mercury Decide / Span-01 Lite) was needed. Recorded as not tried rather than as a result.
 3. Groq free-tier model choice, rate limit, Bangla quality, JSON-mode reliability.
 4. Exact label values of the smishing dataset (classes, and what "promo" means).

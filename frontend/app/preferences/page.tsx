@@ -87,7 +87,9 @@ function EngineChoice() {
 
   const select = async (id: string) => {
     setBusy(true);
-    setNote(null);
+    // Asking for the checkpoint is what loads it on the server, and the first
+    // load is ~13 s of weights and torch. Say so rather than leaving a dead button.
+    setNote(id === "laya-ft" ? t("pref.engineLoadingLaya") : null);
     try {
       const res = await api.engine(id);
       setEngines(res.engines);
@@ -127,9 +129,18 @@ function EngineChoice() {
                   ? e.id === "laya-ft"
                     ? t("pref.engineLayaHint")
                     : t("pref.engineTfidfHint")
-                  : t("pref.engineMissing")
+                  : // The server's own verdict: "0.5 GiB RAM, needs >= 3 GiB" on a
+                    // small host, or the load error. A disabled option that only
+                    // said "not available" would be a mystery.
+                    (e.reason ?? t("pref.engineMissing"))
               }
-              footer={`${e.id} · ${e.active ? t("pref.engineRunning") : "standby"}`}
+              footer={`${e.id} · ${
+                e.active
+                  ? t("pref.engineRunning")
+                  : e.available
+                    ? t("pref.engineStandby")
+                    : t("pref.engineMissing")
+              }`}
             />
           ))}
         </div>

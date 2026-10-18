@@ -54,7 +54,9 @@ def get_config(request: Request) -> Any:
     pipeline = getattr(request.app.state, "pipeline", None)
     return {
         "engine_default": config.ENGINE_DEFAULT,
-        # The engines S1 can run, and whether each one can load here. Read at mount;
+        # The engines S1 can run, whether each one can load here, and why not when it
+        # cannot. For the checkpoint `available` is a cheap host probe, not a guess:
+        # it means "selectable", and selecting it is what loads it (docs/04 §2.2).
         # `POST /api/engine` reports the fresh state after every switch.
         "engines": pipeline.engines() if pipeline else [],
         "tau_default": config.TAU_DEFAULT,
@@ -65,7 +67,6 @@ def get_config(request: Request) -> Any:
         "escalate_t": config.ESCALATE_T,
         "decisive_t": config.DECISIVE_T,
         "classes": list(config.CLASSES),
-        "class_meta": config.CLASS_META,
     }
 
 
@@ -100,11 +101,15 @@ def evaluation() -> Any:
 
 @router.post("/engine", response_model=EngineResponse)
 def set_engine(body: EngineRequest, request: Request) -> Any:
-    """Switch Engine A (docs/04 §2.1). `tfidf-lr` is kept shippable as the backup.
+    """Switch Engine A (docs/04 §2.1). `tfidf-lr` is the default and the fallback.
 
     Unknown ids are a 400 (nothing was switched). A known engine that cannot load
     here is a 200 with `fallback = true`: the request was understood, S1 stays on the
     engine that can actually run it, and the client is told which one that is.
+
+    This endpoint is also the only thing that loads the checkpoint, so asking for
+    `laya-ft` on a capable host pays its ~13 s load here, once — not on a customer's
+    message, and not at boot.
     """
     pipeline = getattr(request.app.state, "pipeline", None)
     if pipeline is None:

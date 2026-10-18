@@ -1,4 +1,4 @@
-"""Engine A — S1 — the adopted Laya checkpoint (docs/04 §2.1).
+"""Engine A — S1 — the optional Laya checkpoint (docs/04 §2.1).
 
 `nafiullah/laya-multilingual-bn-ecom-voice`: a 322M mmBERT encoder fine-tuned into
 *typed decisions* (no generated tokens). It answers the same three questions its own
@@ -9,11 +9,18 @@ Platt-calibrated TF-IDF head, and pointing it at an uncalibrated signal is exact
 mistake docs/04 §2.1 records. S2 therefore stays on the TF-IDF head whichever engine S1
 uses.
 
+**Not the default, and nothing here loads until it is asked for.** The checkpoint needs
+~1.3 GB of RAM; a 512 MiB free instance OOM-kills inside lifespan trying to hold it (see
+`MIN_TOTAL_RAM`). So `ENGINE_DEFAULT` is the backup, `Pipeline` starts with an unloaded
+engine, and the only thing that ever calls `load()` is an explicit selection — the
+Preferences switch, `ENGINE_A=laya-ft`, or `POST /api/engine`.
+
 Deliberately optional, in the strongest sense: torch and the `laya` package are **not**
 in `requirements.txt`. If they are missing, if the host cannot hold the checkpoint, if
-the weights cannot be fetched, if the custom runtime fails — `load()` returns an
-engine that reports `loaded = False` and the pipeline falls back to `tfidf-lr` and says
-so through `/api/health`. Boot never depends on this file working.
+the operator turned it off (`LAYA_ENABLED=0`), if the weights cannot be fetched, if the
+custom runtime fails — `load()` returns an engine that reports `loaded = False` and the
+pipeline serves `tfidf-lr` and says so through `/api/health`. Boot never depends on this
+file working.
 """
 from __future__ import annotations
 
@@ -21,6 +28,7 @@ import logging
 import os
 from typing import Any, Optional
 
+from .. import config
 from ..config import LAYA_REPO
 from .decision import aggregate_intents
 
@@ -40,14 +48,10 @@ def total_ram_bytes() -> Optional[int]:
     """The smallest RAM limit this process may actually use, or None.
 
     Probed before the import so an undersized instance never starts loading the
-    model — and the probe must ask two questions, because they disagree where it
-    hurts: sysconf / GlobalMemoryStatusEx report the *board's* physical memory,
-    while a capped container may only use its cgroup limit (Render free: a
-    512 MiB cgroup sitting on a much larger machine). Trusting the board alone
-    waved the checkpoint through and the deploy died OOM inside lifespan —
-    the same crash-loop this refusal exists to prevent (docs/04 §2.2) — so the
-    smaller of the two numbers is what counts. Nothing found at all -> None ->
-    the old behaviour: try to load, degrade honestly on error.
+    model. `sysconf` reports the *board's* physical memory, which is the wrong
+    number in a capped container: a 512 MiB cgroup can sit on a machine with
+    many GiB. A host with no usable answer at all returns None, which is the old
+    behaviour: try to load, degrade honestly on error.
     """
     candidates: list[int] = []
     try:
@@ -57,13 +61,32 @@ def total_ram_bytes() -> Optional[int]:
             candidates.append(pages * page_size)
     except (ValueError, OSError, AttributeError):
         pass
-    if not candidates:
-        try:
-            import ctypes
+    board = _windows_total_ram()
+    if board is not None:
+        candidates.append(board)
+    cap = cgroup_memory_limit()
+    if cap is not None:
+        candidates.append(cap)
+    return min(candidates) if candidates else None
 
-            class _MemoryStatusEx(ctypes.Structure):
-                _fields_ = [
-                    ("dwLength", ctypes.c_ulong),
+
+def _windows_total_ram() -> Optional[int]:
+    """Physical memory as Windows reports it, or None on any other platform.
+
+    `os.sysconf` is Unix-only, so without this the probe would answer None on
+    Windows — and the 3 GiB guard would quietly not exist on the platform a
+    developer is most likely to run the checkpoint on. Every failure is a None:
+    probing must never be able to break loading.
+    """
+    try:
+        import ctypes
+    except ImportError:  # pragma: no cover — CPython ships ctypes everywhere
+        return None
+    if not hasattr(ctypes, "windll"):  # not Windows
+        return None
+
+    class MemoryStatusEx(ctypes.Structure):
+        _fields_ = [("dwLength", ctypes.c_ulong),
                     ("dwMemoryLoad", ctypes.c_ulong),
                     ("ullTotalPhys", ctypes.c_ulonglong),
                     ("ullAvailPhys", ctypes.c_ulonglong),
@@ -71,19 +94,33 @@ def total_ram_bytes() -> Optional[int]:
                     ("ullAvailPageFile", ctypes.c_ulonglong),
                     ("ullTotalVirtual", ctypes.c_ulonglong),
                     ("ullAvailVirtual", ctypes.c_ulonglong),
-                    ("ullAvailExtendedVirtual", ctypes.c_ulonglong),
-                ]
+                    ("ullAvailExtendedVirtual", ctypes.c_ulonglong)]
 
-            status = _MemoryStatusEx()
-            status.dwLength = ctypes.sizeof(_MemoryStatusEx)
-            if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status)):
-                candidates.append(int(status.ullTotalPhys))
-        except Exception:  # noqa: BLE001 — probing must never break loading
-            pass
-    cap = cgroup_memory_limit()
-    if cap is not None:
-        candidates.append(cap)
-    return min(candidates) if candidates else None
+    status = MemoryStatusEx()
+    status.dwLength = ctypes.sizeof(status)
+    try:
+        ok = ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status))
+    except (AttributeError, OSError):
+        return None
+    return int(status.ullTotalPhys) if ok else None
+
+
+def refusal_reason() -> Optional[str]:
+    """Why this process must not load the checkpoint, or None to go ahead.
+
+    Two gates, cheapest and most authoritative first: the operator's kill switch
+    (`LAYA_ENABLED=0`), which beats every other consideration, then the host's
+    memory. Split out of `load()` and kept import-free on purpose: Preferences asks
+    it on every page load to decide whether the checkpoint is even offered, and
+    answering must never cost a torch import or a 644 MB download.
+    """
+    if not config.LAYA_ENABLED:
+        return "the checkpoint is disabled on this deployment (LAYA_ENABLED=0)"
+    ram = total_ram_bytes()
+    if ram is not None and ram < MIN_TOTAL_RAM:
+        return (f"instance has {ram / GIB:.1f} GiB RAM, the checkpoint needs "
+                f">= {MIN_TOTAL_RAM / GIB:.0f} GiB — not attempted on this deployment")
+    return None
 
 
 # The container's cap, which is the number a containerised deployment lives by.
@@ -217,15 +254,15 @@ class LayaEngine:
 
         Any failure lands here: no torch, no package, no weights, no network on a
         cold ephemeral disk, a custom runtime that changed under us, an instance
-        too small to hold 322M parameters. This is the normal path on a machine
-        that only installed `requirements.txt`.
+        too small to hold 322M parameters, an operator who turned it off. This is
+        the normal path on a machine that only installed `requirements.txt`.
+
+        Called on demand, never at boot (docs/04 §2.2): an instance that cannot
+        hold the checkpoint should not find out by being killed for trying.
         """
-        ram = total_ram_bytes()
-        if ram is not None and ram < MIN_TOTAL_RAM:
-            return cls(error=(
-                f"instance has {ram / GIB:.1f} GiB RAM, the checkpoint needs "
-                f">= {MIN_TOTAL_RAM / GIB:.0f} GiB — not attempted on this deployment"
-            ))
+        refusal = refusal_reason()
+        if refusal:
+            return cls(error=refusal)
         try:
             import laya  # noqa: PLC0415 — optional dependency, imported on purpose late
 

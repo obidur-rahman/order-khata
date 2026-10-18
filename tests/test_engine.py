@@ -1,5 +1,5 @@
-"""Engine A — the adopted Laya checkpoint, the backup, and the fallback between
-them (docs/04 §2.1).
+"""Engine A — the optional Laya checkpoint, the backup, and the fallback between
+them (docs/04 §2.1–2.2).
 
 Nothing here needs torch. The fold from the checkpoint's own answer to our five
 classes is pure, and every engine is injected, so this file behaves the same on a
@@ -88,17 +88,18 @@ def make_pipeline(laya=None, tfidf=None, scam=None, temperature=1.0, engine=None
 
 
 # ---------------------------------------------------------------------------
-# Configuration: Laya is adopted, the backup is still shipped
+# Configuration: the backup is the default, the checkpoint is opt-in
 # ---------------------------------------------------------------------------
-def test_adopted_engine_is_laya_and_the_backup_is_shipped():
-    """docs/04 §2.1 — the checkpoint is Engine A; `tfidf-lr` stays selectable."""
+def test_the_default_engine_is_the_backup_and_the_checkpoint_is_shipped():
+    """docs/04 §2.2 — the checkpoint needs ~1.3 GB of RAM, which a 512 MiB free
+    instance does not have, so it is not what a deployment runs by default."""
     assert config.ENGINE_LAYA in config.ENGINE_CHOICES
     assert config.ENGINE_TFIDF in config.ENGINE_CHOICES
     # ENGINE_A can only ever name a shipped engine, so a typo in a Space secret
     # cannot leave the app advertising (or trying to run) something that is not here.
     assert config.ENGINE_DEFAULT in config.ENGINE_CHOICES
     if not os.environ.get("ENGINE_A", "").strip():
-        assert config.ENGINE_DEFAULT == config.ENGINE_LAYA
+        assert config.ENGINE_DEFAULT == config.ENGINE_TFIDF
 
 
 def test_engine_registry_marks_exactly_one_engine_active():
@@ -106,6 +107,8 @@ def test_engine_registry_marks_exactly_one_engine_active():
     engines = p.engines()
     assert [e["id"] for e in engines] == list(config.ENGINE_CHOICES)
     assert all(e["available"] for e in engines)
+    # A selectable engine has nothing to explain away.
+    assert [e["reason"] for e in engines] == [None, None]
     assert [e["id"] for e in engines if e["active"]] == [p.s1_name]
     assert p.engine_name == p.s1_name
 
@@ -209,27 +212,93 @@ def test_unloaded_engine_refuses_to_predict_instead_of_inventing():
         engine.predict_base5("ei saree ta ki stock e ache?")
 
 
-def test_engine_is_loaded_at_boot_not_on_the_first_message(monkeypatch):
-    """A checkpoint that only materialises mid-request would make one customer
-    wait ~20 s, and a boot that cannot use it should say so at boot."""
+def test_the_checkpoint_is_not_loaded_at_boot_only_when_it_is_selected(monkeypatch):
+    """docs/04 §2.2 — the load is ~13 s and ~1.3 GB, so nobody pays it unless they
+    ask for it. A deployment that never wants the checkpoint never imports torch,
+    and a 512 MiB instance never meets the model that would kill it."""
     calls = []
 
     def fake_load(cls, repo=config.LAYA_REPO):
         calls.append(repo)
-        return LayaEngine(error="test: not loaded")
+        return LayaEngine(agent=object(), repo=repo)
 
     monkeypatch.setattr(LayaEngine, "load", classmethod(fake_load))
     p = Pipeline.create()
+    assert calls == []                       # boot touched nothing
+    assert p.s1_name == ENGINE_TFIDF
+    assert p.laya.loaded is False
+
+    p.set_engine(ENGINE_TFIDF)               # already the default: still nothing
+    assert calls == []
+
+    assert p.set_engine(ENGINE_LAYA) == ENGINE_LAYA
+    assert calls == [config.LAYA_REPO]       # selected -> loaded, exactly once
+    assert p.s1.loaded is True
+
+    # A round trip back and forth must not pay for it twice.
+    p.set_engine(ENGINE_TFIDF)
+    p.set_engine(ENGINE_LAYA)
     assert calls == [config.LAYA_REPO]
-    assert p.s1_name == ENGINE_TFIDF  # fell back, because the checkpoint did not load
+
+
+def test_engine_a_is_an_explicit_selection_so_it_loads_at_boot(monkeypatch):
+    """The env var is a choice the operator makes at deploy time, so it *is* a
+    selection — the one case where boot pays for the checkpoint."""
+    calls = []
+
+    def fake_load(cls, repo=config.LAYA_REPO):
+        calls.append(repo)
+        return LayaEngine(agent=object(), repo=repo)
+
+    monkeypatch.setattr(LayaEngine, "load", classmethod(fake_load))
+    p = Pipeline(decision=StubEngine(ENGINE_TFIDF), scam_head=StubScam(),
+                 llm=StubLLM(), engine=ENGINE_LAYA)
+    assert calls == [config.LAYA_REPO]
+    assert p.s1_name == ENGINE_LAYA
+
+
+def test_a_small_host_is_shown_a_disabled_checkpoint_and_a_reason(monkeypatch):
+    """512 MiB (Render's free tier) must reach the screen as a *disabled option
+    that says why*, and cost nothing to find out: the probe reads a cgroup file,
+    so `/api/config` can be asked on every page load without importing torch."""
+    import app.engines.laya as laya_mod
+
+    monkeypatch.setattr(laya_mod, "total_ram_bytes", lambda: 512 * 1024**2)
+    p = Pipeline.create()
+
+    option = next(e for e in p.engines() if e["id"] == ENGINE_LAYA)
+    assert option["available"] is False
+    assert "GiB" in (option["reason"] or "")  # the screen can say why
+    assert p.laya.loaded is False             # asking did not load anything
+
+    # Selecting it anyway is honest rather than fatal: the backup keeps serving.
+    assert p.set_engine(ENGINE_LAYA) == ENGINE_TFIDF
+    assert p.laya.error and "GiB" in p.laya.error
+    assert "Error" not in p.laya.error        # never got as far as importing
+
+
+def test_the_host_probe_alone_decides_availability_before_any_load(monkeypatch):
+    """`laya_reason` is what `/api/config` publishes: None from a capable host
+    (selectable), a sentence from a small one — and after a failed attempt it is
+    the real error, so the reason never goes stale."""
+    import app.engines.laya as laya_mod
+
+    monkeypatch.setattr(laya_mod, "total_ram_bytes", lambda: 8 * 1024**3)
+    p = Pipeline.create()
+    assert p.laya_reason is None
+    assert next(e for e in p.engines() if e["id"] == ENGINE_LAYA)["available"] is True
+
+    monkeypatch.setitem(sys.modules, "laya", None)  # `import laya` -> ImportError
+    assert p.set_engine(ENGINE_LAYA) == ENGINE_TFIDF
+    assert p.laya_reason and "Error" in p.laya_reason
 
 
 def test_a_host_too_small_to_hold_the_checkpoint_is_refused_not_attempted(monkeypatch):
     """A 512 MiB instance (Render's free tier) must be refused, never attempted.
 
-    Loading there does not fail — it OOM-kills the process inside lifespan, so no
-    port ever opens and the deploy crash-loops instead of degrading. The refusal
-    must name the real cause and stop *before* touching the torch/laya import.
+    Loading there does not fail — it OOM-kills the process, so no port ever opens
+    and the deploy crash-loops instead of degrading. The refusal must name the real
+    cause and stop *before* touching the torch/laya import.
     """
     import app.engines.laya as laya_mod
 
@@ -251,6 +320,60 @@ def test_unknown_host_memory_keeps_the_old_try_and_degrade_behaviour(monkeypatch
     engine = LayaEngine.load()
     assert engine.loaded is False
     assert engine.error and "Error" in engine.error
+
+
+# ---------------------------------------------------------------------------
+# The operator kill switch: `LAYA_ENABLED=0` (docs/04 §2.2)
+# ---------------------------------------------------------------------------
+def test_the_kill_switch_disables_the_checkpoint_whatever_the_host_reports(monkeypatch):
+    """The blunt guarantee for a deployment that must not carry the 1.3 GB model:
+    unavailable there even on a host large enough to hold it, so it does not depend
+    on the RAM probe reading a cap correctly. Checked *before* the probe — a host
+    whose memory cannot be measured must not be able to override the operator."""
+    import app.engines.laya as laya_mod
+
+    monkeypatch.setattr(config, "LAYA_ENABLED", False)
+    monkeypatch.setattr(laya_mod, "total_ram_bytes", lambda: 64 * 1024**3)
+    monkeypatch.setitem(sys.modules, "laya", None)  # an import attempt would raise
+    engine = LayaEngine.load()
+    assert engine.loaded is False
+    assert engine.error and "LAYA_ENABLED" in engine.error  # names the switch
+    assert "Error" not in engine.error  # never got as far as importing
+
+
+def test_the_kill_switch_reaches_the_screen_as_a_disabled_option(monkeypatch):
+    """Same two surfaces as the RAM refusal: `/api/config.engines` shows the
+    checkpoint unavailable *with the reason*, and selecting it anyway is a no-op
+    that keeps the backup serving and says why."""
+    import app.engines.laya as laya_mod
+
+    monkeypatch.setattr(config, "LAYA_ENABLED", False)
+    monkeypatch.setattr(laya_mod, "total_ram_bytes", lambda: 64 * 1024**3)
+    # No `laya=` argument: an injected engine counts as already decided, and the
+    # state under test is the real one — nothing selected, nothing attempted.
+    p = Pipeline(decision=StubEngine(ENGINE_TFIDF), scam_head=StubScam(), llm=StubLLM())
+
+    option = next(e for e in p.engines() if e["id"] == ENGINE_LAYA)
+    assert option["available"] is False
+    assert "LAYA_ENABLED" in (option["reason"] or "")
+    assert p.laya.loaded is False  # answering cost nothing
+
+    monkeypatch.setitem(sys.modules, "laya", None)
+    assert p.set_engine(ENGINE_LAYA) == ENGINE_TFIDF
+    assert "LAYA_ENABLED" in (p.laya.error or "")
+
+
+def test_only_the_documented_spellings_turn_the_checkpoint_off(monkeypatch):
+    """A typo must not silently remove an engine from a deployment that can run
+    it, so anything unparseable keeps the default; and the default here is on."""
+    for raw, expected in (("", True), ("1", True), ("true", True), ("on", True),
+                          ("yes", True), ("maybe", True),
+                          ("0", False), ("false", False), ("no", False),
+                          ("off", False), ("FALSE", False)):
+        monkeypatch.setenv("LAYA_ENABLED", raw)
+        assert config._env_flag("LAYA_ENABLED", default=True) is expected
+    assert config.LAYA_ENABLED is True  # pinned on for the suite (conftest.py)
+    assert isinstance(config.LAYA_ENABLED, bool)
 
 
 # ---------------------------------------------------------------------------
@@ -284,6 +407,18 @@ def test_the_probe_returns_the_cgroup_cap_rather_than_the_board_memory(tmp_path,
     assert ram is not None and ram <= 512 * 1024**2
 
 
+@pytest.mark.skipif(os.name != "nt", reason="the fallback exists because sysconf is Unix-only")
+def test_a_windows_host_reports_its_memory_instead_of_failing_open():
+    """`os.sysconf` is Unix-only, so before the `GlobalMemoryStatusEx` fallback the
+    probe returned None on Windows — which meant the 3 GiB guard silently did not
+    exist on the platform a developer is most likely to run the checkpoint on."""
+    import app.engines.laya as laya_mod
+
+    assert not hasattr(os, "sysconf")
+    ram = laya_mod.total_ram_bytes()
+    assert ram is not None and ram > 512 * 1024**2
+
+
 def test_a_512_mib_cgroup_alone_refuses_the_checkpoint_end_to_end(tmp_path, monkeypatch):
     """Through the real `load()`: cap seen -> refusal written before `import
     laya` — the exact boot path a Render free instance walks."""
@@ -302,7 +437,7 @@ def test_a_512_mib_cgroup_alone_refuses_the_checkpoint_end_to_end(tmp_path, monk
 # ---------------------------------------------------------------------------
 # Selection, switching, and the honest fallback
 # ---------------------------------------------------------------------------
-def test_default_runs_laya_and_the_switch_reaches_the_backup():
+def test_switching_reaches_both_engines():
     p = make_pipeline(engine=ENGINE_LAYA)
     assert p.s1_name == ENGINE_LAYA
     laya = p.s1

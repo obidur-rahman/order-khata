@@ -11,7 +11,7 @@ Base path `/api`. JSON. No auth. Polling (2 s) instead of websockets.
 | POST | `/api/messages` | Ingest + classify a message (Try It, simulator). Body below |
 | POST | `/api/messages/{id}/resolve` | Human resolves a review item: `{label}` |
 | POST | `/api/engine` | Switch Engine A: `{engine: "laya-ft" \| "tfidf-lr"}` → `{engine, requested, fallback, engines, reason}` |
-| GET | `/api/config` | `{engine_default, engines: [{id, available, active}], tau_default, tau_min, tau_max, tau_other_offset, scam_t, escalate_t, decisive_t, classes, class_meta}` |
+| GET | `/api/config` | `{engine_default, engines: [{id, available, active, reason}], tau_default, tau_min, tau_max, tau_other_offset, scam_t, escalate_t, decisive_t, classes}` — `engine_default` is `tfidf-lr` unless `ENGINE_A` says otherwise; for the checkpoint `available` means *selectable* (a host probe), and `reason` explains it when it is false |
 | GET | `/api/stats` | Dashboard aggregates (counts per lane/class, histogram bins, time-saved estimate) computed at the current default τ |
 | GET | `/api/eval` | Static evaluation results from `artifacts/eval.json` |
 | POST | `/api/simulator` | `{running: bool, interval_s}` start/stop replay |
@@ -36,7 +36,7 @@ Response (`MessageRecord`):
     "llm_class": "order",
     "llm_reason": "Asks if an item is in stock.",
     "llm_status": "ok",
-    "engine": "laya-ft",
+    "engine": "tfidf-lr",
     "latency_ms": 640,
     "lane": "auto",
     "route_reason": "Confident and second opinion agrees"
@@ -47,15 +47,16 @@ Response (`MessageRecord`):
 Errors: 400 empty/too long; 429 rate limit; 503 model not ready (`{"detail":"warming_up"}`; frontend shows loading screen and retries). `engine` names the model that answered this message — always read it, since it is `tfidf-lr` when the checkpoint is absent or failed (docs/04 §2.2).
 
 ## POST /api/engine — switch Engine A (docs/04 §2.2)
-Request: `{"engine": "laya-ft"}`. Response:
+Request: `{"engine": "laya-ft"}`. If the checkpoint is not loaded yet **this request loads it** (~12.6 s with the weights cached), which is the whole point: the load lands on whoever asked rather than on a customer's message. Response:
 ```json
 {
   "engine": "tfidf-lr",
   "requested": "laya-ft",
   "fallback": true,
   "engines": [
-    {"id": "laya-ft", "available": false, "active": false},
-    {"id": "tfidf-lr", "available": true, "active": true}
+    {"id": "laya-ft", "available": false, "active": false,
+     "reason": "instance has 0.5 GiB RAM, the checkpoint needs >= 3 GiB — not attempted on this deployment"},
+    {"id": "tfidf-lr", "available": true, "active": true, "reason": null}
   ],
   "reason": "engine_unavailable"
 }

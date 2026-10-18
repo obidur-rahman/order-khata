@@ -45,11 +45,13 @@ COPY backend/requirements.txt backend/requirements-laya.txt ./backend/
 RUN pip install --no-cache-dir -r backend/requirements.txt
 
 # ---------------------------------------------------------------------------
-# Engine A — the adopted Laya checkpoint (docs/04 §2.1)
+# Engine A's opt-in half — the Laya checkpoint (docs/04 §2.1–2.2)
 # ---------------------------------------------------------------------------
-# Kept out of requirements.txt on purpose: this image runs the checkpoint, a
-# bare `pip install -r backend/requirements.txt` runs the backup, and both are
-# supported states that /api/health reports.
+# Kept out of requirements.txt on purpose: this image *can* run the checkpoint, a
+# bare `pip install -r backend/requirements.txt` cannot, and both are supported
+# states that /api/health and /api/config report. Installing it here is what makes
+# the checkpoint selectable: nothing loads it at boot, and a host too small to hold
+# it is refused before torch is even imported.
 #
 # torch comes from the CPU wheel index. The Space has no GPU, and the PyPI build
 # is ~2.5 GB of CUDA libraries that could never be used. It goes in on its own

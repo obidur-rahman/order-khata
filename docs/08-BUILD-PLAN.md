@@ -11,14 +11,14 @@ generated from it if one is ever needed, never hand-written.
 |---|---|
 | Create HF account, Space (Docker), repo scaffold | Space builds "hello" |
 | Load D1, apply mapping, write `01_load_and_map.py` | jsonl splits + data card |
-| ✅ Run Laya fine-tuned checkpoint on D1 validation on CPU — **done 2026-10-17**, late: the gate was skipped during Hour 0 and only run after the docs were audited. Loaded, measured: ~45 ms/message, macro-F1 0.9892 vs the baseline's 0.8870 on the same 100 rows (re-runnable: `ml/laya_gate.py`). Rule passes and the candidate is **adopted as Engine A** (`laya-ft`), with `tfidf-lr` kept shipped as a runtime-switchable backup and the automatic fallback (docs/04 §2.1, §2.2) | Loads, latency measured, accuracy recorded, backup switch tested both ways |
+| ✅ Run Laya fine-tuned checkpoint on D1 validation on CPU — **done 2026-10-17**, late: the gate was skipped during Hour 0 and only run after the docs were audited. Loaded, measured: ~45 ms/message, macro-F1 0.9892 vs the baseline's 0.8870 on the same 100 rows (re-runnable: `ml/laya_gate.py`). Rule passes, so the candidate is **shipped as the opt-in Engine A** (`laya-ft`), with `tfidf-lr` the default and the automatic fallback — the checkpoint's ~1.3 GB does not fit the 512 MiB free instance, so it loads only when it is selected (docs/04 §2.1, §2.2) | Loads, latency measured, accuracy recorded, backup switch tested both ways |
 | ❌ Try Mercury Decide (OpenRouter free route), Span-01 Lite — not pursued, and recorded as not tried, once the self-hosted candidate passed | Works or marked "unavailable"; limits noted |
 | Groq key, JSON-mode test on 30 Banglish messages | ≥ 90% valid JSON, usable accuracy |
 | Inspect D2 labels | Scam mapping written down |
 **Gate:** if Laya cannot run on free CPU, fall back to TF-IDF/LR as engine A and report honestly; if Groq is unusable, try Gemini free; if both fail, ship decision-model-only mode.
 
 ## Phase 1 — Hour 3–10: backend core
-- `engines/decision.py`, `engines/scam.py`, `engines/llm.py` (cache, timeout, fallback), `calibrate.py`. Engine A is `engines/laya.py` (adopted) with `decision.py` as the backup path and the permanent S2 head; the switch is `POST /api/engine` + `EngineChoice` on Preferences.
+- `engines/decision.py`, `engines/scam.py`, `engines/llm.py` (cache, timeout, fallback), `calibrate.py`. Engine A is `engines/laya.py` (opt-in: the checkpoint loads only when it is selected) with `decision.py` as the default engine and the permanent S2 head; the switch is `POST /api/engine` + `EngineChoice` on Preferences.
 - `router.py` + fixture-based unit tests.
 - `db.py`, seed loader, `/api/*` endpoints, simulator.
 - `03_calibrate.py`, `04_train_scam_head.py` — **superseded**: calibration (notebook §7) and the scam head (§6) are cells in `ml/notebooks/order_khata_lab.ipynb`, which is the single source of truth for the pipeline.

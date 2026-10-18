@@ -117,11 +117,11 @@ The screen that asks how the app should read. Three choice groups, each a stack 
 
 - **Language:** English / বাংলা. Sets `lang` on `<html>` and switches the interface strings (`lib/i18n.ts`).
 - **Appearance:** Light / Dark. Sets the `.dark` class on `<html>` (§2) and `color-scheme` so native controls follow.
-- **Classification engine** (docs/04 §2.2, below the fold of the other two): the adopted Laya checkpoint, or the TF-IDF backup. Each row carries its raw engine id and whether it is the one running.
+- **Classification engine** (docs/04 §2.2, below the fold of the other two): the TF-IDF backup — which is the default — and the opt-in Laya checkpoint. Each row carries its raw engine id and whether it is the one running.
 
 The first two apply instantly, are saved on the device in `localStorage` (`order_khata.lang`, `order_khata.theme`), and are mirrored by a compact toggle in the top bar so they are one tap away on every screen. Nothing about them is sent to the backend; there is no account. A live row at the bottom previews the three lane labels in the chosen language.
 
-**The engine group is different in kind, and the screen says so** (`pref.engineHint`): it is the *server's* setting. `POST /api/engine` switches S1 for the whole deployment — every visitor gets the change — and it is deliberately not stored on the device. A row for an engine this deployment cannot load is rendered disabled with `not available in this deployment` rather than hidden, and a switch that the server understood but could not honour reports the fallback in plain words instead of silently doing nothing.
+**The engine group is different in kind, and the screen says so** (`pref.engineHint`): it is the *server's* setting. `POST /api/engine` switches S1 for the whole deployment — every visitor gets the change — and it is deliberately not stored on the device. A row for an engine this deployment cannot load is rendered disabled rather than hidden, and its hint is the server's own `reason` (`instance has 0.5 GiB RAM, the checkpoint needs >= 3 GiB — not attempted on this deployment` on a 512 MiB host): a disabled option that only said "not available" would be a mystery. A switch the server understood but could not honour reports the fallback in plain words instead of silently doing nothing, and asking for the checkpoint shows a loading note, because that request is what loads it.
 
 **Language scope (deliberate):** the chrome and the narrative are translated: navigation, headings, buttons, the landing story, the footer, lane labels. Two things stay English: the six class names (they are the model's output labels and appear verbatim in the API contract, `docs/05`) and the detection internals (engine names, ECE, macro-F1, τ). Body copy inside Inbox / Dashboard / Evaluation is still English; add keys to `lib/i18n.ts` when that changes.
 
@@ -137,7 +137,7 @@ Charts: plain SVG only, no chart dependency.
 - Responsive: desktop-first (judges), usable at 390 px — one pane at a time with the lane bar at the bottom (§4.2). Every pane scrolls itself inside an `h-dvh` shell; the page itself never scrolls, so nothing can be clipped out of reach.
 - Empty/error states are designed, never blank. When the API is unreachable the app screens show `ErrorScreen`: an explanation, the start command, the underlying error, and a Retry button. Never an endless spinner.
 - Honour `prefers-reduced-motion` (loops stop, feedback stays; the hero orbs and scroll reveals switch off) and `prefers-reduced-transparency` (any translucency goes solid).
-- Theme and language live in `localStorage` and are applied by `lib/prefs.ts`; a custom event (`order_khata:prefs`) tells every mounted control to re-read, so no provider is needed. τ needs no event: `lib/store.ts` saves it and each screen reads it on mount. The language/theme choice is applied by an inline script in `app/layout.tsx` before first paint (keys from `lib/prefKeys.ts`, shared with `lib/prefs.ts`).
+- Theme and language live in `localStorage` and are applied by `lib/prefs.ts`; a custom event (`order_khata:prefs`) tells every mounted control to re-read, so no provider is needed. τ lives in the same store (keys in `lib/prefKeys.ts`, plus `order_khata.tau`) and needs no event: the slider writes it and each screen reads it on mount. The language/theme choice is applied by an inline script in `app/layout.tsx` before first paint (keys from `lib/prefKeys.ts`, shared with `lib/prefs.ts`).
 - Press feedback lands on pointer-down (`:active` scale 0.98), never only on release.
 
 ## 7. Accessibility

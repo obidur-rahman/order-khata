@@ -52,7 +52,6 @@ class MessageRecord(BaseModel):
 class ConversationRecord(BaseModel):
     id: str
     customer_name: str
-    avatar_color: str
     created_at: str
     last_message: Optional[MessageRecord] = None
     messages: list[MessageRecord] = []
@@ -108,9 +107,14 @@ class EngineRequest(BaseModel):
 
 
 class EngineOption(BaseModel):
+    """One selectable S1 engine. `available` is "can be selected here"; `reason`
+    is why not, when it cannot — a host probe verdict or the load error, so a
+    disabled option explains itself instead of being a mystery."""
+
     id: str
     available: bool
     active: bool
+    reason: Optional[str] = None
 
 
 class EngineResponse(BaseModel):
@@ -126,19 +130,3 @@ class EngineResponse(BaseModel):
     fallback: bool               # requested != engine
     engines: list[EngineOption]
     reason: Optional[str] = None  # why the request could not be honoured
-
-
-__all__ = [
-    "ClassifyRequest",
-    "EngineRequest",
-    "EngineOption",
-    "EngineResponse",
-    "Prediction",
-    "MessageRecord",
-    "ConversationRecord",
-    "ResolveRequest",
-    "StatsResponse",
-    "EvalResponse",
-    "HealthResponse",
-    "Resolution",
-]

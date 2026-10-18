@@ -3,15 +3,16 @@
 Produces the `Prediction` fields of docs/05 (lane at the default tau). Pure
 CPU, no network unless an LLM provider key is configured.
 
-Two engines drive S1 (docs/04 §2.1): the adopted Laya checkpoint by default, and
-the TF-IDF/logistic-regression baseline as a runtime-switchable backup that also
-serves as the automatic fallback whenever the checkpoint cannot load. S2 and S3
-(the escalate and scam heads) are unaffected by that choice.
+Two engines can drive S1 (docs/04 §2.1). The TF-IDF/logistic-regression baseline
+is the default and the automatic fallback; the Laya checkpoint is opt-in, loaded
+only when it is selected, and skipped entirely on a host too small to hold it. S2
+and S3 (the escalate and scam heads) are unaffected by that choice.
 """
 from __future__ import annotations
 
 import json
 import logging
+import threading
 import time
 
 from .config import (
@@ -24,7 +25,7 @@ from .config import (
 )
 from .engines.calibrate import load_temperature, scaled_probs
 from .engines.decision import DecisionEngine
-from .engines.laya import LayaEngine
+from .engines.laya import LayaEngine, refusal_reason
 from .engines.llm import LLMClient
 from .engines.scam import ScamHead
 from .router import route
@@ -51,26 +52,71 @@ class Pipeline:
         self.llm = llm or LLMClient()
         self.temperature = load_temperature() if temperature is None else temperature
         self.ready = ready
-        self.laya = LayaEngine.load() if laya is None else laya
-        # Loaded eagerly on purpose: a checkpoint that only materialises on the
-        # first user message would make that message take 20 seconds, and a boot
-        # that cannot use it should say so at boot, not mid-request.
-        self.s1_name = self._resolve_engine(engine or ENGINE_DEFAULT)
+        # Lazy on purpose (docs/04 §2.2). The checkpoint needs ~1.3 GB of RAM and a
+        # 512 MiB instance is killed outright by holding it, so `laya-ft` is not the
+        # default and nothing here touches torch at boot. An injected engine counts
+        # as already decided: a caller passing an unloaded one is asserting the
+        # fallback, not asking for a load.
+        self.laya = LayaEngine() if laya is None else laya
+        self._laya_attempted = laya is not None
+        self._laya_lock = threading.Lock()
+        # Only an explicit selection loads the checkpoint. `ENGINE_A=laya-ft` is one
+        # (made at deploy time); the default is not, and neither is merely having
+        # torch installed on the box.
+        requested = engine or ENGINE_DEFAULT
+        if requested == ENGINE_LAYA:
+            self.ensure_laya()
+        self.s1_name = self._resolve_engine(requested)
 
     @classmethod
     def create(cls) -> "Pipeline":
         return cls()
 
     # -- engine selection (docs/04 §2.1) -------------------------------------
+    def ensure_laya(self) -> LayaEngine:
+        """Load the checkpoint if it has not been tried yet; return the holder.
+
+        The one place `LayaEngine.load()` is ever called from. Idempotent and
+        thread-safe, so two racing switches cannot pay the ~13 s load twice, and
+        a failed attempt is remembered rather than retried on every request.
+        """
+        if self.laya.loaded or self._laya_attempted:
+            return self.laya
+        with self._laya_lock:
+            if not self._laya_attempted:
+                self._laya_attempted = True
+                self.laya = LayaEngine.load()
+        return self.laya
+
+    @property
+    def laya_reason(self) -> str | None:
+        """Why the checkpoint cannot answer here, or None when it can (or is).
+
+        Cheap enough to ask on every page load: an un-attempted checkpoint is
+        judged by the host probe alone, so this never imports torch and never
+        triggers a load. `None` means "selectable", not "running".
+        """
+        if self.laya.loaded:
+            return None
+        if self._laya_attempted:
+            return self.laya.error or "the checkpoint failed to load"
+        return refusal_reason()
+
     def engines(self) -> list[dict]:
-        """Every engine S1 can run, in preference order, with availability."""
+        """Every engine S1 can run, in preference order, with availability and —
+        when one cannot run here — the one-line reason why, so the switch screen
+        can say what is wrong instead of showing a dead option."""
+        laya_reason = self.laya_reason
+        tfidf_reason = None if self.decision.loaded else "decision artifacts are missing"
         return [
-            {"id": ENGINE_LAYA, "available": self.laya.loaded, "active": self.s1_name == ENGINE_LAYA},
-            {"id": ENGINE_TFIDF, "available": self.decision.loaded,
-             "active": self.s1_name == ENGINE_TFIDF},
+            {"id": ENGINE_LAYA, "available": laya_reason is None,
+             "active": self.s1_name == ENGINE_LAYA, "reason": laya_reason},
+            {"id": ENGINE_TFIDF, "available": tfidf_reason is None,
+             "active": self.s1_name == ENGINE_TFIDF, "reason": tfidf_reason},
         ]
 
     def _available(self, name: str) -> bool:
+        """Can this engine answer *right now*? Loaded, not merely loadable."""
         if name == ENGINE_LAYA:
             return self.laya.loaded
         if name == ENGINE_TFIDF:
@@ -89,9 +135,16 @@ class Pipeline:
 
     def set_engine(self, requested: str) -> str:
         """Switch S1 at runtime. Returns the engine that is now active (which is
-        the requested one, or the backup if the request cannot run)."""
+        the requested one, or the backup if the request cannot run).
+
+        Selecting the checkpoint is what loads it (docs/04 §2.2). The ~13 s is
+        then paid by whoever asked — here, in the switch request — instead of by a
+        customer's message, and it is paid once.
+        """
         if requested not in ENGINE_CHOICES:
             raise ValueError(requested)
+        if requested == ENGINE_LAYA:
+            self.ensure_laya()
         self.s1_name = self._resolve_engine(requested)
         return self.s1_name
 

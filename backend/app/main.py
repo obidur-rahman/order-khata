@@ -65,10 +65,14 @@ async def lifespan(app: FastAPI):
     db.init_db()
     pipeline = Pipeline.create()
     app.state.pipeline = pipeline
-    if not pipeline.laya.loaded:
-        # The one line that settles "will this deployment run the checkpoint?"
-        # at a glance: the refusal reason, before seeding can obscure it.
-        log.info("S1 checkpoint not loaded: %s", pipeline.laya.error or "unknown reason")
+    # The one line that settles "is this deployment running the checkpoint?" at a
+    # glance, before seeding can obscure it. Both answers are normal: the default
+    # deployment runs the backup and never loads the checkpoint (docs/04 §2.2).
+    if pipeline.laya.loaded:
+        log.info("S1 checkpoint loaded: engine=%s", pipeline.s1_name)
+    else:
+        log.info("S1 = %s (checkpoint not loaded: %s)", pipeline.s1_name,
+                 pipeline.laya_reason or "available, selected on demand")
     sim = Simulator(pipeline)
     app.state.simulator = sim
 

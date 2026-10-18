@@ -26,6 +26,20 @@ def _load_dotenv() -> None:
             os.environ[key] = value.strip().strip('"').strip("'")
 
 
+def _env_flag(name: str, default: bool) -> bool:
+    """A boolean env var in the spellings people actually write, or `default`.
+
+    Anything unparseable keeps the default: a typo in an env var must not silently
+    change what the deployment runs.
+    """
+    raw = os.environ.get(name, "").strip().lower()
+    if raw in ("0", "false", "no", "off"):
+        return False
+    if raw in ("1", "true", "yes", "on"):
+        return True
+    return default
+
+
 _load_dotenv()
 
 # ---------------------------------------------------------------------------
@@ -39,16 +53,6 @@ CLASSES: tuple[str, ...] = (
     "scam",
     "other",
 )
-
-# UI labels + chip colors (docs/06 §2). Brand yellow is never a class/status color.
-CLASS_META: dict[str, dict[str, str]] = {
-    "order": {"label": "Order", "color": "#2F6BFF"},
-    "price_question": {"label": "Price", "color": "#7A4DFF"},
-    "delivery_problem": {"label": "Delivery", "color": "#0FA3A3"},
-    "complaint": {"label": "Complaint", "color": "#FF4D8D"},
-    "scam": {"label": "Scam", "color": "#E5252A"},
-    "other": {"label": "Other", "color": "#8A8A8A"},
-}
 
 # 15 D1 intents -> 6 Order Khata classes (docs/03 §2). All 15 must be present.
 INTENT_TO_CLASS: dict[str, str] = {
@@ -99,23 +103,33 @@ DEGRADED_MAX = 0.99
 # ---------------------------------------------------------------------------
 # Engine A — S1, the intent/class signal (docs/04 §2.1)
 # ---------------------------------------------------------------------------
-# Laya is the adopted Engine A: the 322M typed-decision checkpoint measured at
-# 0.9892 macro-F1 against the baseline's 0.8870 on the same validation rows.
-# `tfidf-lr` stays shipped and switchable at runtime, and it is also the
-# automatic fallback: if torch/laya/weights are missing, boot must still work
-# and the API must say which engine actually answered.
+# S1 ships two engines (docs/04 §2.1). The checkpoint is the better model — 0.9892
+# macro-F1 against the baseline's 0.8870 on the same validation rows — but it is
+# optional twice over: it needs ~1.3 GB of RAM, which a 512 MiB free instance does
+# not have, and it drags in torch (~1 GB of packages, 644 MB of weights). So the
+# **default is the backup**: boot loads no checkpoint, and `laya-ft` runs only when
+# someone selects it — from Preferences, or with ENGINE_A at deploy time.
 ENGINE_LAYA = "laya-ft"
 ENGINE_TFIDF = "tfidf-lr"
 ENGINE_CHOICES: tuple[str, ...] = (ENGINE_LAYA, ENGINE_TFIDF)
 # ENGINE_A can only select a shipped engine: a typo in a Space secret would
 # otherwise advertise an id no client can send back, and silently run the backup
-# as if it were the adopted engine.
+# as if it were the requested engine.
 _engine_a = os.environ.get("ENGINE_A", "").strip()
-ENGINE_DEFAULT = _engine_a if _engine_a in ENGINE_CHOICES else ENGINE_LAYA
+ENGINE_DEFAULT = _engine_a if _engine_a in ENGINE_CHOICES else ENGINE_TFIDF
 
 # The checkpoint's own questions.yaml wording lives in engines/laya.py; only the
 # repo id is configuration (it moved once already — docs/04 §2.1 licence note).
 LAYA_REPO = os.environ.get("LAYA_REPO", "nafiullah/laya-multilingual-bn-ecom-voice")
+
+# Operator kill switch for the checkpoint itself, independent of host memory:
+# `LAYA_ENABLED=0` makes `laya-ft` permanently unavailable here — never offered,
+# never attempted — which is the guarantee a deployment needs when it must not
+# carry the 1.3 GB model *at all*, rather than trusting the RAM probe to notice a
+# host whose cap it cannot read. It is checked before the probe and beats it.
+# Absent or unparseable -> enabled: the probe is the real gate, and a typo must
+# not quietly remove an engine from a deployment that can run it.
+LAYA_ENABLED = _env_flag("LAYA_ENABLED", default=True)
 
 # ---------------------------------------------------------------------------
 # LLM second signal (docs/04 §3.1)

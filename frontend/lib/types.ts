@@ -60,7 +60,6 @@ export interface MessageRecord {
 export interface ConversationRecord {
   id: string;
   customer_name: string;
-  avatar_color: string;
   created_at: string;
   last_message: MessageRecord | null;
   messages: MessageRecord[];
@@ -77,11 +76,13 @@ export interface HealthResponse {
   version: string;
 }
 
-/** One selectable Engine A, with whether this deployment can actually run it. */
+/** One selectable Engine A. `available` is "can be selected here"; `reason` is
+ * why not when it cannot — a host-probe verdict or the load error. */
 export interface EngineOption {
   id: string;
   available: boolean;
   active: boolean;
+  reason?: string | null;
 }
 
 export interface EngineSwitchResponse {
@@ -104,7 +105,6 @@ export interface ConfigResponse {
   escalate_t: number;
   decisive_t: number;
   classes: ClassKey[];
-  class_meta: Record<ClassKey, ClassMeta>;
 }
 
 export interface HistogramBin {

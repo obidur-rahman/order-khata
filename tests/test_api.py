@@ -2,6 +2,7 @@
 400/404/429/503 error contract."""
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import pytest
@@ -52,16 +53,29 @@ def test_config_schema(client):
     assert body["escalate_t"] == config.ESCALATE_T == 0.20
     assert body["decisive_t"] == config.DECISIVE_T == 0.90
     assert body["classes"] == list(config.CLASSES)
-    assert set(body["class_meta"]) == set(config.CLASSES)
-    for meta in body["class_meta"].values():
-        assert meta["label"] and meta["color"].startswith("#")
 
-    # Engine A (docs/04 §2.1): both engines are advertised with availability, so
+    # Engine A (docs/04 §2.1–2.2): both engines are advertised with availability, so
     # the client can grey out the one this deployment cannot run instead of
-    # offering a switch that silently does nothing.
+    # offering a switch that silently does nothing — and a greyed-out engine has to
+    # say why, or the option is a mystery.
     assert body["engine_default"] in config.ENGINE_CHOICES
     assert [e["id"] for e in body["engines"]] == list(config.ENGINE_CHOICES)
     assert sum(bool(e["active"]) for e in body["engines"]) == 1
+    for e in body["engines"]:
+        assert e["available"] or e["reason"]
+
+
+def test_the_default_deployment_serves_the_backup_without_loading_the_checkpoint(client):
+    """docs/04 §2.2 — a 512 MiB instance must never meet the 1.3 GB checkpoint, so
+    the default is the backup and nothing loads one at boot."""
+    body = client.get("/api/config").json()
+    if not os.environ.get("ENGINE_A", "").strip():
+        assert body["engine_default"] == config.ENGINE_TFIDF
+
+    # Whatever is serving, the health line names it and the app is usable.
+    health = client.get("/api/health").json()
+    assert health["model_loaded"] is True
+    assert health["engine"] in config.ENGINE_CHOICES
 
 
 def test_post_message_full_record(client):
@@ -137,7 +151,7 @@ def test_inbox_and_conversation(client):
     convs = r.json()
     assert len(convs) >= 1
     conv = convs[0]
-    assert set(conv) == {"id", "customer_name", "avatar_color", "created_at", "last_message", "messages"}
+    assert set(conv) == {"id", "customer_name", "created_at", "last_message", "messages"}
     assert conv["last_message"]["id"] == mid
     assert conv["last_message"]["prediction"]["lane"] in ("auto", "review", "scam")
 
@@ -240,7 +254,7 @@ def test_predict_classifies_order_message(client):
     # Which engine answers depends on the deployment (Laya where torch and the
     # weights are baked in, the backup where they are not), so the assertion is
     # that the reported engine is the one /api/config says is active — not a
-    # hardcoded name, which would fail on the adopted engine's own deployment.
+    # hardcoded name, which would fail on the checkpoint's own deployment.
     active = next(e["id"] for e in client.get("/api/config").json()["engines"] if e["active"])
     assert pred["engine"] == active
     assert pred["top_class"] == "order"
@@ -317,7 +331,10 @@ def test_engine_switch_reports_fallback_when_the_engine_cannot_load(client, monk
     from app.engines.laya import LayaEngine
 
     pipeline = client.app.state.pipeline
+    # `_laya_attempted` marks the decision as already taken, so the switch cannot
+    # reach a real `load()` on a box that happens to have the checkpoint cached.
     monkeypatch.setattr(pipeline, "laya", LayaEngine(error="test: forced unavailable"))
+    monkeypatch.setattr(pipeline, "_laya_attempted", True)
     pipeline.set_engine(config.ENGINE_TFIDF)
 
     r = client.post("/api/engine", json={"engine": config.ENGINE_LAYA})
@@ -326,7 +343,9 @@ def test_engine_switch_reports_fallback_when_the_engine_cannot_load(client, monk
     assert body["engine"] == config.ENGINE_TFIDF
     assert body["fallback"] is True
     assert body["reason"] == "engine_unavailable"
-    assert next(e for e in body["engines"] if e["id"] == config.ENGINE_LAYA)["available"] is False
+    laya = next(e for e in body["engines"] if e["id"] == config.ENGINE_LAYA)
+    assert laya["available"] is False
+    assert laya["reason"] == "test: forced unavailable"
 
     pred = client.post("/api/messages", json={"text": BANGLISH}).json()["prediction"]
     assert pred["engine"] == config.ENGINE_TFIDF

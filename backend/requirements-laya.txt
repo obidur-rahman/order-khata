@@ -1,4 +1,5 @@
-# Engine A — the adopted Laya checkpoint (docs/04 §2.1).
+# Engine A — the opt-in Laya checkpoint (docs/04 §2.1). Loaded only when it is
+# selected, never at boot.
 #
 # Deliberately separate from requirements.txt. That file must keep working on a
 # machine with no torch at all: the backup engine serves there, boot still

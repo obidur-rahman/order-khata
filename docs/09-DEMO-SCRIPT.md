@@ -28,6 +28,6 @@ Show the coverage-vs-accuracy curve: "At this setting the system handles X% auto
 | What happens when it's wrong? | Wrong-but-confident is the risk; calibration plus agreement plus the threshold target it. Scams never auto-handle. Review items are resolved by a human. |
 | What if the AI API is down? | Degraded mode: decision model only, stricter threshold, visible banner. |
 | How does it scale? | Decision model is a single forward pass on CPU; the LLM call is optional and cached. |
-| Why not fine-tune? | Existing fine-tuned open checkpoint used; LoRA before/after is a stretch item. |
+| Why not fine-tune? | We did not: an existing fine-tuned open checkpoint ships as an opt-in engine. It is not the default — it needs ~1.3 GB of RAM and the free instance has 512 MiB — so the default is the TF-IDF model, and the switch is on the Preferences screen. LoRA before/after is a stretch item. |
 | Privacy? | No real personal data; demo storage is ephemeral. |
 | Cost? | $0: free Hugging Face Space, open model, free-tier LLM. |
