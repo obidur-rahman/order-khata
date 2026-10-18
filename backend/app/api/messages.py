@@ -12,6 +12,7 @@ from fastapi import APIRouter, HTTPException, Request
 
 from .. import config, db
 from ..schemas import ClassifyRequest, MessageRecord, ResolveRequest
+from ..text import sanitize
 
 router = APIRouter()
 
@@ -35,7 +36,10 @@ def _client_ip(request: Request) -> str:
 
 
 def _validate_text(text: str) -> str:
-    stripped = text.strip()
+    # Sanitised, not just stripped: a lone surrogate is a legal JSON body and cannot
+    # be encoded at all, so it would raise on the way to SQLite and the LLM cache key
+    # and answer the customer with a 500 (`text.sanitize`).
+    stripped = sanitize(text).strip()
     if not stripped:
         raise HTTPException(status_code=400, detail="empty_text")
     if len(stripped) > config.MAX_TEXT_LEN:

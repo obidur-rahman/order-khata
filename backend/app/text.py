@@ -14,25 +14,40 @@ _BENGALI = re.compile(r"[ঀ-৿]")
 _LATIN = re.compile(r"[A-Za-z]")
 _WS = re.compile(r"\s+")
 
+# A lone surrogate (an unpaired code point in U+D800–U+DFFF) is not a character:
+# it cannot be encoded to UTF-8 *at all*, so it makes every consumer raise —
+# `sqlite3` when the message is stored, `hashlib` when the LLM cache key is built,
+# the checkpoint's tokenizer. JSON accepts it (`"\udc8d"` is a legal body), so a
+# client can send one, and a 500 on a customer message is the one outcome the spec
+# forbids. Replaced, not dropped: the length stays honest and the text still reads
+# as "something was here".
+_SURROGATES = re.compile(r"[\ud800-\udfff]")
+
+
+def sanitize(text: str) -> str:
+    """Make text encodable: every lone surrogate becomes U+FFFD (see `_SURROGATES`)."""
+    return _SURROGATES.sub("\ufffd", text)
+
+
+def normalize(text: str) -> str:
+    """Strip + collapse whitespace; the original is kept separately (docs/02 §4)."""
+    return _WS.sub(" ", sanitize(text).strip())
+
+
 # Small marker lexicon: high-precision romanized-Bangla tokens.
 _BANGLISH_MARKERS = {
     "ami", "tumi", "apni", "ache", "aase", "ase", "na", "ki", "koto",
     "kore", "koro", "dibo", "diben", "dao", "chailam", "chai", "chao",
     "bhalo", "kharap", "hobe", "hoye", "gorbo", "korbo", "dite", "diba",
     "paisi", "pailam", "niye", "diye", "jonno", "jonnyo", "vabei", "taka",
-    "taka.", "khela", "bujhi", "bujhlam", "bolun", "bolben", "janen",
+    "khela", "bujhi", "bujhlam", "bolun", "bolben", "janen",
     "janina", "ekhane", "okhane", "khali", "shudhu", "ektu", "khub",
-    "ajke", "kalke", "shathe", "sathe", "jonno,", "bhai", "apu", "dada",
+    "ajke", "kalke", "shathe", "sathe", "bhai", "apu", "dada",
 }
 
 _BANGLISH_RE = re.compile(
     r"\b(" + "|".join(sorted(_BANGLISH_MARKERS)) + r")\b", re.IGNORECASE
 )
-
-
-def normalize(text: str) -> str:
-    """Strip + collapse whitespace; the original is kept separately (docs/02 §4)."""
-    return _WS.sub(" ", text.strip())
 
 
 def detect_script(text: str) -> str:

@@ -98,7 +98,7 @@ files as part of the port (notebook section 11).
 
 ## 4. Request flow (classify)
 1. `POST /api/messages` with `{text, conversation_id?, sender_name?}`.
-2. Normalize text (strip, collapse whitespace; keep original). Detect script (bn / bl / en / mx) with a Unicode-range heuristic.
+2. Normalize text (strip, collapse whitespace, replace unencodable lone surrogates with U+FFFD; keep original). Detect script (bn / bl / en / mx) with a Unicode-range heuristic.
 3. Engine A (`tfidf-lr` by default; the `laya-ft` checkpoint when it has been selected and loaded) returns 15 intent probabilities → aggregated into 5 base classes; the calibrated S2 head returns `escalate_prob` (always `tfidf-lr`, docs/04 §2.2).
 4. Scam head returns `scam_prob`; the 6-class vector is the 5 base classes scaled by `(1 − scam_prob)` plus `scam`.
 5. Engine B (Groq) returns `{class, reason}`; 3 s timeout; cached by SHA-256 of normalized text. On failure, `llm_status = "unavailable"`.

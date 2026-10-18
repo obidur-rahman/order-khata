@@ -44,7 +44,7 @@ Response (`MessageRecord`):
   "resolution": null
 }
 ```
-Errors: 400 empty/too long; 429 rate limit; 503 model not ready (`{"detail":"warming_up"}`; frontend shows loading screen and retries). `engine` names the model that answered this message — always read it, since it is `tfidf-lr` when the checkpoint is absent or failed (docs/04 §2.2).
+Errors: 400 empty/too long; 429 rate limit; 503 model not ready (`{"detail":"warming_up"}`; frontend shows loading screen and retries). A lone surrogate (a legal JSON body such as `"\udc8d"`) is replaced with U+FFFD rather than answered with a 500: it cannot be encoded at all, so it would raise on the way to SQLite. `engine` names the model that answered this message — always read it, since it is `tfidf-lr` unless the `laya-ft` checkpoint has been selected and loaded (docs/04 §2.2).
 
 ## POST /api/engine — switch Engine A (docs/04 §2.2)
 Request: `{"engine": "laya-ft"}`. If the checkpoint is not loaded yet **this request loads it** (~12.6 s with the weights cached), which is the whole point: the load lands on whoever asked rather than on a customer's message. Response:

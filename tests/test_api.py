@@ -107,6 +107,26 @@ def test_post_message_full_record(client):
     assert isinstance(pred["latency_ms"], int)
 
 
+def test_a_lone_surrogate_is_replaced_rather_than_500ing_the_customer(client):
+    """A lone surrogate cannot be encoded to UTF-8 *at all* — `sqlite3` raises on the
+    insert and `hashlib` on the LLM cache key — but JSON accepts it as an escape
+    (`"\\udc8d"` is a legal body), so a client can send one. Answering the customer
+    with a 500 is the one outcome the spec forbids, so it is replaced and stored like
+    any other message. The body is sent as raw wire bytes: an encoder that shares
+    Python's rule refuses to produce the surrogate at all, which is the same failure
+    one layer earlier and would hide the one under test."""
+    body = '{"text": "ei saree \\udc8d ta ki ache?"}'
+    r = client.post("/api/messages", content=body,
+                    headers={"content-type": "application/json"})
+    assert r.status_code == 200, r.text
+    record = r.json()
+    assert "\ufffd" in record["text"]           # replaced...
+    assert len(record["text"]) == len("ei saree \udc8d ta ki ache?")  # not dropped
+    assert record["text"].encode("utf-8")       # encodable: what everything needs
+    assert record["script"] == "bl"
+    assert record["prediction"]["lane"] in ("auto", "review", "scam")
+
+
 def test_scripts_detected_for_three_languages(client):
     script_by_text = {}
     for text in (BANGLISH, BANGLA, ENGLISH):
