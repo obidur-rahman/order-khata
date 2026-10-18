@@ -55,7 +55,7 @@ def test_app_decision_engine_reproduces_notebook_e1(expected):
     rows = _rows()
     hits = 0
     for row in rows:
-        base5, _escalate = engine.predict(row["text"])
+        base5 = engine.predict_base5(row["text"])
         probs = scaled_probs(base5, temperature)
         if max(probs, key=probs.get) == row["cls"]:
             hits += 1

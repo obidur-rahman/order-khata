@@ -88,9 +88,4 @@ export const api = {
     }),
   stats: () => req<StatsResponse>("/stats"),
   evaluation: () => req<EvalResponse>("/eval"),
-  simulator: (running: boolean, intervalS = 8) =>
-    req<{ running: boolean; interval_s: number }>("/simulator", {
-      method: "POST",
-      body: JSON.stringify({ running, interval_s: intervalS }),
-    }),
 };

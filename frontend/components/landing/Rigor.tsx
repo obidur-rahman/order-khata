@@ -5,8 +5,7 @@
 import { useEffect, useState } from "react";
 
 import { api } from "@/lib/api";
-import { usePrefs } from "@/lib/prefs";
-import { loadTau } from "@/lib/store";
+import { loadTau, usePrefs } from "@/lib/prefs";
 import type { EvalResponse } from "@/lib/types";
 import { Reveal } from "../Reveal";
 import { ArrowLink, Section, SectionHead } from "./parts";

@@ -13,9 +13,8 @@ import { StatCard } from "@/components/StatCard";
 import { CLASS_META, fmtTime } from "@/lib/brand";
 import { api } from "@/lib/api";
 import { useInbox } from "@/lib/hooks";
-import { usePrefs } from "@/lib/prefs";
+import { loadTau, usePrefs } from "@/lib/prefs";
 import { requiredThreshold } from "@/lib/route";
-import { loadTau } from "@/lib/store";
 import { CLASSES, type StatsResponse } from "@/lib/types";
 
 function fmtDuration(totalSeconds: number): string {

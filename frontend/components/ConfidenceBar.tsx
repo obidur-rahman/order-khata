@@ -4,11 +4,9 @@
 export function ConfidenceBar({
   value,
   threshold,
-  showLabels = true,
 }: {
   value: number;
   threshold: number;
-  showLabels?: boolean;
 }) {
   const pct = Math.max(0, Math.min(1, value)) * 100;
   const tick = Math.max(0, Math.min(1, threshold)) * 100;
@@ -31,12 +29,10 @@ export function ConfidenceBar({
           aria-hidden
         />
       </div>
-      {showLabels && (
-        <div className="mt-1.5 flex justify-between font-mono text-[10px] uppercase tracking-[0.1em] text-muted">
-          <span>confidence {value.toFixed(2)}</span>
-          <span>needs ≥ {threshold.toFixed(2)}</span>
-        </div>
-      )}
+      <div className="mt-1.5 flex justify-between font-mono text-[10px] uppercase tracking-[0.1em] text-muted">
+        <span>confidence {value.toFixed(2)}</span>
+        <span>needs ≥ {threshold.toFixed(2)}</span>
+      </div>
     </div>
   );
 }

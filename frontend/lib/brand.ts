@@ -1,7 +1,7 @@
 /** Brand constants (docs/06 "Editorial operations"): class chips, lane
- * labels, time formatters. Static mirror of /api/config class_meta so
- * chips render before the first fetch; the server values remain authoritative
- * for the threshold rules.
+ * labels, time formatters. The single source for chip colour, so chips render
+ * before the first fetch. docs/06 §2 is explicit that no second palette lives
+ * anywhere else — in particular not behind an API field (see docs/05).
  *
  * The palette is an ink-neutral base, a single electric-blue accent, and a
  * muted but real hue for each of the six classes so distributions read at a

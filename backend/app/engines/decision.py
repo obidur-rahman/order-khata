@@ -111,13 +111,9 @@ class DecisionEngine:
 
         S2 stays on this engine whichever engine drives S1 (docs/04 §1, §2.1): the
         published `ESCALATE_T = 0.20` was fitted for this calibrated head, and the
-        adopted checkpoint's own escalate answer is not calibrated to it.
+        checkpoint's own escalate answer is not calibrated to it.
         """
         if not self.loaded:
             return 0.0
         raw = float(self._escalate.predict_proba([text])[0, 1])
         return float(self._cal.predict_proba([[_logit(raw)]])[0, 1])
-
-    def predict(self, text: str) -> tuple[dict[str, float], float]:
-        """Both signals at once — this engine's whole job as Engine A."""
-        return self.predict_base5(text), self.predict_escalate(text)

@@ -33,9 +33,8 @@ import { EmptyState } from "@/components/EmptyState";
 import { EyeIcon, InboxIcon } from "@/components/icons";
 import { api } from "@/lib/api";
 import { useConfig, useHealth, useInbox } from "@/lib/hooks";
-import { usePrefs } from "@/lib/prefs";
-import { route } from "@/lib/route";
-import { loadTau, saveTau } from "@/lib/store";
+import { loadTau, saveTau, usePrefs } from "@/lib/prefs";
+import { TAU_MAX, TAU_MIN, route } from "@/lib/route";
 import type { ClassKey, ConversationRecord, Lane } from "@/lib/types";
 
 export default function InboxPage() {
@@ -56,7 +55,7 @@ export default function InboxPage() {
 
   const onTau = useCallback((v: number) => {
     setTau(v);
-    saveTau(v); // every screen reads the stored value on mount (lib/store.ts)
+    saveTau(v); // every screen reads the stored value on mount (lib/prefs.ts)
   }, []);
 
   const degraded = health !== null && health.llm_status !== "ok";
@@ -182,8 +181,8 @@ export default function InboxPage() {
       <AppBar>
         <ThresholdSlider
           value={tau}
-          min={config?.tau_min ?? 0.5}
-          max={config?.tau_max ?? 0.99}
+          min={config?.tau_min ?? TAU_MIN}
+          max={config?.tau_max ?? TAU_MAX}
           counts={{ auto: counts.auto, review: counts.review, scam: counts.scam }}
           onChange={onTau}
         />

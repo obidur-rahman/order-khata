@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 import math
-from typing import Mapping, Sequence
+from typing import Mapping
 
 from ..config import artifacts_dir
 
@@ -24,18 +24,14 @@ def load_temperature() -> float:
         return 1.0
 
 
-def apply_temperature(probs: Sequence[float], temperature: float) -> list[float]:
-    """Scale probabilities: softmax(log(p) / T). T=1 returns the input."""
-    if temperature == 1.0:
-        return list(probs)
-    logs = [math.log(max(p, 1e-12)) / temperature for p in probs]
-    m = max(logs)
-    exps = [math.exp(v - m) for v in logs]
-    z = sum(exps)
-    return [e / z for e in exps]
-
-
 def scaled_probs(probs: Mapping[str, float], temperature: float) -> dict[str, float]:
+    """Scale probabilities: softmax(log(p) / T). T = 1 returns the input."""
     keys = list(probs.keys())
-    values = apply_temperature([probs[k] for k in keys], temperature)
+    values = [probs[k] for k in keys]
+    if temperature != 1.0:
+        logs = [math.log(max(p, 1e-12)) / temperature for p in values]
+        m = max(logs)
+        exps = [math.exp(v - m) for v in logs]
+        z = sum(exps)
+        values = [e / z for e in exps]
     return dict(zip(keys, values))

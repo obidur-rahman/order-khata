@@ -7,13 +7,17 @@
  * the same fixture file to both and asserts identical output.
  */
 
-export const LANE_AUTO = "auto";
-export const LANE_REVIEW = "review";
-export const LANE_SCAM = "scam";
+import type { Lane } from "./types";
+
+const LANE_AUTO = "auto";
+const LANE_REVIEW = "review";
+const LANE_SCAM = "scam";
 const LLM_OK = "ok";
 
 // docs/04 §4 — keep in sync with backend/app/config.py
 export const TAU_DEFAULT = 0.85;
+export const TAU_MIN = 0.5;
+export const TAU_MAX = 0.99;
 export const TAU_OTHER_MIN = 0.6;
 export const TAU_OTHER_OFFSET = 0.2;
 export const SCAM_T = 0.7;
@@ -21,18 +25,6 @@ export const ESCALATE_T = 0.2;
 export const DECISIVE_T = 0.9;
 export const DEGRADED_MARGIN = 0.05;
 export const DEGRADED_MAX = 0.99;
-
-export const CLASSES = [
-  "order",
-  "price_question",
-  "delivery_problem",
-  "complaint",
-  "scam",
-  "other",
-] as const;
-
-export type Lane = "auto" | "review" | "scam";
-export type ClassKey = (typeof CLASSES)[number];
 
 export interface RouteSignals {
   top_class: string;

@@ -13,8 +13,7 @@ import { AlertIcon } from "@/components/icons";
 import { CLASS_META } from "@/lib/brand";
 import { api, ApiError } from "@/lib/api";
 import { useHealth } from "@/lib/hooks";
-import { usePrefs } from "@/lib/prefs";
-import { loadTau } from "@/lib/store";
+import { loadTau, usePrefs } from "@/lib/prefs";
 import { CLASSES, type EvalResponse } from "@/lib/types";
 
 function pct(v: number | undefined): string {
@@ -54,7 +53,7 @@ function EngineProvenance({ serving }: { serving: string | null }) {
       <span className="text-muted">
         {matches
           ? "— the same model these numbers were measured on."
-          : "— these numbers were measured with Engine A = tfidf-lr, before the Laya checkpoint was adopted. Its own measurement is in docs/04 §2.1 and ml/laya_gate.py; it is not below, because it is not in eval.json."}
+          : "— these numbers were measured with Engine A = tfidf-lr, which is the default. The checkpoint you switched to is measured separately in docs/04 §2.1 and ml/laya_gate.py; it is not below, because it is not in eval.json."}
       </span>
     </div>
   );

@@ -6,12 +6,13 @@
  * <html>: `lang` for the document language, the `dark` class for the palette
  * (globals.css), and `color-scheme` so native controls follow along.
  *
- * The event pattern matches lib/store.ts (tau), so every mounted screen reacts
- * to a toggle without a shared provider.
+ * The event pattern is the one lib/prefs.ts itself uses for language and
+ * theme, so every mounted screen reacts to a toggle without a shared provider.
  */
 import { useEffect, useState } from "react";
 
 import { t } from "./i18n";
+import { TAU_MAX, TAU_MIN } from "./route";
 import { LANG_KEY, PREFS_EVENT as EVENT, THEME_KEY } from "./prefKeys";
 
 export type Lang = "en" | "bn";
@@ -64,6 +65,24 @@ export function setTheme(theme: Theme): void {
   write(THEME_KEY, theme);
   applyPrefs(loadLang(), theme);
   broadcast();
+}
+
+/* ── threshold τ (docs/06 §6) ──────────────────────────────────────────
+ * Same store, same shape as the two above: the slider writes it and every
+ * screen reads it on mount, so the value stays consistent across Inbox /
+ * Try It / Dashboard / Evaluation without a provider. Clamped to the range
+ * route() can actually enforce, so a stale value cannot sit outside it. */
+const TAU_KEY = "order_khata.tau";
+
+export function loadTau(fallback: number): number {
+  const raw = read(TAU_KEY);
+  if (raw === null) return fallback;
+  const v = parseFloat(raw);
+  return Number.isFinite(v) ? Math.min(TAU_MAX, Math.max(TAU_MIN, v)) : fallback;
+}
+
+export function saveTau(v: number): void {
+  write(TAU_KEY, String(v));
 }
 
 export interface Prefs {

@@ -12,9 +12,8 @@ import { ThresholdSlider } from "@/components/ThresholdSlider";
 import { ArrowRightIcon } from "@/components/icons";
 import { api, isWarming } from "@/lib/api";
 import { useConfig, useHealth } from "@/lib/hooks";
-import { usePrefs } from "@/lib/prefs";
-import { requiredThreshold, route } from "@/lib/route";
-import { loadTau, saveTau } from "@/lib/store";
+import { loadTau, saveTau, usePrefs } from "@/lib/prefs";
+import { TAU_MAX, TAU_MIN, requiredThreshold, route } from "@/lib/route";
 import type { Lane, MessageRecord } from "@/lib/types";
 
 const EXAMPLES: { label: string; script: string; text: string }[] = [
@@ -80,8 +79,8 @@ export default function TryPage() {
       <AppBar>
         <ThresholdSlider
           value={tau}
-          min={config?.tau_min ?? 0.5}
-          max={config?.tau_max ?? 0.99}
+          min={config?.tau_min ?? TAU_MIN}
+          max={config?.tau_max ?? TAU_MAX}
           onChange={onTau}
         />
       </AppBar>
