@@ -6,6 +6,7 @@ is ephemeral on free HF Spaces and re-seeded at boot.
 from __future__ import annotations
 
 import json
+import logging
 import sqlite3
 import threading
 from datetime import datetime, timezone
@@ -13,15 +14,14 @@ from typing import Any, Iterable, Optional
 
 from .config import data_dir, db_path
 
-_lock = threading.Lock()
+log = logging.getLogger("order_khata.db")
 
-AVATAR_COLORS = ["#2F6BFF", "#7A4DFF", "#0FA3A3", "#FF4D8D", "#E6BE00", "#17A34A", "#F59E0B", "#E5252A"]
+_lock = threading.Lock()
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS conversations (
   id TEXT PRIMARY KEY,
   customer_name TEXT NOT NULL,
-  avatar_color TEXT NOT NULL,
   created_at TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS messages (
@@ -56,6 +56,35 @@ CREATE INDEX IF NOT EXISTS idx_messages_conv ON messages(conversation_id, receiv
 CREATE INDEX IF NOT EXISTS idx_pred_lane ON predictions(lane);
 """
 
+# The tables this build creates and the columns it writes, parents first. The list
+# exists because `CREATE TABLE IF NOT EXISTS` cannot change a table that already
+# exists: a file written by an older build keeps its old shape, and the first INSERT
+# then fails on a column this code no longer writes — `NOT NULL constraint failed:
+# conversations.avatar_color`, a 500 on the customer's message rather than a boot
+# error. Hit in the working tree on 2026-10-18, after the cleanup removed that column.
+# The rows are seed data that boot regenerates, so the honest repair is to rebuild
+# rather than to migrate a file that is disposable by its own design.
+_COLUMNS: dict[str, tuple[str, ...]] = {
+    "conversations": ("id", "customer_name", "created_at"),
+    "messages": ("id", "conversation_id", "text", "script", "source", "received_at"),
+    "predictions": ("message_id", "class_probs", "top_class", "top_prob", "scam_prob",
+                    "escalate_prob", "llm_class", "llm_reason", "llm_status", "engine",
+                    "latency_ms", "lane", "route_reason"),
+    "resolutions": ("message_id", "human_label", "resolved_at"),
+}
+
+
+def _schema_is_current(conn: sqlite3.Connection) -> bool:
+    """True when every table that already exists has the shape this build writes.
+
+    A table that is absent is not a mismatch: `_SCHEMA` creates it.
+    """
+    for table, expected in _COLUMNS.items():
+        found = tuple(row[1] for row in conn.execute(f"PRAGMA table_info({table})"))
+        if found and found != expected:
+            return False
+    return True
+
 
 def utcnow() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -76,6 +105,15 @@ def init_db() -> None:
     # database inside a directory that does not exist.
     db_path().parent.mkdir(parents=True, exist_ok=True)
     with _lock, _conn() as conn:
+        if not _schema_is_current(conn):
+            # Children before parents: dropping a parent with foreign_keys=ON
+            # deletes its rows and trips the children's constraint on the way out.
+            log.warning(
+                "rebuilding %s: it was written by an older build and its tables do "
+                "not match this schema", db_path(),
+            )
+            for table in reversed(tuple(_COLUMNS)):
+                conn.execute(f"DROP TABLE IF EXISTS {table}")
         conn.executescript(_SCHEMA)
 
 
@@ -88,13 +126,12 @@ def _next_id(conn: sqlite3.Connection, table: str, prefix: str, width: int) -> s
     return candidate
 
 
-def create_conversation(customer_name: str, avatar_color: Optional[str] = None) -> str:
+def create_conversation(customer_name: str) -> str:
     with _lock, _conn() as conn:
         cid = _next_id(conn, "conversations", "c_", 3)
-        color = avatar_color or AVATAR_COLORS[(len(customer_name) or 0) % len(AVATAR_COLORS)]
         conn.execute(
-            "INSERT INTO conversations (id, customer_name, avatar_color, created_at) VALUES (?,?,?,?)",
-            (cid, customer_name, color, utcnow()),
+            "INSERT INTO conversations (id, customer_name, created_at) VALUES (?,?,?)",
+            (cid, customer_name, utcnow()),
         )
         return cid
 
@@ -187,7 +224,7 @@ def list_conversations(lane: str = "all", limit: int = 100, since_id: Optional[s
       ) AS rn
       FROM messages m
     )
-    SELECT l.*, c.customer_name, c.avatar_color, c.created_at AS conv_created_at
+    SELECT l.*, c.customer_name, c.created_at AS conv_created_at
     FROM latest l
     JOIN conversations c ON c.id = l.conversation_id
     JOIN predictions p ON p.message_id = l.id
@@ -214,7 +251,6 @@ def list_conversations(lane: str = "all", limit: int = 100, since_id: Optional[s
             out.append({
                 "id": r["conversation_id"],
                 "customer_name": r["customer_name"],
-                "avatar_color": r["avatar_color"],
                 "created_at": r["conv_created_at"],
                 "last_message": last,
                 "messages": [],
@@ -234,7 +270,6 @@ def get_conversation(conv_id: str) -> Optional[dict[str, Any]]:
         return {
             "id": conv["id"],
             "customer_name": conv["customer_name"],
-            "avatar_color": conv["avatar_color"],
             "created_at": conv["created_at"],
             "last_message": None,
             "messages": [_record(conn, m) for m in msgs],
@@ -275,7 +310,7 @@ def seed_if_empty() -> list[dict[str, Any]]:
         seed = json.load(f)
     pending: list[dict[str, Any]] = []
     for conv in seed.get("conversations", []):
-        cid = create_conversation(conv["customer_name"], conv.get("avatar_color"))
+        cid = create_conversation(conv["customer_name"])
         for msg in conv.get("messages", []):
             mid = insert_message(
                 cid,

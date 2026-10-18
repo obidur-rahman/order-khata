@@ -74,7 +74,6 @@ Request: `{"engine": "laya-ft"}`. If the checkpoint is not loaded yet **this req
 CREATE TABLE conversations (
   id TEXT PRIMARY KEY,
   customer_name TEXT NOT NULL,
-  avatar_color TEXT NOT NULL,
   created_at TEXT NOT NULL
 );
 CREATE TABLE messages (
@@ -108,7 +107,9 @@ CREATE TABLE resolutions (
 CREATE INDEX idx_messages_conv ON messages(conversation_id, received_at);
 CREATE INDEX idx_pred_lane ON predictions(lane);
 ```
-Boot sequence: create tables → if `messages` empty, load `data/seed_inbox.json` and classify each seed once (cache results into `data/seed_predictions.json` so cold start does not call the LLM 60+ times; seeding stops asking the LLM after a 30 s wall-clock budget and the rest classify locally — docs/04 §3.1, so an unreachable provider can never hold the port bind).
+Boot sequence: create tables → if a table that already exists does not match the schema above, drop all four and recreate (the file is disposable seed data — see below) → if `messages` empty, load `data/seed_inbox.json` and classify each seed once (cache results into `data/seed_predictions.json` so cold start does not call the LLM 60+ times; seeding stops asking the LLM after a 30 s wall-clock budget and the rest classify locally — docs/04 §3.1, so an unreachable provider can never hold the port bind).
+
+The DB file is **disposable by design** (gitignored, ephemeral on the Space, re-seeded at boot), which is why a shape mismatch is repaired by rebuilding rather than by migrating: `CREATE TABLE IF NOT EXISTS` cannot alter an existing table, so a file written by an older build keeps its old shape and the first INSERT fails on a column this code no longer writes — a 500 on the customer's message instead of a boot error. (Seen 2026-10-18 after `conversations.avatar_color` was removed: `NOT NULL constraint failed`. A host that keeps its file across restarts, like a dev machine, is exactly where this bites.) A file this build wrote is left untouched on the next boot, so the demo inbox is not wiped on every restart.
 
 ## Frontend contract
 - `lib/api.ts` is the only module that calls fetch.
