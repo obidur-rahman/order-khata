@@ -1,5 +1,5 @@
 "use client";
-/** Threshold slider (docs/06 §4.2): label, value, live counters. Changes are
+/** Threshold slider, quiet skin: label, value, live counters. Changes are
  * handled client-side — lanes recompute instantly via lib/route (no network). */
 import { LANE_META } from "@/lib/brand";
 import { usePrefs } from "@/lib/prefs";
@@ -38,7 +38,7 @@ export function ThresholdSlider({
       />
       <span className="tnum w-9 text-sm text-ink">{value.toFixed(2)}</span>
       {counts && (
-        <span className="hidden items-center gap-2 font-mono text-[10px] uppercase tracking-[0.08em] md:flex" aria-live="polite">
+        <span className="hidden items-center gap-2 text-[11.5px] md:flex" aria-live="polite">
           <span style={{ color: LANE_META.auto.deep }}>
             {counts.auto} {t("lane.auto.short")}
           </span>

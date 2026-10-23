@@ -3,9 +3,9 @@
  * before the first fetch. docs/06 §2 is explicit that no second palette lives
  * anywhere else — in particular not behind an API field (see docs/05).
  *
- * The palette is an ink-neutral base, a single electric-blue accent, and a
- * muted but real hue for each of the six classes so distributions read at a
- * glance. The accent always means "this needs your eyes / your action".
+ * The palette is an ink-neutral base, a single quiet accent, and a muted but
+ * real hue for each of the six classes so distributions read at a glance.
+ * The accent always means "this needs your eyes / your action".
  * `scam` keeps a semantic red because it must read as a warning; every class
  * and lane is always paired with a label (and an icon for lanes) so color
  * never carries meaning alone (docs/06 §2, §7). */
@@ -13,7 +13,7 @@ import type { ClassKey, ClassMeta, Lane } from "./types";
 
 export const CLASS_META: Record<ClassKey, ClassMeta> = {
   // values are runtime CSS variables (globals.css), so the ramp follows the
-  // light/dark switch without a second palette living in TypeScript.
+  // palette without a second copy of the hex values living in TypeScript.
   order: { label: "Order", color: "var(--c-order)" },
   price_question: { label: "Price", color: "var(--c-price)" },
   delivery_problem: { label: "Delivery", color: "var(--c-delivery)" },

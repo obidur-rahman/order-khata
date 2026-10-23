@@ -1,12 +1,6 @@
 "use client";
-/** Chat bubble (docs/06 §4.2): messenger-like bubbles, original script
- * preserved, Bengali-capable font stack. Incoming customer messages are
- * right-aligned (like messenger); the bubble is a soft slip with a timestamp
- * row underneath.
- *
- * `align` controls bubble alignment: "right" (incoming, default) or
- * "left" (outgoing / system). All current messages are incoming customer
- * messages, so right-aligned by default. */
+/** Chat bubble, quiet skin: soft rounded pill-ish bubble, no border, gentle
+ * surface. Original script preserved, Bengali-capable stack. */
 import { fmtTime } from "@/lib/brand";
 import type { MessageRecord } from "@/lib/types";
 
@@ -21,32 +15,26 @@ export function MessageBubble({
   align?: "right" | "left";
 }) {
   const isRight = align === "right";
-  // Both corner classes are written out in full: a class name assembled from
-  // fragments never reaches Tailwind's scanner, so the flattened corner used
-  // to silently do nothing. A literal per branch compiles.
-  const flatCorner = isRight ? "rounded-tr-md" : "rounded-br-md";
+  const flatCorner = isRight ? "rounded-br-md" : "rounded-bl-md";
   return (
     <div
       className={`flex ${isRight ? "justify-end" : "justify-start"} ${isNew ? "msg-new" : ""}`}
     >
-      {/* The bubble is a card on the thread's paper, and it stops widening at
-          a readable line length on a big screen (lg:max-w) instead of running
-          the length of a 1200px pane. */}
       <div
-        className={`max-w-[88%] rounded-2xl ${flatCorner} border border-line bg-surface px-4 py-2.5 shadow-soft lg:max-w-[34rem]`}
+        className={`max-w-[88%] rounded-3xl ${flatCorner} bg-surface px-5 py-3 shadow-soft lg:max-w-[34rem]`}
       >
         <p className="msg-text text-ink">{msg.text}</p>
         <div
-          className={`mt-1.5 flex items-center gap-2 px-0.5 pb-0.5 font-mono text-[10px] uppercase tracking-[0.1em] text-muted ${
+          className={`mt-1.5 flex items-center gap-2 text-[10.5px] text-muted ${
             isRight ? "justify-end" : "justify-start"
           }`}
         >
           <span>{fmtTime(msg.received_at)}</span>
-          <span className="text-line">/</span>
+          <span className="text-line-strong">·</span>
           <span>{msg.script}</span>
           {msg.source === "simulator" && (
             <>
-              <span className="text-line">/</span>
+              <span className="text-line-strong">·</span>
               <span>simulated feed</span>
             </>
           )}

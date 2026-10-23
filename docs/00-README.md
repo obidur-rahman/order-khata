@@ -33,7 +33,7 @@
 | Honest framing | Data is described as a public Bangla e-commerce customer-message corpus, NOT as real Facebook seller DMs | Claude (recommended), user accepted data plan |
 | Classes | Order, Price question, Delivery, Complaint, Scam, Other (+ escalate flag) | User approved |
 | Screens | Landing, Inbox, Try It, Threshold slider, Dashboard, Evaluation, Preferences. No reply composer | User approved |
-| Visual | Light **and dark**, visitor-selected; colourful brand, type- and colour-led; poster-style landing + restrained app | User approved (dark mode added on request, docs/06 §2) |
+| Visual | **Dark only**, no theme toggle; colourful brand, type- and colour-led; poster-style landing + restrained app | User approved (light mode removed on request — dark is the whole palette, docs/06 §2) |
 | Feel | Soft: warm ink instead of black, one radius scale on every surface, soft shadows instead of hard rules (docs/06 §2.1) | User approved (softening pass on request) |
 | Language | Bangla / English interface toggle, saved on the device; class names and metrics stay English (docs/06 §4.6) | User approved |
 | Name | Order Khata | User (renamed from the Claude proposal ``Dokanbox``) |

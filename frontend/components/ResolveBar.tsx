@@ -1,10 +1,7 @@
 "use client";
-/** Resolve banner (docs/06 §4.2): the accent-bordered call-out on review
- * items, carrying the route reason and the Confirm / Change-to actions (F6).
- * The parent applies the change optimistically.
- *
- * It is a wash, not a floating card: it sits on the thread's own control bar,
- * so a lift shadow would only fight that bar's surface. */
+/** Resolve banner, quiet skin: a soft tinted card, no hard edge. Carries the
+ * route reason and the Confirm / Change-to actions (F6). The parent applies
+ * the change optimistically. */
 import { CLASS_META } from "@/lib/brand";
 import { CLASSES, type ClassKey, type Prediction } from "@/lib/types";
 import { CheckIcon, EyeIcon } from "./icons";
@@ -27,26 +24,34 @@ export function ResolveBar({
   if (lane !== "review") return null;
 
   return (
-    <div className="rounded-2xl border border-accent bg-accent-tint p-3.5" aria-label="Needs your eyes">
+    <div
+      className="rounded-[24px] px-5 py-4"
+      style={{
+        background: "color-mix(in oklab, var(--lane-review) 10%, var(--surface))",
+      }}
+      aria-label="Needs your eyes"
+    >
       <div className="flex items-start gap-2.5">
-        <span className="mt-0.5 inline-flex text-accent">
+        <span className="mt-0.5 inline-flex" style={{ color: "var(--lane-review-deep)" }}>
           <EyeIcon size={15} />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="label text-accent">Needs your eyes</p>
-          <p className="mt-1 text-[13px] font-medium text-ink">{pred.route_reason}</p>
-          <div className="mt-2.5 flex flex-wrap items-center gap-2">
+          <p className="label" style={{ color: "var(--lane-review-deep)" }}>
+            Needs your eyes
+          </p>
+          <p className="mt-1 text-[13px] leading-snug text-ink">{pred.route_reason}</p>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
             <button
               disabled={busy}
               onClick={() => onConfirm(pred.top_class)}
-              className="rounded-full bg-ink px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-paper shadow-soft transition hover:bg-accent-deep disabled:opacity-50"
+              className="rounded-full bg-btn px-4 py-1.5 text-[12px] font-medium text-btn-ink transition hover:opacity-85 disabled:opacity-50"
             >
               Confirm “{CLASS_META[pred.top_class].label}”
             </button>
-            <label className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-muted">
+            <label className="flex items-center gap-1.5 text-[12px] text-muted">
               Change to
               <select
-                className="rounded-full border border-line bg-paper px-2.5 py-1 font-mono text-[11px] text-ink"
+                className="rounded-full border border-line-strong bg-surface px-3 py-1 text-[12px] text-ink"
                 value=""
                 disabled={busy}
                 onChange={(e) => {
@@ -65,7 +70,7 @@ export function ResolveBar({
             </label>
             {resolvedLabel && (
               <span className="label inline-flex items-center gap-1 text-ink">
-                <CheckIcon size={11} /> resolved {resolvedLabel}
+                <CheckIcon size={11} /> resolved
               </span>
             )}
           </div>

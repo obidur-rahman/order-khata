@@ -42,6 +42,9 @@ ml/artifacts/
 .mypy_cache/
 .pyre_cache/
 
+# QA screenshots (regenerable shoot output)
+.jury/
+
 # editor / OS junk
 .DS_Store
 .idea/

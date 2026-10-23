@@ -1,21 +1,17 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, IBM_Plex_Mono, Inter, Noto_Sans_Bengali } from "next/font/google";
+import { Archivo, IBM_Plex_Mono, Noto_Sans_Bengali } from "next/font/google";
 
-import { LANG_KEY, THEME_KEY } from "@/lib/prefKeys";
+import { LANG_KEY } from "@/lib/prefKeys";
 
 import "./globals.css";
 
-// docs/06 §3: Bricolage Grotesque (display), Inter (body), IBM Plex Mono
-// (label / index layer), Noto Sans Bengali (Bangla fallback) — loaded at
-// build time via next/font.
-const display = Bricolage_Grotesque({
+// "The spread" (DESIGN.md): one family, two personalities. Archivo carries the
+// display voice on its width axis and the text voice at normal width; Plex Mono
+// is the machine layer; Noto Sans Bengali carries Bangla at every size.
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-bricolage",
-  display: "swap",
-});
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+  axes: ["wdth"],
+  variable: "--font-archivo",
   display: "swap",
 });
 const plexMono = IBM_Plex_Mono({
@@ -31,21 +27,38 @@ const bengali = Noto_Sans_Bengali({
   display: "swap",
 });
 
+const DESC =
+  "Sorts every Bangla, Banglish or English customer message into six classes with a calibrated confidence, and keeps the risky calls with you.";
+
 export const metadata: Metadata = {
-  title: "Order Khata: Your shop's inbox, sorted.",
-  description:
-    "Reads every customer message in Bangla, Banglish or English, sorts it into six classes with a calibrated confidence, auto-handles the clear ones, and keeps the risky decisions with you.",
+  title: {
+    default: "Order Khata: your shop's inbox, sorted",
+    template: "%s · Order Khata",
+  },
+  description: DESC,
+  applicationName: "Order Khata",
+  keywords: ["Bangla", "e-commerce", "inbox", "triage", "classification", "Bangladesh"],
+  openGraph: {
+    title: "Order Khata: your shop's inbox, sorted",
+    description: DESC,
+    siteName: "Order Khata",
+    type: "website",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Order Khata: sort the noise, keep the sale" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Order Khata: your shop's inbox, sorted",
+    description: DESC,
+    images: ["/og.png"],
+  },
+  icons: { icon: "/favicon.ico" },
 };
 
-/** Apply the saved language and theme before the first paint. Without this
- *  the page flashes the default (dark) theme for a moment on every load, and
- *  a light choice would be visibly overridden.
- *  Runs before React exists, so it is a plain string; the keys come from
- *  lib/prefKeys.ts so the names cannot drift from lib/prefs.ts. */
-const NO_FLASH = `(function(){try{var d=document.documentElement,s=localStorage;
-var th=s.getItem(${JSON.stringify(THEME_KEY)}),lg=s.getItem(${JSON.stringify(LANG_KEY)});
-if(th!=="light")d.classList.add("dark");d.style.colorScheme=th==="light"?"light":"dark";
-if(lg==="bn")d.lang="bn";}catch(e){}})();`;
+/** Dark-only: the `dark` class ships in the server markup below, so there is
+ *  nothing to flip and no flash by construction. This only restores the
+ *  visitor's language before the first paint. */
+const NO_FLASH = `(function(){try{
+if(localStorage.getItem(${JSON.stringify(LANG_KEY)})==="bn")document.documentElement.lang="bn";}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -54,12 +67,17 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${display.variable} ${inter.variable} ${plexMono.variable} ${bengali.variable}`}
+      className={`dark ${archivo.variable} ${plexMono.variable} ${bengali.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: NO_FLASH }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

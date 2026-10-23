@@ -1,6 +1,6 @@
 "use client";
-/** Confidence bar with the threshold tick (docs/06 §4.2 AI panel).
- * A rounded pill track, ink fill; the accent tick is the value enforced. */
+/** Confidence bar, quiet skin: soft pill track, the threshold tick is a
+ * small floating knob-marker. */
 export function ConfidenceBar({
   value,
   threshold,
@@ -22,14 +22,14 @@ export function ConfidenceBar({
           className="h-2.5 rounded-full transition-[width] duration-300"
           style={{ width: `${pct}%`, background: meets ? "var(--color-ink)" : "var(--color-muted)" }}
         />
-        {/* threshold tick: ink line + accent cap */}
+        {/* threshold tick: a soft knob on the track */}
         <div
-          className="absolute top-[-4px] h-[18px] w-[2px] rounded-full bg-accent"
-          style={{ left: `calc(${tick}% - 1px)` }}
+          className="absolute top-1/2 h-4 w-1 -translate-y-1/2 rounded-full"
+          style={{ left: `calc(${tick}% - 2px)`, background: "var(--mark)" }}
           aria-hidden
         />
       </div>
-      <div className="mt-1.5 flex justify-between font-mono text-[10px] uppercase tracking-[0.1em] text-muted">
+      <div className="mt-2 flex justify-between text-[11.5px] text-muted">
         <span>confidence {value.toFixed(2)}</span>
         <span>needs ≥ {threshold.toFixed(2)}</span>
       </div>

@@ -1,301 +1,294 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────────────────
-   Order Khata — "Editorial operations" (docs/06)
+   ORDER KHATA — "QUIET LEDGER"
 
-   Ink on warm paper, soft hairlines, an editorial display face, a single
-   electric-blue accent that always marks what needs a human, and muted but
-   real hues for the six classes.
+   A soft, minimal, portfolio-grade skin. The rules of this language:
 
-   Softness is a system, not a decoration: nothing is pure black or pure
-   white, every surface carries a radius from one scale, and raised panels
-   lift with a soft shadow instead of a hard edge.
+   1. SURFACES FLOAT; THEY ARE NOT DRAWN. No hairline boxes around content.
+      Depth comes from a barely-there border and a layered soft shadow.
+   2. ONE VOICE, LOW VOLUME. Sentence-case display type at a large size and a
+      medium weight. Mono survives only where numbers must align. No
+      uppercase shouting.
+   3. STATUS STILL SPEAKS IN COLOUR. The six class hues and three lane hues
+      are the only hues; they appear as soft tints and dots, never as boxes.
+   4. SPACE DOES THE SEPARATING. Sections are divided by air, not by rules.
 
-   Light and dark share ONE token set. Every colour utility (`bg-paper`,
-   `text-ink`, …) resolves through a runtime variable, so `.dark` on <html>
-   swaps the whole palette without a single `dark:` class in the components.
-   The visitor owns the choice; it is remembered (lib/prefs.ts).
+   Type: Archivo carries everything, display included — larger, lighter,
+   tighter. Noto Sans Bengali rides along at every size. IBM Plex Mono is the
+   quiet figure layer.
    ───────────────────────────────────────────────────────────────────────── */
 
-/* the theme switch is a class on <html>, not the OS setting */
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
-  /* utilities: Tailwind names these --color-*, and each one points at a
-     runtime variable so .dark can swap it (see the two blocks below). */
   --color-ink: var(--ink);
   --color-paper: var(--paper);
   --color-surface: var(--surface);
+  --color-surface2: var(--surface-2);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-muted: var(--muted);
 
-  /* the one deliberately inverted surface (the safety dial, the closing
-     call to action). It stays dark in both themes so those blocks keep their
-     weight instead of turning into a white slab at night. */
   --color-contrast: var(--contrast);
   --color-oncontrast: var(--oncontrast);
 
-  /* the accent. electric blue = "this needs your eyes / your action". */
-  --color-accent: var(--accent);
-  --color-accent-deep: var(--accent-deep);
+  /* interaction: the accent is still the ink — soft, not shouted */
+  --color-accent: var(--ink);
+  --color-accent-deep: var(--ink);
   --color-accent-tint: var(--accent-tint);
 
-  /* The class and lane hues have no Tailwind name on purpose. They are
-     always applied inline (`style={{ color: m.color }}`) from lib/brand.ts,
-     which holds the runtime variable itself — so there is one vocabulary:
-     --c-* and --lane-* below. Adding --color-* aliases here would only
-     create a second spelling of the same token. */
+  /* the one primary button pair */
+  --color-btn: var(--btn);
+  --color-btn-ink: var(--btn-ink);
 
-  /* ── shape: one radius scale, used everywhere (docs/06 §2) ─────────────
-     Nothing is square and nothing is a lozenge: small controls take `lg`,
-     cards take `2xl`, chips and toggles take `full`. Overriding the Tailwind
-     defaults here means every screen rounds the same amounts. */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-2xl: 24px;
-  --radius-3xl: 30px;
+  /* the highlighter: the mark, and the review lane */
+  --color-mark: var(--mark);
+  --color-mark-ink: var(--mark-ink);
 
-  /* ── depth: a raised surface lifts with a soft shadow, not a hard edge.
-     The colour lives in --shadow-* below so dark mode can deepen it. */
-  --shadow-soft: 0 1px 2px var(--shadow-1), 0 14px 34px -18px var(--shadow-2);
-  --shadow-lift: 0 2px 4px var(--shadow-1), 0 26px 60px -26px var(--shadow-2);
+  /* soft: cut paper, gently moulded */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --radius-2xl: 28px;
+  --radius-3xl: 36px;
+
+  --shadow-soft: 0 1px 2px var(--shadow-1);
+  --shadow-lift:
+    0 1px 2px var(--shadow-1),
+    0 20px 44px -20px var(--shadow-2);
 }
 
-/* ── light (default) ──────────────────────────────────────────────────── */
+/* ── dark: a warm, soft charcoal ────────────────────────────────────────── */
 :root {
-  color-scheme: light;
-
-  /* Nothing here is pure black or pure white — the ink is a warm charcoal
-     and the paper is a soft cream, so long reading never glares. */
-  --ink: #262520;
-  --paper: #f6f4ef;
-  --surface: #fffefb;
-  --line: #e9e4d8;
-  --muted: #6f6a5e;
-
-  /* a shadow is a token too: warm and shallow by day */
-  --shadow-1: rgba(38, 37, 32, 0.05);
-  --shadow-2: rgba(38, 37, 32, 0.14);
-
-  /* inverted surface + the lane hues tuned for it. These never flip: the
-     block they sit on is dark in both themes. */
-  --contrast: #262520;
-  --oncontrast: #f6f4ef;
-  --on-auto: #8fd6ab;
-  --on-review: #9db0ff;
-  --on-scam: #e2a09a;
-
-  --accent: #2b46e0;
-  --accent-deep: #1e33bd;
-  --accent-tint: #eaedfd;
-
-  /* class ramp: muted but real hues, distinguishable and never the only
-     signal (every chip carries a label). */
-  --c-order: #3b62d9;
-  --c-price: #6c53cc;
-  --c-delivery: #2f8f86;
-  --c-complaint: #b45c7e;
-  --c-scam: #c03b34;
-  --c-other: #8f8b83;
-
-  /* lanes: green = handled, accent = needs you, red = never auto */
-  --lane-auto: #2f7a4f;
-  --lane-auto-deep: #2a6b46;
-  --lane-review: #1a3aff;
-  --lane-review-deep: #1029c9;
-  --lane-scam: #c03b34;
-  --lane-scam-deep: #8f2c26;
-
-  /* a warning tint, derived from the scam hue so the dark theme gets it too */
-  --scam-tint: color-mix(in oklab, var(--lane-scam) 8%, transparent);
-}
-
-/* ── dark (visitor-chosen) ────────────────────────────────────────────── */
-.dark {
   color-scheme: dark;
 
-  /* dark is lifted ink, not inverted neon: bright enough to read, never a
-     white glare on a black page. */
-  --ink: #e4e1d8;
-  --paper: #151412;
-  --surface: #1f1e1b;
-  --line: #2d2b26;
-  --muted: #a49e91;
+  --paper: #141416;
+  --surface: #1c1c20;
+  --surface-2: #232328;
+  --line: rgba(244, 242, 234, 0.08);
+  --line-strong: rgba(244, 242, 234, 0.16);
 
-  /* the same shadows, deepened — a soft edge has to read against near-black */
-  --shadow-1: rgba(0, 0, 0, 0.5);
-  --shadow-2: rgba(0, 0, 0, 0.62);
+  --ink: #f2f0e9;
+  --muted: #9d9ba5;
 
-  /* still dark, just lifted off the page so it reads as a raised panel */
-  --contrast: #26241f;
-  --oncontrast: #f1efe8;
+  --rule: rgba(244, 242, 234, 0.045);
 
-  --accent: #8a9bff;
-  --accent-deep: #aab6ff;
-  --accent-tint: #232a4a;
+  --shadow-1: rgba(0, 0, 0, 0.28);
+  --shadow-2: rgba(0, 0, 0, 0.5);
 
-  --c-order: #8aa4ff;
-  --c-price: #b8a2ff;
-  --c-delivery: #6fd3c7;
-  --c-complaint: #f0a2c0;
-  --c-scam: #ff8f86;
-  --c-other: #b5afa4;
+  --contrast: #26262b;
+  --oncontrast: #f2f0e9;
+  --on-auto: #8fe3b0;
+  --on-review: #ece57f;
+  --on-scam: #ffa196;
 
-  --lane-auto: #63c184;
-  --lane-auto-deep: #8edca7;
-  --lane-review: #8a9bff;
-  --lane-review-deep: #b3bdff;
-  --lane-scam: #ff8f86;
-  --lane-scam-deep: #ffb0a9;
+  --accent-tint: rgba(244, 242, 234, 0.07);
+
+  --btn: #f2f0e9;
+  --btn-ink: #17171a;
+
+  --mark: #e7e06b;
+  --mark-ink: #171608;
+
+  --c-order: #8fa8ef;
+  --c-price: #b8a4e8;
+  --c-delivery: #6fcfbd;
+  --c-complaint: #e8a3c0;
+  --c-scam: #f0938a;
+  --c-other: #adaba3;
+
+  --lane-auto: #7fd4a2;
+  --lane-auto-deep: #a2e3bd;
+  --lane-review: #e2da7c;
+  --lane-review-deep: #eee7a0;
+  --lane-scam: #f0938a;
+  --lane-scam-deep: #ffb3aa;
+
+  --scam-tint: color-mix(in oklab, var(--lane-scam) 10%, transparent);
 }
 
-/* fonts: next/font declares --font-* on <html> (layout.tsx). NEVER redefine
-   --font-* at :root — a same-element default out-cascades next/font and the
-   real faces never render. docs/06 §3. */
 @theme inline {
-  /* Bengali-capable fallback so Bangla never renders as boxes */
-  --font-sans: var(--font-inter, system-ui), var(--font-bengali, "Noto Sans Bengali"), system-ui, sans-serif;
-  --font-display: var(--font-bricolage, system-ui), var(--font-inter, system-ui), system-ui, sans-serif;
+  --font-sans: var(--font-archivo, system-ui), var(--font-bengali, "Noto Sans Bengali"), system-ui, sans-serif;
+  --font-display: var(--font-archivo, system-ui), var(--font-bengali, "Noto Sans Bengali"), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono, ui-monospace), ui-monospace, "SFMono-Regular", monospace;
 }
 
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-inter, system-ui), var(--font-bengali, "Noto Sans Bengali"), system-ui, sans-serif;
+  font-family: var(--font-archivo, system-ui), var(--font-bengali, "Noto Sans Bengali"), system-ui, sans-serif;
+  font-size: 15.5px;
   -webkit-font-smoothing: antialiased;
   caret-color: var(--ink);
+  transition: background-color 240ms ease, color 240ms ease;
 }
 
-/* theme changes ease rather than snap (docs: no abrupt brightness jumps) */
-body {
-  transition: background-color 260ms ease, color 260ms ease;
+/* ── type roles ─────────────────────────────────────────────────────────── */
+
+/* display: large, medium weight, tight. Quiet confidence, never a poster. */
+.display {
+  font-family: var(--font-archivo, system-ui), var(--font-bengali, "Noto Sans Bengali"), system-ui, sans-serif;
+  font-weight: 560;
+  letter-spacing: -0.032em;
+  line-height: 1.02;
+  text-wrap: balance;
 }
 
-/* ── editorial primitives ──────────────────────────────────────────────── */
-
-/* the mono micro-label: metadata, nav. Loose enough to read, tight enough
-   to stay quiet — wide tracking reads as technical, not friendly. */
+/* the small caption voice: sentence case, soft, sans */
 .label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1.2;
+  font-size: 12px;
+  line-height: 1.5;
   font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 
-/* numerals (times, counters): mono, tabular */
+/* figures: mono only where alignment matters */
 .index {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
-/* page title rule: a hairline, not a bar */
-.masthead {
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-/* dot-grid field */
-.dotgrid {
-  background-image: radial-gradient(var(--line) 1px, transparent 1.4px);
-  background-size: 13px 13px;
-  background-position: 0 0;
-}
-
-/* numbers (docs/06 §3): display face, tabular for stats */
+/* the big numbers: display voice, tabular */
 .tnum {
-  font-family: var(--font-display);
+  font-family: var(--font-archivo, system-ui), system-ui, sans-serif;
   font-variant-numeric: tabular-nums;
-  font-weight: 800;
+  font-weight: 560;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
 }
 
-/* message text (docs/06 §3): 15px / 1.6, Bengali fallback first-class */
+/* message text: the material of the product */
 .msg-text {
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.65;
   overflow-wrap: anywhere;
 }
 
-/* Soft multi-hue wash. The colour lives in the background, not in a loud
-   block, so the page stays colourful and the type stays legible. */
+.masthead {
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+/* ── the page furniture ────────────────────────────────────────────────── */
+
+/* the ruled ledger is retired: keep the names as quiet no-ops so older
+   markup degrades to plain space instead of a missing class */
+.ruled {
+  background-image: linear-gradient(to bottom, var(--rule) 0 1px, transparent 1px);
+  background-size: 100% 96px;
+}
+
+.col-ruled {
+  background-image: linear-gradient(to right, var(--rule) 0 1px, transparent 1px);
+  background-size: 25% 100%;
+}
+
+/* a soft surface: barely-there edge, lifted by shadow */
+.sheet {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-2xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+/* the chip: a soft pill. Colour comes from the text; the tint follows it. */
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-size: 11.5px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  background: color-mix(in oklab, currentColor 10%, transparent);
+}
+
+.entry {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0;
+}
+
+/* the highlighter — kept, softened: a warm swipe, still by hand */
+.mark {
+  display: inline;
+  background: var(--mark);
+  color: var(--mark-ink);
+  box-shadow:
+    0.12em 0 0 var(--mark),
+    -0.12em 0 0 var(--mark);
+  padding: 0.04em 0.06em;
+  border-radius: 0.18em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* the lamp: one soft pool of warmth, painted once */
+.lamp {
+  background-image:
+    radial-gradient(52rem 34rem at 78% -12%, color-mix(in oklab, var(--c-order) 9%, transparent), transparent 68%),
+    radial-gradient(36rem 26rem at 2% 6%, color-mix(in oklab, var(--mark) 6%, transparent), transparent 72%);
+}
+
 .wash {
   background-image:
-    radial-gradient(46rem 26rem at 14% 4%, color-mix(in oklab, var(--accent) 42%, transparent), transparent 70%),
-    radial-gradient(40rem 24rem at 86% -4%, color-mix(in oklab, var(--c-price) 34%, transparent), transparent 70%),
-    radial-gradient(30rem 20rem at 98% 56%, color-mix(in oklab, var(--c-complaint) 26%, transparent), transparent 72%),
-    radial-gradient(44rem 26rem at 40% 100%, color-mix(in oklab, var(--c-delivery) 30%, transparent), transparent 72%);
+    radial-gradient(42rem 26rem at 8% 0%, color-mix(in oklab, var(--c-order) 7%, transparent), transparent 72%),
+    radial-gradient(38rem 24rem at 94% 100%, color-mix(in oklab, var(--c-price) 6%, transparent), transparent 72%);
 }
 
-/* A second, warmer wash so the landing can alternate its sections. */
-.wash-warm {
-  background-image:
-    radial-gradient(44rem 24rem at 84% 8%, color-mix(in oklab, var(--c-complaint) 16%, transparent), transparent 70%),
-    radial-gradient(48rem 26rem at 6% 92%, color-mix(in oklab, var(--c-order) 16%, transparent), transparent 72%);
+.dotgrid {
+  background-image: radial-gradient(var(--line) 1px, transparent 1.4px);
+  background-size: 18px 18px;
 }
 
-/* ── brand artwork (docs/06 §1) ──────────────────────────────────────────
-   The mark ships as a light/dark pair in `public/`, and only the one that
-   belongs to the current theme is displayed. The switch is CSS only, keyed off
-   the `.dark` class the pre-paint script sets on <html>, so it is correct on the
-   first frame — no JavaScript, no hydration mismatch, no flash. This is why no
-   component needs a `dark:` class.
-   The base rule below sets display:block, so the theme rules must out-specify it
-   (they carry one class more) — a plain `.logo-dark { display: none }` would lose. */
-.logo-swap img {
-  display: block;
-  width: 100%;
-  height: 100%;
+/* skip link: the first focus stop */
+.skip-link {
+  position: fixed;
+  top: -4rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.7rem 1.1rem;
+  background: var(--btn);
+  color: var(--btn-ink);
+  font-size: 12.5px;
+  font-weight: 500;
+  border-radius: 999px;
+  box-shadow: var(--shadow-lift);
+  transition: top 160ms ease;
 }
-.logo-swap .logo-dark {
-  display: none;
-}
-.dark .logo-swap .logo-light {
-  display: none;
-}
-.dark .logo-swap .logo-dark {
-  display: block;
-}
-
-/* Translucent chrome (docs/06 §6): the bar is transparent at the top of the
-   page and fades in a half-transparent fill once content scrolls under it,
-   so the content behind it fades out instead of hitting a hard divider. */
-.material-50 {
-  background: color-mix(in oklab, var(--paper) 50%, transparent);
-  backdrop-filter: blur(20px) saturate(170%);
-  -webkit-backdrop-filter: blur(20px) saturate(170%);
+.skip-link:focus {
+  top: 0.75rem;
 }
 
 /* ── interaction floor ─────────────────────────────────────────────────── */
 @layer base {
-  /* Every control is rounded by default, so a new button cannot arrive with
-     a square corner. Components may still override with `rounded-*`. */
   button,
   [role="button"],
   input,
   select,
   textarea {
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
   }
   button,
   [role="button"] {
     transition:
-      transform 120ms ease-out,
-      background-color 150ms ease,
-      border-color 150ms ease,
-      color 150ms ease,
-      box-shadow 150ms ease,
-      opacity 150ms ease;
+      transform 160ms cubic-bezier(0.2, 0.7, 0.3, 1),
+      background-color 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease,
+      box-shadow 160ms ease,
+      opacity 160ms ease;
   }
   button:active:not(:disabled),
   [role="button"]:active {
-    transform: scale(0.98);
+    transform: translateY(1px) scale(0.99);
   }
 }
 
@@ -303,44 +296,39 @@ h1,
 h2,
 h3 {
   font-optical-sizing: auto;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
 }
 
-/* focus ring: accent instead of black — same visibility, less shout
-   (docs/06 §7) */
 *:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  box-shadow: 0 0 0 5px color-mix(in oklab, var(--accent) 20%, transparent);
+  outline: 2px solid color-mix(in oklab, var(--ink) 55%, transparent);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px color-mix(in oklab, var(--mark) 22%, transparent);
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--paper);
+  background: var(--mark);
+  color: var(--mark-ink);
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--line) transparent;
+  scrollbar-color: var(--line-strong) transparent;
 }
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--line);
+  background: var(--line-strong);
   border-radius: 999px;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   background-clip: content-box;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 
-/* ── segmented control: the nav and the preference toggles share it ─────
-   Inside @layer components so a utility (`hidden`, `lg:inline-flex`) can
-   still override it — unlayered rules beat every Tailwind utility. */
+/* ── the pill switch (nav, language, appearance) ────────────────────────
+   A soft capsule; the active item is a floating white/ink pill. */
 @layer components {
   .seg {
     display: inline-flex;
@@ -349,63 +337,57 @@ h3 {
     gap: 2px;
     border: 1px solid var(--line);
     border-radius: 999px;
-    background: transparent;
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
   }
   .seg > button,
   .seg > a {
     display: inline-flex;
     min-height: 30px;
     align-items: center;
-    padding: 0 12px;
+    padding: 0 13px;
     border-radius: 999px;
-    font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 12.5px;
     font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     white-space: nowrap;
     color: var(--muted);
   }
   @media (max-width: 640px) {
     .seg > button,
     .seg > a {
-      padding: 0 8px;
+      padding: 0 10px;
     }
   }
   .seg > button:hover,
   .seg > a:hover {
     color: var(--ink);
-    background: color-mix(in oklab, var(--ink) 6%, transparent);
+    background: var(--accent-tint);
   }
   .seg > [aria-current="page"],
   .seg > [aria-pressed="true"] {
-    /* selected state = accent wash, never an ink (black) pill (docs/06 §2) */
-    background: var(--accent-tint);
-    color: var(--accent-deep);
-    box-shadow: none;
+    background: var(--ink);
+    color: var(--paper);
   }
+  .seg > [aria-current="page"]:hover,
   .seg > [aria-pressed="true"]:hover {
-    color: var(--accent-deep);
-    background: var(--accent-tint);
-  }
-  .seg > a[aria-current="page"]:hover {
-    color: var(--accent-deep);
-    background: var(--accent-tint);
+    background: var(--ink);
+    color: var(--paper);
+    opacity: 0.9;
   }
 }
 
-/* ── range slider: native 6px track, 44px hit area, ink thumb + accent ── */
+/* ── range slider: a soft instrument ──────────────────────────────────── */
 .tau {
   -webkit-appearance: none;
   appearance: none;
-  height: 44px;
+  height: 36px;
   background: transparent;
-  cursor: pointer;
+  cursor: ew-resize;
 }
 .tau::-webkit-slider-runnable-track {
   height: 6px;
   border-radius: 999px;
-  background: var(--line);
+  background: linear-gradient(to right, var(--mark) 0 var(--fill, 40%), var(--line-strong) var(--fill, 40%) 100%);
 }
 .tau::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -414,26 +396,76 @@ h3 {
   margin-top: -6px;
   border-radius: 999px;
   background: var(--surface);
-  border: 2px solid var(--accent);
+  border: 5px solid var(--mark);
   box-shadow: var(--shadow-soft);
 }
 .tau::-moz-range-track {
   height: 6px;
   border-radius: 999px;
-  background: var(--line);
+  background: var(--line-strong);
+}
+.tau::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--mark);
 }
 .tau::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   border-radius: 999px;
   background: var(--surface);
-  border: 2px solid var(--accent);
+  border: 5px solid var(--mark);
   box-shadow: var(--shadow-soft);
 }
 
-/* ── motion ────────────────────────────────────────────────────────────── */
+/* ── motion: everything rises, nothing slams ──────────────────────────── */
 
-/* new messages: slide + accent flash for 1.5s (docs/06 §4.2) */
+@keyframes slip-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stamp-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ink-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
 @keyframes msg-in {
   0% {
     transform: translateY(-6px);
@@ -445,90 +477,72 @@ h3 {
   }
 }
 .msg-new {
-  animation: msg-in 1.5s ease-out;
+  animation: msg-in 1.4s ease-out;
 }
 
-@keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 .fade-up {
-  animation: fade-up 0.35s ease-out both;
+  animation: ink-in 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* page entrance: every screen rises 6px into place on mount */
-@keyframes page-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 main {
-  animation: page-in 0.45s cubic-bezier(0.16, 0.84, 0.28, 1) both;
+  animation: ink-in 0.4s cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
 
-/* scroll reveal (components/Reveal): rise once when it enters, then stay.
-   Exponential ease-out — no bounce, no overshoot. */
 .reveal {
   opacity: 0;
   transform: translateY(18px);
   transition:
-    opacity 0.7s cubic-bezier(0.16, 0.84, 0.28, 1),
-    transform 0.7s cubic-bezier(0.16, 0.84, 0.28, 1);
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.3, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
 }
 .reveal.is-in {
   opacity: 1;
   transform: none;
 }
 
-/* hero field: four token-coloured orbs drift behind the headline so the
-   colour field breathes. Token-driven (color-mix over the palette), so the
-   dark theme is correct without a second definition. */
-@keyframes blob-drift {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  33% {
-    transform: translate3d(4%, 5%, 0) scale(1.1);
-  }
-  66% {
-    transform: translate3d(-4%, -4%, 0) scale(0.92);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
+/* the signature: a message slips in, its verdict settles on the other page */
+.slip {
+  animation: slip-in 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
-.hero-blob {
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(72px);
-  opacity: 0.5;
-  will-change: transform;
-  animation: blob-drift 26s ease-in-out infinite;
+.stamp-land {
+  display: inline-flex;
+  animation: stamp-in 0.45s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  transform-origin: center;
+}
+.live-dot {
+  animation: live-pulse 2.4s ease-in-out infinite;
 }
 
-/* reduced motion: gentler, non-vestibular feedback; loops stop */
+/* ── between pages: a gentle cross-fade ───────────────────────────────── */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root) {
+  animation: page-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(root) {
+  animation: page-in-vt 280ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-in-vt {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (max-width: 767px) {
+  .lamp {
+    background-image: radial-gradient(28rem 22rem at 86% -10%, color-mix(in oklab, var(--c-order) 7%, transparent), transparent 72%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-blob {
+  .live-dot {
     animation: none !important;
   }
   .reveal {
@@ -536,23 +550,23 @@ main {
     transform: none;
     transition: none;
   }
+  .slip,
+  .stamp-land,
+  .fade-up,
   .msg-new,
-  .fade-up {
-    animation: fade-in 200ms ease-out;
+  main {
+    animation: none !important;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
   }
   *,
   *::before,
   *::after {
-    animation-duration: 0.2s !important;
+    animation-duration: 0.001s !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.15s !important;
+    transition-duration: 0.01s !important;
     scroll-behavior: auto !important;
-  }
-}
-
-@media (prefers-reduced-transparency: reduce) {
-  .material-50 {
-    background: var(--paper) !important;
-    backdrop-filter: none !important;
   }
 }

@@ -1,12 +1,13 @@
 "use client";
-/** Closing narrative: honesty, the final call to action, the footer. */
+/** Closing narrative, quiet skin: honesty lists as soft columns, the final
+ * call to action, the footer. */
 import Link from "next/link";
 
 import { Logo } from "@/components/Logo";
 import { ArrowRightIcon } from "@/components/icons";
 import { usePrefs } from "@/lib/prefs";
 import { Reveal } from "../Reveal";
-import { ArrowLink, Section, SectionHead } from "./parts";
+import { ArrowLink, PrimaryCTA, Section, SectionHead } from "./parts";
 
 const PROVENANCE = ["honest.data.1", "honest.data.2", "honest.data.3"];
 const LIMITS = ["honest.limit.1", "honest.limit.2", "honest.limit.3"];
@@ -25,34 +26,65 @@ export function BuiltHonest() {
         }
       />
 
-      <div className="mt-20 grid gap-x-16 gap-y-14 md:grid-cols-2">
+      <div className="mt-14 grid gap-x-16 gap-y-12 md:grid-cols-2">
         <div>
-          <p className="label border-b border-line pb-4 text-muted">{t("honest.provenance")}</p>
-          <ul className="mt-6 space-y-5">
-            {PROVENANCE.map((k) => (
-              <li key={k} className="flex gap-4 text-[15px] leading-relaxed text-ink">
-                <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: "var(--accent)" }} aria-hidden />
-                {t(k)}
+          <p className="label pb-1 text-muted">{t("honest.provenance")}</p>
+          <ul className="mt-4 space-y-3">
+            {PROVENANCE.map((k, i) => (
+              <li key={k} className="flex gap-4 rounded-[22px] bg-surface p-5 shadow-soft">
+                <span className="index shrink-0 pt-0.5 text-[11px] text-muted">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="text-[14.5px] leading-[1.7] text-ink">{t(k)}</span>
               </li>
             ))}
           </ul>
         </div>
         <div>
-          <p className="label border-b border-line pb-4 text-muted">{t("honest.limits")}</p>
-          <ul className="mt-6 space-y-5">
-            {LIMITS.map((k) => (
-              <li key={k} className="flex gap-4 text-[15px] leading-relaxed text-muted">
-                <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-line" aria-hidden />
-                {t(k)}
+          <p className="label pb-1 text-muted">{t("honest.limits")}</p>
+          <ul className="mt-4 space-y-3">
+            {LIMITS.map((k, i) => (
+              <li key={k} className="flex gap-4 rounded-[22px] bg-surface p-5 shadow-soft">
+                <span className="index shrink-0 pt-0.5 text-[11px] text-muted">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="text-[14.5px] leading-[1.7] text-muted">{t(k)}</span>
               </li>
             ))}
           </ul>
-          <div className="mt-8">
+          <div className="mt-6">
             <ArrowLink href="/evaluation/">{t("honest.allLimits")}</ArrowLink>
           </div>
         </div>
       </div>
     </Section>
+  );
+}
+
+/** The closing block: one line, one key. */
+function Closing() {
+  const { t } = usePrefs();
+  return (
+    <section className="wash relative overflow-hidden px-5 py-24 md:px-8 md:py-32">
+      <div className="relative mx-auto max-w-[1180px]">
+        <Reveal>
+          <span className="mark mb-8 inline-block h-1 w-14 rounded-full" aria-hidden />
+          <h2 className="display max-w-[26ch] text-ink" style={{ fontSize: "clamp(32px, 4.4vw, 58px)" }}>
+            {t("close.t1")}
+            <br />
+            {t("close.t2")}
+          </h2>
+        </Reveal>
+        <Reveal delay={100}>
+          <div className="mt-10 flex flex-wrap items-center gap-3">
+            <PrimaryCTA href="/inbox/">{t("hero.ctaInbox")}</PrimaryCTA>
+            <ArrowLink href="/evaluation/" className="ml-2">
+              {t("hero.ctaEval")}
+            </ArrowLink>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
@@ -67,33 +99,33 @@ const FOOT_LINKS = [
 export function SiteFooter() {
   const { t } = usePrefs();
   return (
-    <footer className="border-t border-line px-4 pb-12 pt-16 md:px-6 md:pt-20">
-      <div className="mx-auto max-w-[1400px]">
-        {/* Editorial, not a second hero: the foot closes the page with the
-            same surface, hairlines and mono labels the rest of the site uses,
-            and it does not repeat the wash field or the display headline. */}
+    <footer className="px-5 pb-12 pt-16 md:px-8">
+      <div className="mx-auto max-w-[1180px]">
         <Reveal>
-          <div className="grid gap-12 md:grid-cols-[1.7fr_1fr_1.3fr] md:gap-16">
-            {/* brand */}
+          <div className="grid gap-10 md:grid-cols-[1.6fr_0.9fr_1.5fr] md:gap-14">
             <div>
               <Logo size={26} />
-              <p className="mt-5 max-w-sm text-[14px] leading-relaxed text-muted">{t("footer.blurb")}</p>
+              <p className="mt-4 max-w-xs text-[13.5px] leading-[1.7] text-muted">{t("footer.blurb")}</p>
               <Link
                 href="/inbox/"
-                className="group mt-6 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.08em] text-accent transition hover:text-accent-deep"
+                prefetch={false}
+                className="group mt-5 inline-flex min-h-6 items-center gap-2 text-[13px] font-medium text-ink transition hover:opacity-70"
               >
                 {t("hero.ctaInbox")}
-                <ArrowRightIcon size={14} className="transition-transform group-hover:translate-x-1" />
+                <ArrowRightIcon size={13} className="transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
 
-            {/* sections */}
             <nav aria-label="Footer">
-              <p className="label border-b border-line pb-3 text-muted">{t("footer.product")}</p>
-              <ul className="mt-4 space-y-3">
+              <p className="label text-muted">{t("footer.product")}</p>
+              <ul className="mt-4 space-y-2.5">
                 {FOOT_LINKS.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="text-[14px] text-ink transition hover:text-accent">
+                    <Link
+                      href={l.href}
+                      prefetch={false}
+                      className="inline-flex min-h-6 items-center text-[13.5px] text-ink transition hover:opacity-70"
+                    >
                       {t(l.key)}
                     </Link>
                   </li>
@@ -101,26 +133,32 @@ export function SiteFooter() {
               </ul>
             </nav>
 
-            {/* honesty: the disclosures live here, in the open */}
             <div>
-              <p className="label border-b border-line pb-3 text-muted">{t("footer.proof")}</p>
-              <ul className="mt-4 space-y-3 text-[13px] leading-relaxed text-muted">
+              <p className="label text-muted">{t("footer.proof")}</p>
+              <ul className="mt-4 space-y-2.5 text-[12.5px] leading-relaxed text-muted">
                 <li>{t("footer.note")}</li>
                 <li>{t("footer.credits")}</li>
               </ul>
               <Link
                 href="/evaluation/"
-                className="group mt-5 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.08em] text-accent transition hover:text-accent-deep"
+                prefetch={false}
+                className="group mt-4 inline-flex min-h-6 items-center gap-2 text-[13px] font-medium text-ink underline decoration-line-strong underline-offset-4 transition hover:decoration-ink"
               >
                 {t("honest.allLimits")}
-                <ArrowRightIcon size={14} className="transition-transform group-hover:translate-x-1" />
+                <ArrowRightIcon size={13} className="transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
           </div>
 
-          <p className="mt-14 border-t border-line pt-6 label text-muted">{t("footer.legal")}</p>
+          <p className="label mt-12 flex flex-wrap items-center gap-x-4 gap-y-2 pt-6 text-muted">
+            <span>{t("footer.legal")}</span>
+            <span className="hidden h-px flex-1 bg-line sm:block" aria-hidden />
+            <span>4 datasets · 0 paid APIs</span>
+          </p>
         </Reveal>
       </div>
     </footer>
   );
 }
+
+export { Closing };

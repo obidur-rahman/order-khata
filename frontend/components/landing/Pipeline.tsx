@@ -1,13 +1,12 @@
 "use client";
-/** "How it works" — the server pipeline as five steps on one rail.
- * The tags stay in English: they are the names of the real stages (text,
- * engine A, hard rule, engine B, policy) and the docs use the same words. */
+/** "How it works" — the pipeline as five quiet rows. Soft hover lift, no
+ * ruled borders. Tags stay in English: they name the real stages. */
 import { usePrefs } from "@/lib/prefs";
 import { Reveal } from "../Reveal";
 import { Section, SectionHead } from "./parts";
 
 const STEPS = [
-  { k: "how.1", tag: "text", tone: "var(--accent)" },
+  { k: "how.1", tag: "text", tone: "var(--muted)" },
   { k: "how.2", tag: "engine A", tone: "var(--c-order)" },
   { k: "how.3", tag: "hard rule", tone: "var(--lane-scam)" },
   { k: "how.4", tag: "engine B", tone: "var(--c-price)" },
@@ -17,7 +16,7 @@ const STEPS = [
 export function HowItWorks() {
   const { t } = usePrefs();
   return (
-    <Section className="bg-accent-tint/40">
+    <Section>
       <SectionHead
         title={
           <>
@@ -29,19 +28,28 @@ export function HowItWorks() {
         lede={t("how.lede")}
       />
 
-      <ol className="mt-20 grid gap-x-8 gap-y-14 md:grid-cols-5">
+      <ol className="mt-14 space-y-3">
         {STEPS.map((s, i) => (
           <li key={s.k}>
-            <Reveal delay={i * 70}>
-            <div className="flex items-center gap-3">
-              <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: s.tone }} aria-hidden />
-              <span className="h-px flex-1 bg-line" aria-hidden />
-              <span className="label shrink-0 text-muted">{s.tag}</span>
-            </div>
-            <h3 className="mt-6 font-display text-[17px] leading-tight font-bold text-ink">
-              {t(`${s.k}.title`)}
-            </h3>
-            <p className="mt-3 text-[14px] leading-relaxed text-muted">{t(`${s.k}.body`)}</p>
+            <Reveal delay={i * 60}>
+              <div className="group grid grid-cols-[2.5rem_1fr] items-baseline gap-x-4 gap-y-2 rounded-[26px] bg-surface px-6 py-7 shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift md:grid-cols-[4rem_1fr_auto] md:gap-x-8 md:px-8">
+                <span className="index text-[12px] text-muted">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="display text-[24px] text-ink md:text-[28px]">{t(`${s.k}.title`)}</h3>
+                  <p className="mt-2 max-w-xl text-[14.5px] leading-[1.75] text-muted">
+                    {t(`${s.k}.body`)}
+                  </p>
+                </div>
+                <span
+                  className="label hidden items-center gap-2 self-start pt-2 md:inline-flex"
+                  style={{ color: s.tone }}
+                >
+                  <span className="h-1.5 w-1.5 rounded-full" style={{ background: s.tone }} aria-hidden />
+                  {s.tag}
+                </span>
+              </div>
             </Reveal>
           </li>
         ))}

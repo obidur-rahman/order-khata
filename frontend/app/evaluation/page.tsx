@@ -42,8 +42,7 @@ function EngineProvenance({ serving }: { serving: string | null }) {
   const matches = serving === "tfidf-lr";
   return (
     <div
-      className="mt-4 rounded-2xl border border-line bg-surface px-4 py-3 text-sm shadow-soft"
-      style={{ borderLeft: "3px solid var(--color-accent)" }}
+      className="mt-4 rounded-[20px] bg-surface px-5 py-3.5 text-[13px] shadow-soft"
       role="status"
     >
       <span className="text-ink">
@@ -61,10 +60,10 @@ function EngineProvenance({ serving }: { serving: string | null }) {
 
 function Headline({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
-    <div className="rounded-2xl border border-line bg-surface p-5 shadow-soft">
+    <div>
       <div className="label text-muted">{label}</div>
-      <div className="tnum mt-3 text-[40px] leading-none text-ink">{value}</div>
-      {hint && <div className="mt-2 text-xs text-muted">{hint}</div>}
+      <div className="tnum mt-3 text-[44px] text-ink">{value}</div>
+      {hint && <div className="mt-2 text-[11.5px] text-muted">{hint}</div>}
     </div>
   );
 }
@@ -97,6 +96,7 @@ export default function EvaluationPage() {
   if (error && !evalData)
     return (
       <ErrorScreen
+        page={tr("nav.evaluation")}
         detail={error}
         onRetry={() => {
           setError(null);
@@ -104,7 +104,8 @@ export default function EvaluationPage() {
         }}
       />
     );
-  if (!evalData && !missing) return <LoadingScreen note="Loading evaluation results…" />;
+  if (!evalData && !missing)
+    return <LoadingScreen page={tr("nav.evaluation")} note="Loading evaluation results…" />;
 
   const e = evalData;
   const pending = !e || e.generated_at === null;
@@ -112,12 +113,12 @@ export default function EvaluationPage() {
   return (
     <div className="flex min-h-screen flex-col bg-paper">
       <AppBar />
-      <main className="mx-auto w-full max-w-5xl px-4 py-10">
+      <main id="main" className="mx-auto w-full max-w-5xl px-4 py-10">
         <p className="label text-muted">{tr("page.evaluation.kicker")}</p>
-        <h1 className="masthead mt-3 font-display text-3xl font-extrabold text-ink">
+        <h1 className="display mt-2 text-[38px] text-ink">
           {tr("nav.evaluation")}
         </h1>
-        <p className="text-sm text-muted">
+        <p className="mt-2 max-w-3xl text-[13.5px] leading-relaxed text-muted">
           Every number below comes from one offline run of{" "}
           <code className="rounded-md border border-line bg-surface px-1.5 font-mono text-[12px]">
             ml/notebooks/order_khata_lab.ipynb §8
@@ -129,7 +130,7 @@ export default function EvaluationPage() {
         <EngineProvenance serving={health?.engine ?? null} />
 
         {missing && (
-          <div className="mt-6 rounded-2xl border border-dashed border-line bg-surface p-6 text-sm text-muted">
+          <div className="mt-8 rounded-[22px] bg-surface p-6 text-sm text-muted shadow-soft">
             <p className="font-semibold text-ink">Evaluation file not available yet.</p>
             <p className="mt-1">
               Run the notebook to generate it. No numbers are shown because none exist.
@@ -139,8 +140,7 @@ export default function EvaluationPage() {
 
         {pending && e && (
           <div
-            className="mt-6 flex items-start gap-3 rounded-2xl border border-line bg-surface px-4 py-3.5 text-sm shadow-soft"
-            style={{ borderLeft: "3px solid var(--color-accent)" }}
+            className="mt-8 flex items-start gap-3 rounded-[20px] bg-surface px-5 py-4 text-sm shadow-soft"
             role="status"
           >
             <span className="mt-0.5 text-accent">
@@ -159,7 +159,7 @@ export default function EvaluationPage() {
         {e && (
           <>
             {/* headline numbers */}
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-10 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
               <Headline label="Macro-F1 (E3)" value={num(e.systems?.E3?.macro_f1)} />
               <Headline label="Accuracy (E3)" value={pct(e.systems?.E3?.accuracy)} />
               <Headline
@@ -175,7 +175,7 @@ export default function EvaluationPage() {
             </div>
 
             {/* coverage vs accuracy */}
-            <section className="mt-6 rounded-2xl border border-line bg-surface p-5 shadow-soft">
+            <section className="sheet mt-8 p-5">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h2 className="label text-muted">Coverage vs accuracy</h2>
                 <span className="index text-[10px] text-muted">τ {tau.toFixed(2)} marked</span>
@@ -202,12 +202,12 @@ export default function EvaluationPage() {
             </section>
 
             {/* systems / baselines table */}
-            <section className="mt-6 rounded-2xl border border-line bg-surface p-5 shadow-soft">
+            <section className="sheet mt-8 p-5">
               <h2 className="label text-muted">Systems compared</h2>
               <div className="mt-4 overflow-x-auto">
                 <table className="w-full text-sm tabular-nums">
                   <thead>
-                    <tr className="border-b border-line text-left">
+                    <tr className="border-b border-line-strong text-left">
                       <th className="label py-2 pr-4 text-muted">System</th>
                       <th className="label py-2 pr-4 text-right text-muted">Accuracy</th>
                       <th className="label py-2 text-right text-muted">Macro-F1</th>
@@ -230,8 +230,8 @@ export default function EvaluationPage() {
             </section>
 
             {/* per-class + per-script */}
-            <div className="mt-6 grid gap-4 lg:grid-cols-2">
-              <section className="rounded-2xl border border-line bg-surface p-5 shadow-soft">
+            <div className="mt-8 grid gap-8 lg:grid-cols-2">
+              <section className="sheet p-5">
                 <h2 className="label text-muted">Per class</h2>
                 <table className="mt-4 w-full text-sm tabular-nums">
                   <thead>
@@ -263,7 +263,7 @@ export default function EvaluationPage() {
                 </table>
               </section>
 
-              <section className="rounded-2xl border border-line bg-surface p-5 shadow-soft">
+              <section className="sheet p-5">
                 <h2 className="label text-muted">By script &amp; generalization</h2>
                 <table className="mt-4 w-full text-sm tabular-nums">
                   <thead>
@@ -298,14 +298,14 @@ export default function EvaluationPage() {
             </div>
 
             {/* limitations (docs/07 §7, verbatim intent) */}
-            <section className="mt-6 rounded-2xl border border-line bg-surface p-6 shadow-soft" aria-label="Limitations">
-              <p className="label flex items-center gap-2 text-accent">
+            <section className="mt-8 rounded-[24px] bg-surface p-7 shadow-soft" aria-label="Limitations">
+              <p className="label flex items-center gap-2" style={{ color: "var(--lane-review-deep)" }}>
                 <AlertIcon size={13} /> What this does not show
               </p>
               <ul className="mt-4 space-y-2.5">
                 {(e.limitations ?? []).map((lim) => (
                   <li key={lim} className="flex gap-3 text-sm leading-relaxed text-ink">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-line" aria-hidden />
+                    <span className="mt-2 h-1 w-1 shrink-0 bg-line-strong" aria-hidden />
                     {lim}
                   </li>
                 ))}

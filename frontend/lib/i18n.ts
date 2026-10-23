@@ -29,7 +29,6 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   "nav.openInbox": S("Open inbox", "ইনবক্স খুলুন"),
   "nav.language": S("Language", "ভাষা"),
   "nav.lanes": S("Lanes", "লেন"),
-  "nav.appearance": S("Appearance", "রূপ"),
 
   /* ── hero ─────────────────────────────────────────────────────────── */
   "hero.t1a": S("Sort the", "গোলমাল"),
@@ -43,6 +42,26 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   "hero.ctaInbox": S("Open the live inbox", "লাইভ ইনবক্স খুলুন"),
   "hero.ctaEval": S("See the evaluation", "মূল্যায়ন দেখুন"),
   "hero.legend": S("six classes", "ছয় ধরন"),
+  "hero.mode": S("Simulated Page inbox", "সিমুলেটেড পেজ ইনবক্স"),
+  "ledger.live": S("Live ledger", "লাইভ খাতা"),
+  "ledger.arrived": S("As it arrived", "যেভাবে এসেছে"),
+  "ledger.did": S("Sorted", "সাজানো"),
+  "ledger.illustration": S("illustration · simulated feed", "নমুনা · সিমুলেটেড ফিড"),
+  "ledger.caption": S("Sorted by the shipped policy.", "চালু নীতিতেই সাজানো।"),
+
+
+  /* ── closing block ───────────────────────────────────────────────── */
+  "close.t1": S("The sorting is automatic.", "সাজানোটা স্বয়ংক্রিয়।"),
+  "close.t2": S("The risky calls stay with you.", "ঝুঁকির সিদ্ধান্ত আপনারই থাকে।"),
+
+  /* ── 404 ─────────────────────────────────────────────────────────── */
+  "notfound.stamp": S("wrong page", "ভুল পাতা"),
+  "notfound.title": S("This page is not in the ledger.", "এই পাতাটা খাতায় নেই।"),
+  "notfound.lede": S(
+    "The address you followed does not point at anything here. The shop is still open.",
+    "আপনি যে ঠিকানায় এসেছেন, এখানে তেমন কিছু নেই। দোকান খোলাই আছে।",
+  ),
+  "notfound.home": S("Back to the shop front", "দোকানের সামনে ফিরুন"),
 
   /* ── the problem ──────────────────────────────────────────────────── */
   "problem.t1": S("Hundreds of messages a day.", "দিনে শত শত মেসেজ।"),
@@ -130,7 +149,7 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
     "অনিশ্চিত, রাগী, বা মতবিরোধ। সিদ্ধান্ত আপনার।",
   ),
   "lane.scam.blurb": S(
-    "Suspicious. Never handled automatically — a hard rule with a test.",
+    "Suspicious. Never handled automatically. A hard rule, with a test.",
     "সন্দেহজনক। কখনও নিজে থেকে সামলানো হয় না — নিয়মটা কঠিন, আর টেস্ট করা।",
   ),
 
@@ -214,19 +233,13 @@ export const STRINGS: Record<string, { en: string; bn: string }> = {
   /* ── preferences screen ───────────────────────────────────────────── */
   "pref.title": S("How should this read?", "কীভাবে পড়তে চান?"),
   "pref.lede": S(
-    "Language and appearance are yours and stay on this device. The engine is the server's.",
-    "ভাষা ও রূপ আপনার — এই ডিভাইসেই থাকে। ইঞ্জিনটা সার্ভারের।",
+    "Language is yours and stays on this device. The engine is the server's.",
+    "ভাষা আপনার — এই ডিভাইসেই থাকে। ইঞ্জিনটা সার্ভারের।",
   ),
   "pref.language": S("Language", "ভাষা"),
   "pref.languageHint": S("How the app talks to you.", "অ্যাপ কীভাবে কথা বলবে।"),
-  "pref.appearance": S("Appearance", "রূপ"),
-  "pref.appearanceHint": S("Light for daylight, dark for late nights.", "দিনের আলোয় লাইট, রাত জাগলে ডার্ক।"),
   "pref.english": S("English", "English"),
   "pref.bangla": S("বাংলা", "বাংলা"),
-  "pref.light": S("Light", "লাইট"),
-  "pref.dark": S("Dark", "ডার্ক"),
-  "pref.lightHint": S("Bright paper, dark ink.", "উজ্জ্বল কাগজ, গাঢ় কালি।"),
-  "pref.darkHint": S("Dark paper, bright ink.", "গাঢ় কাগজ, উজ্জ্বল কালি।"),
   "pref.engine": S("Classification engine", "ক্লাসিফিকেশন ইঞ্জিন"),
   "pref.engineHint": S(
     "Which model reads the messages. This one is the server's, not the device's: it applies to this whole deployment, and it is not saved here. The backup is the default; the checkpoint is loaded only if someone picks it, because it needs far more memory.",

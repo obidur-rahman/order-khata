@@ -1,13 +1,11 @@
 "use client";
 /** The one top bar, shared by the landing and the app screens (docs/06 §4.2).
  *
- * Surface (user brief): the bar is fully transparent at the top on every
- * screen and picks up a 50%-transparent material fill only once the page has
- * scrolled under it. The section links sit centred in the bar's own axis on
- * desktop, and in a centred row underneath on mobile; the segmented control
- * carries no background either: the active item is an accent wash, never an
- * ink (black) pill. Wide tools (the threshold slider) get their own row below
- * the bar so they cannot run into the centred links.
+ * Soft-minimal skin: a floating capsule that lifts off the page with a soft
+ * shadow and a blur — never a full-width ruled strip. The logo sits to its
+ * left, prefs + actions to its right; on phones the section links drop into
+ * the capsule's own second row. Wide tools (the threshold slider) get their
+ * own row under the capsule so they never collide with the links.
  */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,7 +14,6 @@ import { useEffect, useState } from "react";
 import { useHealth } from "@/lib/hooks";
 import { usePrefs } from "@/lib/prefs";
 import { HealthDot } from "./HealthDot";
-import { MoonIcon, SunIcon } from "./icons";
 import { Logo } from "./Logo";
 
 const NAV = [
@@ -35,7 +32,7 @@ function NavLinks({ className = "" }: { className?: string }) {
       {NAV.map((n) => {
         const active = pathname?.startsWith(n.href);
         return (
-          <Link key={n.href} href={n.href} aria-current={active ? "page" : undefined}>
+          <Link key={n.href} href={n.href} prefetch={false} aria-current={active ? "page" : undefined}>
             {t(n.key)}
           </Link>
         );
@@ -44,13 +41,12 @@ function NavLinks({ className = "" }: { className?: string }) {
   );
 }
 
-/** Language + appearance switches (docs/06 §4.6). */
+/** The language switch (docs/06 §4.6). The site is dark-only: no theme toggle. */
 export function PrefsControls({ className = "" }: { className?: string }) {
-  const { lang, theme, setLang, setTheme, t } = usePrefs();
+  const { lang, setLang, t } = usePrefs();
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      {/* Language: full seg on sm+, compact toggle on mobile */}
-      <div className="seg hidden sm:inline-flex" role="group" aria-label={t("nav.language")}>
+      <div className="seg" role="group" aria-label={t("nav.language")}>
         <button type="button" aria-pressed={lang === "en"} onClick={() => setLang("en")}>
           EN
         </button>
@@ -58,18 +54,9 @@ export function PrefsControls({ className = "" }: { className?: string }) {
           বাং
         </button>
       </div>
-      <div className="seg" role="group" aria-label={t("nav.appearance")}>
-        <button type="button" aria-pressed={theme === "light"} onClick={() => setTheme("light")} aria-label={t("pref.light")}>
-          <SunIcon size={14} />
-        </button>
-        <button type="button" aria-pressed={theme === "dark"} onClick={() => setTheme("dark")} aria-label={t("pref.dark")}>
-          <MoonIcon size={14} />
-        </button>
-      </div>
     </div>
   );
 }
-
 
 export function TopBar({
   children,
@@ -86,57 +73,42 @@ export function TopBar({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // The bar is a frame, not a panel: transparent at the top of every screen,
-  // and picks up a solid surface fill once the page has scrolled under it.
-  // In dark mode this is a dark navbar; in light mode a solid light bar.
-  const surface = scrolled ? "bg-surface" : "bg-transparent";
-
   return (
-    <header className={`sticky top-0 z-30 transition-colors duration-300 ${surface}`}>
-      <div className="relative mx-auto flex max-w-[1400px] items-center gap-x-4 px-4 py-3 sm:px-6">
-        <Link href="/" aria-label="Order Khata home" className="shrink-0">
+    <header className="sticky top-0 z-30 px-4 pt-3 sm:px-6 sm:pt-4">
+      <div
+        className={`relative mx-auto flex max-w-[1180px] flex-wrap items-center gap-x-4 gap-y-2 rounded-[26px] border border-line bg-surface/85 px-3 py-2 backdrop-blur-xl transition-shadow duration-300 sm:px-4 ${
+          scrolled ? "shadow-lift" : "shadow-soft"
+        }`}
+      >
+        <Link
+          href="/"
+          prefetch={false}
+          aria-label="Order Khata home"
+          className="group shrink-0 rounded-full transition-opacity hover:opacity-75"
+        >
           <Logo size={24} />
         </Link>
 
-        {/* centred section links: pinned to the bar's own horizontal centre,
-            so the nav is symmetric regardless of logo/control widths */}
-        <div className="absolute inset-y-0 left-1/2 hidden -translate-x-1/2 items-center lg:flex">
-          <NavLinks />
+        {/* centred section links: pinned to the capsule's own centre on lg+ */}
+        <div className="absolute inset-x-0 hidden justify-center lg:flex" style={{ pointerEvents: "none" }}>
+          <div style={{ pointerEvents: "auto" }}>
+            <NavLinks />
+          </div>
         </div>
 
         <div className="ml-auto flex items-center gap-3">
           <PrefsControls />
           {trailing}
         </div>
+
+        {/* mobile / small tablet: links as their own centred row in the capsule */}
+        <div className="w-full lg:hidden">
+          <NavLinks className="w-full flex-wrap justify-center" />
+        </div>
+
+        {/* wide tools (the threshold slider) get their own soft row */}
+        {children && <div className="flex w-full justify-center pb-1 sm:justify-end">{children}</div>}
       </div>
-
-      {/* mobile: the links get their own centred row under the bar. They wrap
-          onto as many lines as they need — five labels do not fit one 390px
-          row, and a scroll area nobody notices is a worse answer than a
-          second line. */}
-      <div className="mx-auto max-w-[1400px] px-4 pb-2 lg:hidden">
-        <NavLinks className="w-full flex-wrap justify-center rounded-2xl" />
-      </div>
-
-      {/* Wide tools (the threshold slider) get their own row instead of the
-          corner: the section links are centred on the bar's own axis, so a
-          wide control in the top row runs straight into them. */}
-      {children && (
-        <div className="mx-auto flex max-w-[1400px] justify-end px-4 pb-2 sm:px-6">{children}</div>
-      )}
-
-      {/* scroll edge: only while the bar has a fill; the content behind it
-          fades out instead of hitting a hard 1px divider (docs/06 §6) */}
-      {scrolled && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-full h-4"
-          style={{
-            background:
-              "linear-gradient(to bottom, color-mix(in oklab, var(--paper) 55%, transparent), transparent)",
-          }}
-        />
-      )}
     </header>
   );
 }

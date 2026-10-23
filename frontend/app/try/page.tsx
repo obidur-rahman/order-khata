@@ -85,12 +85,12 @@ export default function TryPage() {
         />
       </AppBar>
 
-      <main className="mx-auto w-full max-w-5xl px-4 py-10">
+      <main id="main" className="mx-auto w-full max-w-5xl px-4 py-10">
         <p className="label text-muted">{tr("page.try.kicker")}</p>
-        <h1 className="masthead mt-3 font-display text-3xl font-extrabold text-ink">
+        <h1 className="display mt-2 text-[38px] text-ink">
           {tr("page.try.title")}
         </h1>
-        <p className="text-sm text-muted">
+        <p className="mt-2 max-w-xl text-[13.5px] leading-relaxed text-muted">
           Paste any message in Bangla, Banglish or English. It is classified live, then it
           appears in the inbox.
         </p>
@@ -101,7 +101,7 @@ export default function TryPage() {
             <button
               key={ex.label}
               onClick={() => setText(ex.text)}
-              className="rounded-full border border-line bg-surface px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-muted transition hover:border-ink hover:text-ink"
+              className="rounded-full bg-surface px-3.5 py-1.5 text-[12px] font-medium text-muted shadow-soft transition hover:-translate-y-0.5 hover:text-ink hover:shadow-lift"
             >
               {ex.label}
             </button>
@@ -114,24 +114,25 @@ export default function TryPage() {
           rows={5}
           maxLength={1000}
           placeholder="এখানে মেসেজ পেস্ট করুন / paste a message…"
-          className="msg-text mt-4 w-full resize-y rounded-2xl border border-line bg-surface px-5 py-4 text-ink shadow-soft placeholder:text-muted"
+          className="msg-text mt-5 w-full resize-y border-0 bg-surface px-5 py-4 text-ink shadow-soft placeholder:text-muted"
+          style={{ borderRadius: "var(--radius-xl)" }}
           aria-label="Message to classify"
         />
         <div className="mt-3 flex items-center gap-4">
           <button
             onClick={classify}
             disabled={busy || !text.trim()}
-            className="inline-flex items-center gap-3 rounded-full bg-ink px-6 py-3.5 font-mono text-[12px] uppercase tracking-[0.1em] text-paper shadow-soft transition hover:bg-accent-deep disabled:opacity-40"
+            className="inline-flex items-center gap-3 rounded-full bg-btn px-7 py-3.5 text-[13px] font-medium text-btn-ink shadow-lift transition hover:opacity-85 disabled:opacity-40"
           >
             {busy ? "Classifying…" : "Classify"}
-            <ArrowRightIcon size={15} className="text-accent" />
+            <ArrowRightIcon size={15} />
           </button>
           <span className="index text-[11px] text-muted">{text.length}/1000</span>
         </div>
         {error && (
           <p
-            className="mt-3 rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-ink"
-            style={{ borderLeft: "3px solid var(--lane-scam)" }}
+            className="mt-3 px-4 py-2.5 text-sm text-ink"
+            style={{ background: "var(--scam-tint)", borderRadius: "var(--radius-lg)" }}
             role="alert"
           >
             {error}
@@ -140,7 +141,7 @@ export default function TryPage() {
 
         {/* result */}
         {result && lane && (
-          <div className="fade-up mt-8 rounded-2xl border border-line bg-surface p-5 shadow-soft">
+          <div className="fade-up sheet mt-8 p-5">
             <div className="flex flex-wrap items-center gap-3">
               <ClassChip classKey={result.prediction.top_class} large />
               <LaneChip lane={lane} filled />
@@ -149,7 +150,7 @@ export default function TryPage() {
               </span>
             </div>
 
-            <p className="msg-text mt-4 rounded-xl border border-line bg-paper p-3.5 text-ink">
+            <p className="msg-text mt-4 rounded-2xl bg-surface2/60 p-4 text-ink">
               {result.text}
             </p>
 
@@ -162,11 +163,11 @@ export default function TryPage() {
                 </p>
                 <a
                   href="/inbox/"
-                  className="inline-flex items-center gap-2.5 rounded-full bg-accent px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.08em] text-paper shadow-soft transition hover:bg-accent-deep"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-btn px-5 py-2.5 text-[12.5px] font-medium text-btn-ink transition hover:opacity-85"
                 >
                   Open the inbox <ArrowRightIcon size={14} />
                 </a>
-                <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted">
+                <p className="index text-[10.5px] text-muted">
                   script {result.script} · {result.prediction.engine} · {result.prediction.latency_ms} ms
                 </p>
               </div>
@@ -175,7 +176,7 @@ export default function TryPage() {
         )}
 
         {!result && !error && (
-          <div className="mt-10 rounded-2xl border border-dashed border-line bg-surface">
+          <div className="mt-10">
             <EmptyState
               title="No result yet"
               hint="Pick an example chip or write your own. The classifier runs on the server in one pass."

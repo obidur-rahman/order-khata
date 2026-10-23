@@ -66,8 +66,8 @@ export function ThreadView({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      {/* ── thread header (messenger-style) ── */}
-      <div className="flex shrink-0 items-center gap-3 border-b border-line bg-paper px-4 py-3">
+      {/* ── thread header ── */}
+      <div className="flex shrink-0 items-center gap-3 px-4 py-3">
         {/* back button: phones only — from md up the list is on screen already */}
         {onBack && (
           <button
@@ -81,13 +81,13 @@ export function ThreadView({
         )}
 
         <span
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-ink font-mono text-sm font-medium text-paper shadow-soft"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface2 font-mono text-sm font-medium text-ink"
           aria-hidden
         >
           {conv.customer_name.charAt(0).toUpperCase()}
         </span>
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold text-ink">{conv.customer_name}</p>
+          <p className="truncate font-display text-[19px] leading-tight text-ink">{conv.customer_name}</p>
           <p className="index text-[10px] text-muted">{fmtClock(conv.created_at)}</p>
         </div>
         <span className="ml-auto flex items-center gap-2">
@@ -107,8 +107,11 @@ export function ThreadView({
       {lane === "scam" && (
         <div className="shrink-0 px-4 pt-3">
           <div
-            className={`${COLUMN} rounded-xl border-2 p-3`}
-            style={{ borderColor: "var(--lane-scam)", background: "var(--scam-tint)" }}
+            className={`${COLUMN} p-4`}
+            style={{
+              background: "var(--scam-tint)",
+              borderRadius: "var(--radius-xl)",
+            }}
             role="alert"
           >
             <p
@@ -125,8 +128,7 @@ export function ThreadView({
       )}
 
       {/* ── messages: messenger-like chat area ── */}
-      <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4" aria-live="polite">
-        <div className={`${COLUMN} flex flex-col gap-3`}>
+      <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4" aria-live="polite">          <div className={`${COLUMN} flex flex-col gap-3`}>
           {msgs.map((m: MessageRecord) => (
             <MessageBubble key={m.id} msg={m} isNew={m.id === isNewId} />
           ))}
@@ -142,7 +144,7 @@ export function ThreadView({
           collapsible deck below, so the one action that matters cannot be
           hidden behind a collapsed panel or scroll away with the details ── */}
       {lane === "review" && (
-        <div className="shrink-0 border-t border-line bg-surface px-4 py-3">
+        <div className="shrink-0 px-4 py-3">
           <div className={COLUMN}>
             <ResolveBar
               pred={pred}
@@ -170,7 +172,7 @@ export function ThreadView({
           At xl there is a real column for it (the page's rail), so the deck
           steps aside instead of being a second copy of the same panel. */}
       <div
-        className={`max-h-[55%] shrink-0 overflow-y-auto overscroll-contain border-t border-line bg-surface px-4 py-3 ${
+        className={`max-h-[55%] shrink-0 overflow-y-auto overscroll-contain px-4 pb-3 ${
           rail ? "xl:hidden" : ""
         }`}
       >
@@ -179,7 +181,7 @@ export function ThreadView({
             type="button"
             onClick={() => setAiOpen((v) => !v)}
             aria-expanded={aiOpen}
-            className="flex w-full items-center justify-between gap-2 border-b border-line pb-2 xl:hidden"
+            className="flex w-full items-center justify-between gap-2 rounded-2xl bg-surface px-4 py-2.5 shadow-soft xl:hidden"
           >
             <span className="label text-muted">{t("inbox.messageDetails")}</span>
             {aiOpen ? (

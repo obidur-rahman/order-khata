@@ -75,9 +75,9 @@ order_khata/
 │   │                          # /preferences
 │   ├── components/
 │   ├── lib/                   # api client, routing recompute (route.ts), types,
-│   │                          # brand/hooks/store helpers, prefs.ts (theme +
-│   │                          # language), prefKeys.ts (their storage keys,
-│   │                          # shared with the pre-paint script), i18n.ts
+│   │                          # brand/hooks/store helpers, prefs.ts (language),
+│   │                          # prefKeys.ts (its storage key, shared with the
+│   │                          # pre-paint script), i18n.ts
 │   │                          # (interface strings),
 │   │                          # parity_runner.ts (feeds fixtures to the parity test)
 │   └── next.config.mjs

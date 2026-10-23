@@ -8,7 +8,7 @@
  * action". Colour never carries meaning alone. No metric is hardcoded:
  * the rigor section reads the same artifacts/eval.json the Evaluation page
  * does. */
-import { BuiltHonest, SiteFooter } from "@/components/landing/Close";
+import { BuiltHonest, Closing, SiteFooter } from "@/components/landing/Close";
 import { Hero, LandingBar } from "@/components/landing/Hero";
 import { HowItWorks } from "@/components/landing/Pipeline";
 import { Rigor } from "@/components/landing/Rigor";
@@ -19,7 +19,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-paper">
       <LandingBar />
-      <main>
+      <main id="main">
         <Hero />
         <TheProblem />
         <HowItWorks />
@@ -27,6 +27,7 @@ export default function LandingPage() {
         <SafetyDial />
         <Rigor />
         <BuiltHonest />
+        <Closing />
       </main>
       <SiteFooter />
     </div>

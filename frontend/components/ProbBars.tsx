@@ -1,6 +1,5 @@
 "use client";
-/** Six-class probability bars (docs/06 §4.2). Editorial: mono labels,
- * hairline bars on the class ramp; the top class fills solid ink. */
+/** Six-class probability bars, quiet skin: soft rounded tracks, tint fills. */
 import { CLASS_META } from "@/lib/brand";
 import { CLASSES } from "@/lib/types";
 
@@ -20,23 +19,21 @@ export function ProbBars({
         return (
           <div key={key} className="flex items-center gap-2.5" role="listitem">
             <span
-              className={`w-16 shrink-0 font-mono text-[10px] uppercase tracking-[0.08em] ${
-                top ? "text-ink" : "text-muted"
-              }`}
+              className={`w-16 shrink-0 text-[11.5px] ${top ? "font-medium text-ink" : "text-muted"}`}
             >
               {meta.label}
             </span>
             <div className="h-2 flex-1 rounded-full bg-line">
               <div
-                className="h-2 rounded-full"
+                className="h-2 rounded-full transition-[width] duration-300"
                 style={{
-                  width: `${Math.max(1.5, p * 100)}%`,
+                  width: `${Math.max(2, p * 100)}%`,
                   background: meta.color,
-                  opacity: top ? 1 : 0.35,
+                  opacity: top ? 1 : 0.45,
                 }}
               />
             </div>
-            <span className={`tnum w-8 shrink-0 text-right text-[11px] ${top ? "text-ink" : "text-muted"}`}>
+            <span className={`index w-8 shrink-0 text-right text-[11px] ${top ? "text-ink" : "text-muted"}`}>
               {(p * 100).toFixed(0)}%
             </span>
           </div>

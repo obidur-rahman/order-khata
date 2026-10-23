@@ -47,7 +47,7 @@ export function HealthDot({ health }: { health: HealthResponse | null }) {
 export function DegradedBanner() {
   return (
     <div
-      className="flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.1em] text-ink shadow-soft"
+      className="flex items-center gap-2 rounded-full bg-surface px-4 py-2 text-[12px] text-ink shadow-soft"
       role="status"
     >
       <AlertIcon size={13} />

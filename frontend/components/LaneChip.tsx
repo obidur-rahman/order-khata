@@ -1,6 +1,7 @@
 "use client";
-/** Lane badge (docs/06 §2, §7): always icon + text + colour, so the lane is
- * legible without relying on hue. Used on landing, Try It and dashboard. */
+/** Lane badge, quiet skin: always icon + text + colour, so the lane is
+ * legible without relying on hue. A soft tinted pill; the filled variant is
+ * a solid pill. */
 import { LANE_META } from "@/lib/brand";
 import { usePrefs } from "@/lib/prefs";
 import type { Lane } from "@/lib/types";
@@ -23,11 +24,14 @@ export function LaneChip({
   const m = LANE_META[lane];
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.08em]"
+      className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11.5px] font-medium"
       style={
         filled
-          ? { background: m.color, borderColor: m.color, color: "var(--paper)" }
-          : { background: "var(--color-surface)", borderColor: "var(--color-line)", color: m.deep }
+          ? { background: m.color, color: "var(--paper)" }
+          : {
+              background: "color-mix(in oklab, currentColor 10%, transparent)",
+              color: m.deep,
+            }
       }
     >
       <LaneIcon icon={m.icon} size={11} />

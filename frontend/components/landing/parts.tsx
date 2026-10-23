@@ -1,65 +1,89 @@
-/** Landing primitives: a section shell, a heading pair, arrow links, CTAs.
- *
- * Sections are separated by space, not rules — the page reads as one
- * editorial column rather than a stack of boxed-off panels.
- */
+/** Landing primitives for the quiet-ledger skin: a section is pure air (no
+ *  rule, no stamp box), the heading pair, soft pill CTAs. */
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { ArrowUpRightIcon, ArrowRightIcon } from "@/components/icons";
+import { ArrowRightIcon, ArrowUpRightIcon } from "@/components/icons";
 import { Reveal } from "../Reveal";
 
-/** Padded landing section. `wash` adds the warm colour field. */
+/** A ruled section is retired: a section is padding and a max-width. */
 export function Section({
   children,
-  wash = false,
+  stamp,
   className = "",
+  tone = "default",
 }: {
   children: ReactNode;
-  wash?: boolean;
+  stamp?: string;
   className?: string;
+  tone?: "default" | "sheet";
 }) {
   return (
-    <section className={`${wash ? "wash-warm " : ""}px-6 py-28 md:py-36 ${className}`}>
-      <div className="mx-auto max-w-[1400px]">{children}</div>
+    <section className={`px-5 py-20 md:px-8 md:py-28 ${tone === "sheet" ? "bg-surface/40" : ""} ${className}`}>
+      <div className="mx-auto max-w-[1180px]">
+        {stamp && (
+          <div className="mb-10 flex items-center gap-4">
+            <span className="label text-muted">{stamp}</span>
+            <span className="h-px flex-1 bg-line" aria-hidden />
+          </div>
+        )}
+        {children}
+      </div>
     </section>
   );
 }
 
-/** Heading pair: the line that says it, then the line that explains it. */
+/** The heading pair: one display line that states, one body line that
+ *  explains. Left column is the statement, right column is the reading. */
 export function SectionHead({
   title,
   lede,
   tone = "default",
+  variant = "split",
 }: {
   title: ReactNode;
   lede?: ReactNode;
-  /** "contrast" for headings sitting on the inverted surface. */
   tone?: "default" | "contrast";
+  /** split: statement left, reading right. stack: statement over reading.
+   *  margin: statement wide, reading hung in the last column. */
+  variant?: "split" | "stack" | "margin";
 }) {
   const onContrast = tone === "contrast";
+  const ink = onContrast ? "text-oncontrast" : "text-ink";
+  const dim = onContrast ? "text-oncontrast/60" : "text-muted";
+  const size = "clamp(30px, 3.8vw, 52px)";
+
+  if (variant === "stack") {
+    return (
+      <Reveal>
+        <h2 className={`display max-w-[20ch] ${ink}`} style={{ fontSize: size }}>
+          {title}
+        </h2>
+        {lede && <p className={`mt-7 max-w-xl text-[16px] leading-[1.8] ${dim}`}>{lede}</p>}
+      </Reveal>
+    );
+  }
+
   return (
-    <Reveal className="max-w-4xl">
-      <h2
-        className={`font-display font-extrabold ${onContrast ? "text-oncontrast" : "text-ink"}`}
-        style={{ fontSize: "clamp(32px, 4.2vw, 56px)", lineHeight: 1.04, letterSpacing: "-0.035em" }}
-      >
-        {title}
-      </h2>
+    <div className="grid gap-8 md:grid-cols-12 md:gap-10">
+      <Reveal className={variant === "margin" ? "md:col-span-8" : "md:col-span-7"}>
+        <h2 className={`display ${ink}`} style={{ fontSize: size }}>
+          {title}
+        </h2>
+      </Reveal>
       {lede && (
-        <p
-          className={`mt-8 max-w-2xl text-[17px] leading-[1.75] ${
-            onContrast ? "text-oncontrast/65" : "text-muted"
-          }`}
+        <Reveal
+          className={variant === "margin" ? "md:col-span-4 md:self-end md:pb-1" : "md:col-span-5 md:pt-2"}
+          delay={80}
         >
-          {lede}
-        </p>
+          <p className={`max-w-md text-[16px] leading-[1.8] ${dim}`}>{lede}</p>
+        </Reveal>
       )}
-    </Reveal>
+    </div>
   );
 }
 
-/** Inline arrow link. */
+/** Inline arrow link: quiet at rest, soft lift + arrow drift on hover. */
 export function ArrowLink({
   href,
   children,
@@ -72,7 +96,8 @@ export function ArrowLink({
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.08em] text-ink underline decoration-line underline-offset-4 transition hover:decoration-accent ${className}`}
+      prefetch={false}
+      className={`group inline-flex min-h-7 items-center gap-1.5 rounded-full py-1 text-[13px] font-medium text-ink underline decoration-line-strong underline-offset-4 transition hover:decoration-ink ${className}`}
     >
       {children}
       <ArrowUpRightIcon size={13} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -80,7 +105,7 @@ export function ArrowLink({
   );
 }
 
-/** Primary CTA: ink pill with an accent arrow. */
+/** Primary CTA: a soft pill key. The arrow walks on hover. */
 export function PrimaryCTA({
   href,
   children,
@@ -93,15 +118,16 @@ export function PrimaryCTA({
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 font-mono text-[12px] uppercase tracking-[0.1em] text-paper shadow-soft transition hover:bg-accent-deep ${className}`}
+      prefetch={false}
+      className={`group inline-flex min-h-12 items-center gap-3 rounded-full bg-btn px-7 py-3.5 text-[13.5px] font-medium text-btn-ink shadow-lift transition hover:-translate-y-0.5 hover:opacity-90 ${className}`}
     >
       {children}
-      <ArrowRightIcon size={16} className="text-accent transition-transform group-hover:translate-x-1" />
+      <ArrowRightIcon size={15} className="transition-transform duration-200 group-hover:translate-x-1" />
     </Link>
   );
 }
 
-/** Secondary CTA: hairline, same shape as the primary so they read as a pair. */
+/** Secondary CTA: same height, soft ghost pill. */
 export function GhostCTA({
   href,
   children,
@@ -114,10 +140,11 @@ export function GhostCTA({
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-2.5 rounded-full border border-line bg-surface px-7 py-4 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:border-ink ${className}`}
+      prefetch={false}
+      className={`group inline-flex min-h-12 items-center gap-2.5 rounded-full border border-line-strong px-7 py-3.5 text-[13.5px] font-medium text-ink transition hover:-translate-y-0.5 hover:border-ink/40 hover:bg-accent-tint ${className}`}
     >
       {children}
-      <ArrowUpRightIcon size={14} />
+      <ArrowUpRightIcon size={13} className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
     </Link>
   );
 }

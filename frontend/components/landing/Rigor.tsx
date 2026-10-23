@@ -1,7 +1,7 @@
 "use client";
-/** Rigor teaser: the headline evaluation numbers, read live from /api/eval.
+/** Rigor teaser: headline evaluation numbers, read live from /api/eval.
  * Honest by construction — if the evaluation has not run, no numbers are
- * shown. Never a hardcoded or fabricated metric. */
+ * shown. Never a hardcoded or fabricated metric. Soft quiet skin. */
 import { useEffect, useState } from "react";
 
 import { api } from "@/lib/api";
@@ -16,13 +16,6 @@ function pct(v: number | undefined): string {
 function num(v: number | undefined, digits = 3): string {
   return typeof v === "number" ? v.toFixed(digits) : "—";
 }
-
-const TONES = [
-  "var(--accent)",
-  "var(--c-order)",
-  "var(--c-price)",
-  "var(--c-delivery)",
-];
 
 export function Rigor() {
   const { t } = usePrefs();
@@ -57,7 +50,7 @@ export function Rigor() {
   ];
 
   return (
-    <Section>
+    <Section tone="sheet">
       <SectionHead
         title={
           <>
@@ -70,32 +63,27 @@ export function Rigor() {
       />
 
       {pending ? (
-        <div className="mt-20 rounded-3xl border border-line bg-surface p-9 shadow-soft">
-          <p className="label" style={{ color: "var(--accent)" }}>
+        <div className="mt-14 rounded-[26px] bg-paper p-8 shadow-soft">
+          <p className="label" style={{ color: "var(--mark)" }}>
             {t("rigor.pending")}
           </p>
-          <p className="mt-4 max-w-2xl text-[16px] leading-[1.75] text-muted">{t("rigor.pendingBody")}</p>
+          <p className="mt-3 max-w-2xl text-[15.5px] leading-[1.75] text-muted">{t("rigor.pendingBody")}</p>
         </div>
       ) : (
-        <div className="mt-20 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 md:gap-6">
           {stats.map((s, i) => (
-            <Reveal key={s.label} delay={i * 80}>
-              <div className="h-full rounded-2xl border border-line bg-surface p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-lift">
+            <Reveal key={s.label} delay={i * 70}>
+              <div className="h-full rounded-[26px] bg-paper p-7 shadow-soft">
                 <div className="label text-muted">{s.label}</div>
-                <div
-                  className="tnum mt-4 text-[48px] leading-none"
-                  style={{ color: TONES[i % TONES.length] }}
-                >
-                  {s.value}
-                </div>
+                <div className="tnum mt-4 text-[44px] text-ink md:text-[48px]">{s.value}</div>
               </div>
             </Reveal>
           ))}
         </div>
       )}
 
-      <div className="mt-16 flex flex-wrap items-end justify-between gap-6">
-        <p className="max-w-3xl text-[14px] leading-relaxed text-muted">
+      <div className="mt-10 flex flex-wrap items-end justify-between gap-6">
+        <p className="max-w-2xl text-[13px] leading-relaxed text-muted">
           <span className="label mr-3 text-ink">{t("rigor.systems")}</span>
           B1 TF-IDF · B2 LLM alone · E1 decision model · E2 + agreement · E3 full policy
         </p>

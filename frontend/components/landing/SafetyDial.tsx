@@ -1,7 +1,10 @@
 "use client";
 /** The safety dial — an interactive picture of the routing policy, using the
  * SAME route() the server uses on hand-authored example signals. No network,
- * no database writes. Clearly labelled as illustrative. */
+ * no database writes. Clearly labelled as illustrative.
+ *
+ * Quiet skin: one large soft card on a warm pool of light, not an inverted
+ * slab — the only hue on the page is still the status hue. */
 import { useMemo, useState } from "react";
 
 import { ClassChip } from "@/components/ClassChip";
@@ -9,7 +12,7 @@ import { LaneIcon } from "@/components/LaneChip";
 import { LANE_META } from "@/lib/brand";
 import { usePrefs } from "@/lib/prefs";
 import { route, type RouteSignals } from "@/lib/route";
-import type { Lane } from "@/lib/types";
+import { CLASSES, type Lane } from "@/lib/types";
 import { SectionHead } from "./parts";
 
 interface Sample {
@@ -19,7 +22,7 @@ interface Sample {
 
 const SAMPLES: Sample[] = [
   {
-    text: "ei saree ta ki stock e ache? ami nite chai",
+    text: "ei ta ki stock e ache? ami order korte chai",
     signals: {
       top_class: "order",
       top_prob: 0.94,
@@ -89,11 +92,13 @@ export function SafetyDial() {
     return c;
   }, [rows]);
 
+  const fill = ((tau - 0.5) / (0.99 - 0.5)) * 100;
+
   return (
-    <section className="bg-contrast px-6 py-28 text-oncontrast md:py-36">
-      <div className="mx-auto max-w-[1400px]">
+    <section className="wash relative overflow-hidden px-5 py-24 md:px-8 md:py-32">
+      <div className="relative mx-auto max-w-[1180px]">
         <SectionHead
-          tone="contrast"
+          variant="stack"
           title={
             <>
               {t("dial.t1")}
@@ -104,10 +109,9 @@ export function SafetyDial() {
           lede={t("dial.lede")}
         />
 
-        {/* the dial */}
-        <div className="mt-20 rounded-3xl border border-oncontrast/15 bg-oncontrast/[0.05] shadow-lift">
-          <div className="flex flex-wrap items-center gap-5 border-b border-oncontrast/15 px-7 py-6">
-            <label htmlFor="landing-tau" className="label text-oncontrast/60">
+        <div className="sheet mt-14 overflow-hidden">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-4 px-6 py-6">
+            <label htmlFor="landing-tau" className="label text-muted">
               {t("dial.threshold")}
             </label>
             <input
@@ -118,41 +122,37 @@ export function SafetyDial() {
               step={0.01}
               value={tau}
               onChange={(e) => setTau(parseFloat(e.target.value))}
-              className="tau w-32 sm:w-48 md:w-72"
+              className="tau w-40 sm:w-56 md:w-72"
+              style={{ ["--fill" as string]: `${fill}%` }}
               aria-valuetext={tau.toFixed(2)}
             />
-            <span className="tnum text-2xl text-oncontrast">{tau.toFixed(2)}</span>
-            <span className="ml-auto flex items-center gap-5 font-mono text-[10px] uppercase tracking-[0.08em]">
-              <span style={{ color: "var(--on-auto)" }}>
-                {counts.auto} {t("lane.auto.short")}
-              </span>
-              <span style={{ color: "var(--on-review)" }}>
-                {counts.review} {t("lane.review.short")}
-              </span>
-              <span style={{ color: "var(--on-scam)" }}>
-                {counts.scam} {t("lane.scam.short")}
-              </span>
+            <span className="tnum text-[34px]">{tau.toFixed(2)}</span>
+            <span className="ml-auto flex items-center gap-4 text-[12px]">
+              {(["auto", "review", "scam"] as Lane[]).map((l) => (
+                <span key={l} className="inline-flex items-center gap-1.5" style={{ color: `var(--on-${l})` }}>
+                  <LaneIcon icon={LANE_META[l].icon} size={11} />
+                  <span className="index">{counts[l]}</span>
+                  {t(`lane.${l}.short`)}
+                </span>
+              ))}
             </span>
           </div>
 
-          <ul>
+          <ul className="space-y-1 px-2 pb-2">
             {rows.map((r, i) => (
               <li
                 key={i}
-                className="flex flex-wrap items-center gap-3 border-b border-oncontrast/10 px-7 py-4.5 last:border-b-0"
+                className="flex flex-wrap items-center gap-3 rounded-2xl bg-surface2/60 px-5 py-4"
               >
                 <span
-                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.08em]"
-                  style={{
-                    borderColor: `var(--on-${r.lane})`,
-                    color: `var(--on-${r.lane})`,
-                  }}
+                  className="label inline-flex shrink-0 items-center gap-1.5"
+                  style={{ color: `var(--on-${r.lane})` }}
                 >
-                  <LaneIcon icon={LANE_META[r.lane].icon} size={11} />
+                  <LaneIcon icon={LANE_META[r.lane].icon} size={10} />
                   {t(`lane.${r.lane}.short`)}
                 </span>
-                <span className="min-w-0 flex-1 truncate text-[14px] text-oncontrast/85">{r.text}</span>
-                <span className="tnum shrink-0 text-[12px] text-oncontrast/50">
+                <span className="min-w-0 flex-1 truncate text-[14px] text-ink/85">{r.text}</span>
+                <span className="index shrink-0 text-[11px] text-muted">
                   p {r.signals.top_prob.toFixed(2)}
                 </span>
               </li>
@@ -160,16 +160,16 @@ export function SafetyDial() {
           </ul>
         </div>
 
-        <p className="mt-6 max-w-3xl text-[13px] leading-relaxed text-oncontrast/45">
-          {t("dial.illustration")}
-        </p>
-
-        {/* the class ramp, on the dark surface */}
-        <div className="mt-12 flex flex-wrap items-center gap-2.5">
-          <span className="label mr-1 text-oncontrast/45">{t("dial.classes")}</span>
-          {["order", "price_question", "delivery_problem", "complaint", "scam", "other"].map((c) => (
-            <ClassChip key={c} classKey={c} />
-          ))}
+        <div className="mt-6 flex flex-wrap items-start justify-between gap-6">
+          <p className="max-w-xl text-[12.5px] leading-relaxed text-muted">
+            {t("dial.illustration")}
+          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="label mr-1 text-muted">{t("dial.classes")}</span>
+            {CLASSES.map((c) => (
+              <ClassChip key={c} classKey={c} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -28,7 +28,7 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border-t border-line pt-3">
+    <div>
       <div className="label mb-2 text-muted">{label}</div>
       {children}
     </div>
@@ -51,7 +51,7 @@ export function AIPanel({
   const isScam = pred.scam_prob >= SCAM_T;
 
   return (
-    <div className="space-y-3.5">
+    <div className="space-y-5">
       <div className="flex items-center justify-between">
         <ClassChip classKey={pred.top_class} large />
         <span className="tnum text-sm text-ink">p {pred.top_prob.toFixed(2)}</span>
@@ -98,8 +98,11 @@ export function AIPanel({
 
       {isScam && (
         <div
-          className="rounded-xl border-2 p-3 text-[12.5px]"
-          style={{ borderColor: "var(--lane-scam)", background: "var(--scam-tint)" }}
+          className="p-3.5 text-[12.5px]"
+          style={{
+            background: "var(--scam-tint)",
+            borderRadius: "var(--radius-xl)",
+          }}
           role="alert"
         >
           <div

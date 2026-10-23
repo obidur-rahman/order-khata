@@ -173,8 +173,9 @@ export default function InboxPage() {
     [activeId, refresh],
   );
 
-  if (warming && !error) return <LoadingScreen />;
-  if (error && rows.length === 0) return <ErrorScreen detail={error} onRetry={refresh} />;
+  if (warming && !error) return <LoadingScreen page={t("nav.inbox")} />;
+  if (error && rows.length === 0)
+    return <ErrorScreen page={t("nav.inbox")} detail={error} onRetry={refresh} />;
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden bg-paper">
@@ -188,10 +189,13 @@ export default function InboxPage() {
         />
       </AppBar>
 
+      <main id="main" className="flex min-h-0 flex-1 flex-col">
+      <h1 className="sr-only">{t("nav.inbox")}</h1>
+
       {/* Lane tabs + engine status share one strip from md up (docs/06 §4.2);
           on phones the lanes move to the bottom bar instead. */}
-      <div className="hidden shrink-0 border-b border-line bg-surface md:block">
-        <div className="mx-auto flex w-full max-w-[1400px] flex-wrap items-center gap-x-3 gap-y-2 px-4 py-2">
+      <div className="hidden shrink-0 px-4 pb-2 pt-1 md:block">
+        <div className="mx-auto flex w-full max-w-[1180px] flex-wrap items-center gap-x-3 gap-y-1">
           <LaneTabs active={tab} counts={counts} onSelect={onTab} />
           {degraded && (
             <div className="ml-auto">
@@ -201,7 +205,7 @@ export default function InboxPage() {
         </div>
       </div>
       {degraded && (
-        <div className="shrink-0 border-b border-line bg-surface px-3 py-2 md:hidden">
+        <div className="shrink-0 px-3 pb-1 md:hidden">
           <DegradedBanner />
         </div>
       )}
@@ -210,14 +214,20 @@ export default function InboxPage() {
           One scroll container each, never the page: the shell is exactly
           h-dvh, so a long conversation list cannot push the thread off the
           screen the way a document-flow column does. */}
-      <div className="mx-auto flex min-h-0 w-full max-w-[1400px] flex-1">
+      <div className="mx-auto flex min-h-0 w-full max-w-[1180px] flex-1 gap-3 px-2 pb-3">
         {/* conversation list: the whole pane on a phone, a fixed column above */}
         <aside
           className={`${
             view === "thread" ? "hidden md:flex" : "flex"
-          } min-h-0 w-full flex-col overflow-y-auto overscroll-contain border-line md:w-[336px] md:shrink-0 md:border-r xl:w-[376px]`}
+          } min-h-0 w-full flex-col overflow-y-auto overscroll-contain rounded-[26px] bg-surface/50 md:w-[336px] md:shrink-0 xl:w-[376px]`}
           aria-label={t("inbox.conversations")}
         >
+          <div className="flex shrink-0 items-baseline justify-between gap-2 px-5 pb-2 pt-4">
+            <p className="display text-[21px] text-ink">{t("nav.inbox")}</p>
+            <span className="index text-[10.5px] text-muted">
+              {visible.length} / {rows.length}
+            </span>
+          </div>
           {visible.length === 0 ? (
             <EmptyState
               title="Nothing in this lane"
@@ -249,7 +259,7 @@ export default function InboxPage() {
         <section
           className={`${
             view === "list" ? "hidden md:flex" : "flex"
-          } min-h-0 min-w-0 flex-1 flex-col bg-paper`}
+          } min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-[26px] bg-surface/50`}
           aria-label={t("inbox.thread")}
         >
           {selectedConv && selectedConv.messages.length > 0 ? (
@@ -278,15 +288,11 @@ export default function InboxPage() {
             (ThreadView), so the two never both render. */}
         {selectedConv && activePred && (
           <aside
-            className="hidden w-[340px] shrink-0 flex-col overflow-y-auto overscroll-contain border-l border-line bg-surface xl:flex"
+            className="hidden w-[340px] shrink-0 flex-col overflow-y-auto overscroll-contain rounded-[26px] bg-surface/50 p-4 xl:flex"
             aria-label={t("inbox.messageDetails")}
           >
-            <div className="border-b border-line px-4 py-3">
-              <p className="label text-muted">{t("inbox.messageDetails")}</p>
-            </div>
-            <div className="px-4 py-4">
-              <AIPanel pred={activePred} tau={tau} degraded={degraded} />
-            </div>
+            <p className="label px-1 pb-3 text-muted">{t("inbox.messageDetails")}</p>
+            <AIPanel pred={activePred} tau={tau} degraded={degraded} />
           </aside>
         )}
       </div>
@@ -294,10 +300,11 @@ export default function InboxPage() {
       {/* ── phones: lanes as a bottom bar (docs/06 §6), and only while the
           list is on screen — inside a thread the back arrow owns that edge. */}
       {view === "list" && (
-        <div className="shrink-0 border-t border-line bg-surface pb-[env(safe-area-inset-bottom)] md:hidden">
+        <div className="shrink-0 bg-paper pb-[env(safe-area-inset-bottom)] md:hidden">
           <LaneTabs active={tab} counts={counts} onSelect={onTab} variant="bar" />
         </div>
       )}
+      </main>
     </div>
   );
 }
